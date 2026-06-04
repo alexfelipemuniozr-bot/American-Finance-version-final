@@ -1,0 +1,833 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+  <title>Unidad 11 | Emprendimiento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(15, 15, 15, 0.92);
+      --panel-dark: #0b0b0b;
+      --gold: #ffd700;
+      --gold-dark: #d4af37;
+      --green: #00ff88;
+      --red: #ff4d4d;
+      --cyan: #00d9ff;
+      --text: #f5f5f5;
+      --muted: #cfcfcf;
+      --line: rgba(255, 215, 0, 0.1);
+      --line-strong: rgba(255, 215, 0, 0.24);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 215, 0, 0.08), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(0, 217, 255, 0.06), transparent 25%),
+        linear-gradient(180deg, #050505, #071414);
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #080808;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--gold-dark), var(--gold));
+      border-radius: 20px;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: 100%;
+      padding: 18px clamp(16px, 5vw, 60px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(15px);
+    }
+
+    .logo {
+      font-size: clamp(22px, 4vw, 28px);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .back-btn,
+    .primary-btn {
+      min-height: 48px;
+      border: 0;
+      border-radius: 14px;
+      color: #050505;
+      font-weight: 900;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      box-shadow: 0 12px 34px rgba(255, 215, 0, 0.14);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-btn {
+      padding: 12px 18px;
+      white-space: nowrap;
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 15px 18px;
+      font-size: 17px;
+    }
+
+    .back-btn:hover,
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(255, 215, 0, 0.22);
+    }
+
+    .container {
+      width: min(1500px, 100%);
+      margin: 0 auto;
+      padding: clamp(34px, 5vw, 60px) clamp(14px, 4vw, 25px) 92px;
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 30px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .stack {
+      display: grid;
+      gap: 30px;
+      min-width: 0;
+    }
+
+    .card {
+      width: 100%;
+      min-width: 0;
+      padding: clamp(22px, 4vw, 35px);
+      border: 1px solid var(--line);
+      border-radius: clamp(22px, 4vw, 28px);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .main-title {
+      margin-bottom: 18px;
+      font-size: clamp(34px, 6vw, 50px);
+      line-height: 1.08;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .main-title span,
+    .gradient-text {
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-title {
+      margin-bottom: 18px;
+      font-size: clamp(27px, 4vw, 36px);
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: clamp(16px, 2.5vw, 18px);
+      line-height: 1.75;
+    }
+
+    .progress-box {
+      margin-top: 30px;
+    }
+
+    .progress-label {
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #111111;
+    }
+
+    .progress {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+      transition: width 0.35s ease;
+    }
+
+    .info-grid,
+    .sim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+      margin-top: 32px;
+    }
+
+    .info-box,
+    .sim-box {
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel-dark);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .info-box:hover {
+      border-color: var(--line-strong);
+      box-shadow: 0 16px 34px rgba(255, 215, 0, 0.08);
+      transform: translateY(-4px);
+    }
+
+    .info-box h3,
+    .sim-box h4 {
+      margin-bottom: 10px;
+      color: var(--gold);
+      line-height: 1.25;
+    }
+
+    .info-box p,
+    .timeline-item p,
+    .sim-box p {
+      color: var(--muted);
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 22px;
+      margin-top: 34px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 15px var(--gold);
+    }
+
+    .timeline-item h4 {
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .form-group {
+      margin-top: 22px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    input {
+      width: 100%;
+      min-height: 50px;
+      padding: min-height: 44px; 14px 15px;
+      margin-bottom: 18px;
+      border: 1px solid #242424;
+      border-radius: 14px;
+      color: var(--text);
+      background: var(--panel-dark);
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+    }
+
+    .sim-result {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel-dark);
+      animation: fadeUp 0.35s ease;
+    }
+
+    .status {
+      margin-top: 18px;
+      padding: 14px 15px;
+      border-radius: 14px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .status.good {
+      color: var(--green);
+      border: 1px solid var(--green);
+      background: rgba(0, 255, 136, 0.08);
+    }
+
+    .status.medium {
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      background: rgba(255, 215, 0, 0.08);
+    }
+
+    .status.bad {
+      color: var(--red);
+      border: 1px solid var(--red);
+      background: rgba(255, 77, 77, 0.08);
+    }
+
+    .question-list {
+      display: grid;
+      gap: 20px;
+    }
+
+    .question {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel-dark);
+    }
+
+    .question h3 {
+      margin-bottom: 16px;
+      font-size: clamp(18px, 2.5vw, 21px);
+      line-height: 1.45;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option {
+      width: 100%;
+      min-height: 48px;
+      padding: 13px 14px;
+      border: 1px solid #262626;
+      border-radius: 14px;
+      color: var(--text);
+      background: #121212;
+      text-align: left;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .option:hover {
+      border-color: var(--gold);
+      background: rgba(255, 215, 0, 0.07);
+      transform: translateX(4px);
+    }
+
+    .option.correct {
+      border-color: var(--green);
+      background: rgba(0, 255, 136, 0.08);
+    }
+
+    .option.wrong {
+      border-color: var(--red);
+      background: rgba(255, 77, 77, 0.08);
+    }
+
+    .option:disabled {
+      cursor: default;
+    }
+
+    .result {
+      min-height: 30px;
+      margin-top: 20px;
+      text-align: center;
+      font-size: clamp(18px, 3vw, 22px);
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .result.good {
+      color: var(--green);
+    }
+
+    .result.bad {
+      color: var(--red);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .navbar {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 16px;
+      }
+
+      .logo {
+        text-align: center;
+      }
+
+      .back-btn {
+        width: 100%;
+      }
+
+      .container {
+        padding-bottom: 76px;
+      }
+
+      .stack {
+        gap: 22px;
+      }
+
+      .info-grid,
+      .sim-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .option:hover,
+      .info-box:hover,
+      .back-btn:hover,
+      .primary-btn:hover {
+        transform: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="logo">American Finance</div>
+    <button class="back-btn" type="button" id="backButton">Volver a cursos</button>
+  </header>
+
+  <main class="container">
+    <div class="main-layout">
+      <section class="stack" aria-label="Contenido de la unidad">
+        <article class="card">
+          <h1 class="main-title">
+            Unidad 11 -
+            <span>Emprendimiento</span>
+          </h1>
+
+          <p class="subtitle">
+            Aprende cómo nacen las ideas de negocio, cómo validar si funcionan y
+            cómo detectar oportunidades reales para crear un emprendimiento.
+          </p>
+
+          <div class="progress-box">
+            <p class="progress-label">Progreso de la unidad</p>
+            <div class="progress-bar" aria-hidden="true">
+              <div class="progress" id="progress"></div>
+            </div>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-box">
+              <h3>Ideas</h3>
+              <p>Los negocios nacen cuando una persona detecta un problema real y propone una solución útil.</p>
+            </div>
+
+            <div class="info-box">
+              <h3>Validación</h3>
+              <p>Antes de invertir tiempo y dinero, prueba si las personas realmente quieren tu solución.</p>
+            </div>
+
+            <div class="info-box">
+              <h3>Clientes</h3>
+              <p>Sin clientes no existe un negocio sostenible. Escucharlos te ayuda a mejorar.</p>
+            </div>
+          </div>
+
+          <div class="timeline" aria-label="Proceso para emprender">
+            <div class="timeline-item">
+              <h4>Detectar problema</h4>
+              <p>Observa necesidades reales en personas, comunidades o empresas.</p>
+            </div>
+
+            <div class="timeline-item">
+              <h4>Crear una idea</h4>
+              <p>Diseña una solución clara, simple y útil para ese problema.</p>
+            </div>
+
+            <div class="timeline-item">
+              <h4>Validar</h4>
+              <p>Pregunta, muestra una prueba básica y mide si hay interés real.</p>
+            </div>
+
+            <div class="timeline-item">
+              <h4>Lanzar negocio</h4>
+              <p>Empieza pequeño, vende, aprende y mejora con cada cliente.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2 class="section-title">Simulador de emprendimiento</h2>
+          <p class="subtitle">
+            Evalúa si tu idea tiene potencial según el interés inicial de las personas.
+          </p>
+
+          <div class="form-group">
+            <label for="idea">Idea de negocio</label>
+            <input type="text" id="idea" placeholder="Ej: vender ropa personalizada">
+
+            <label for="interesados">Personas interesadas</label>
+            <input type="number" id="interesados" min="0" placeholder="Ej: 20">
+
+            <button class="primary-btn" type="button" id="analyzeButton">Analizar idea</button>
+          </div>
+
+          <div id="simulador" aria-live="polite"></div>
+        </article>
+      </section>
+
+      <aside class="card" aria-label="Evaluación interactiva">
+        <h2 class="section-title">Evaluación interactiva</h2>
+        <div class="question-list" id="quiz"></div>
+
+        <button class="primary-btn" type="button" id="finishButton">Finalizar evaluación</button>
+        <div class="result" id="result" aria-live="polite"></div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        text: "¿Qué es emprender?",
+        options: [
+          { text: "Crear una solución o negocio para resolver una necesidad", correct: true },
+          { text: "Solo ahorrar dinero sin vender nada", correct: false }
+        ]
+      },
+      {
+        text: "¿Qué es validar una idea?",
+        options: [
+          { text: "Probar si la idea interesa y puede funcionar", correct: true },
+          { text: "Imaginarla sin hablar con nadie", correct: false }
+        ]
+      },
+      {
+        text: "¿Qué pasa si no hay clientes?",
+        options: [
+          { text: "El negocio puede fracasar", correct: true },
+          { text: "No importa porque la idea basta", correct: false }
+        ]
+      },
+      {
+        text: "¿Qué debe resolver una buena idea?",
+        options: [
+          { text: "Un problema real", correct: true },
+          { text: "Nada importante", correct: false }
+        ]
+      },
+      {
+        text: "¿Qué ayuda a mejorar un negocio?",
+        options: [
+          { text: "Escuchar a los clientes", correct: true },
+          { text: "Ignorar opiniones y datos", correct: false }
+        ]
+      }
+    ];
+
+    const state = {
+      score: 0,
+      answered: new Set()
+    };
+
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const progress = document.getElementById("progress");
+    const simulator = document.getElementById("simulador");
+
+    function renderQuiz() {
+      quiz.innerHTML = "";
+
+      questions.forEach((question, questionIndex) => {
+        const questionBox = document.createElement("div");
+        questionBox.className = "question";
+
+        const title = document.createElement("h3");
+        title.textContent = `${questionIndex + 1}. ${question.text}`;
+        questionBox.appendChild(title);
+
+        const options = document.createElement("div");
+        options.className = "options";
+
+        question.options.forEach((option) => {
+          const button = document.createElement("button");
+          button.className = "option";
+          button.type = "button";
+          button.textContent = option.text;
+          button.addEventListener("click", () => selectOption(questionIndex, option.correct, button));
+          options.appendChild(button);
+        });
+
+        questionBox.appendChild(options);
+        quiz.appendChild(questionBox);
+      });
+    }
+
+    function selectOption(questionIndex, isCorrect, button) {
+      if (state.answered.has(questionIndex)) return;
+
+      state.answered.add(questionIndex);
+
+      if (isCorrect) {
+        state.score += 1;
+        button.classList.add("correct");
+      } else {
+        button.classList.add("wrong");
+      }
+
+      button.parentElement.querySelectorAll(".option").forEach((option) => {
+        option.disabled = true;
+      });
+
+      result.textContent = "";
+      result.className = "result";
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const percentage = (state.answered.size / questions.length) * 100;
+      progress.style.width = `${percentage}%`;
+    }
+
+    function resetQuiz() {
+      state.score = 0;
+      state.answered.clear();
+      progress.style.width = "0%";
+      result.textContent = "";
+      result.className = "result";
+      renderQuiz();
+    }
+
+    function finishQuiz() {
+      if (state.answered.size < questions.length) {
+        result.textContent = "Responde todas las preguntas antes de finalizar.";
+        result.className = "result bad";
+        return;
+      }
+
+      if (state.score >= 3) {
+        result.textContent = "Unidad aprobada. Desbloqueando siguiente unidad...";
+        result.className = "result good";
+        localStorage.setItem("unidad11", "ok");
+        localStorage.setItem("unidad11_score", String(state.score));
+
+        window.setTimeout(() => {
+          window.location.href = "unidad12.html";
+        }, 1500);
+      } else {
+        result.textContent = "No aprobaste. Intenta nuevamente.";
+        result.className = "result bad";
+
+        window.setTimeout(resetQuiz, 1800);
+      }
+    }
+
+    function analyzeIdea() {
+      const idea = document.getElementById("idea").value.trim();
+      const interested = Number.parseInt(document.getElementById("interesados").value, 10);
+
+      if (!idea || Number.isNaN(interested) || interested < 0) {
+        simulator.innerHTML = `
+          <div class="status bad">
+            Completa correctamente la idea y el número de personas interesadas.
+          </div>
+        `;
+        return;
+      }
+
+      let status = "bad";
+      let level = "BAJO";
+      let message = "Debes mejorar tu idea o entender mejor el problema que quieres resolver.";
+
+      if (interested >= 30) {
+        status = "good";
+        level = "ALTO";
+        message = "Tu idea tiene mucho potencial y muestra un interés inicial fuerte.";
+      } else if (interested >= 10) {
+        status = "medium";
+        level = "MEDIO";
+        message = "Tu idea tiene potencial, pero conviene validarla con más personas.";
+      }
+
+      simulator.innerHTML = "";
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "sim-result";
+
+      const title = document.createElement("h3");
+      title.textContent = "Resultado del emprendimiento";
+      title.style.marginBottom = "10px";
+      wrapper.appendChild(title);
+
+      const grid = document.createElement("div");
+      grid.className = "sim-grid";
+
+      grid.appendChild(createSimBox("Idea", idea));
+      grid.appendChild(createSimBox("Interesados", String(interested)));
+      grid.appendChild(createSimBox("Potencial", level));
+
+      const statusBox = document.createElement("div");
+      statusBox.className = `status ${status}`;
+      statusBox.textContent = message;
+
+      wrapper.appendChild(grid);
+      wrapper.appendChild(statusBox);
+      simulator.appendChild(wrapper);
+    }
+
+    function createSimBox(title, value) {
+      const box = document.createElement("div");
+      box.className = "sim-box";
+
+      const heading = document.createElement("h4");
+      heading.textContent = title;
+
+      const text = document.createElement("p");
+      text.textContent = value;
+
+      box.appendChild(heading);
+      box.appendChild(text);
+      return box;
+    }
+
+    document.getElementById("backButton").addEventListener("click", () => {
+      window.location.href = "cursos.html";
+    });
+
+    document.getElementById("analyzeButton").addEventListener("click", analyzeIdea);
+    document.getElementById("finishButton").addEventListener("click", finishQuiz);
+
+    renderQuiz();
+  </script>
+</body>
+</html>

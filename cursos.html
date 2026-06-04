@@ -1,0 +1,1001 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+
+<title>Cursos | American Finance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#050505;
+  --card:#111111;
+  --gold:#ffd700;
+  --gold2:#d4af37;
+  --green:#00ff88;
+  --red:#ff4d4d;
+  --cyan:#00d9ff;
+  --text:#f5f5f5;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+body{
+
+  background:
+  radial-gradient(circle at top left, rgba(255,215,0,.08), transparent 25%),
+  radial-gradient(circle at bottom right, rgba(0,217,255,.06), transparent 25%),
+  linear-gradient(180deg,#050505,#071a14);
+
+  color:var(--text);
+
+  overflow-x:hidden;
+
+}
+
+/* SCROLL */
+
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#080808;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--gold2),var(--gold));
+  border-radius:20px;
+}
+
+/* PARTICLES */
+
+.particles{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:-1;
+}
+
+.particles span{
+
+  position:absolute;
+
+  width:4px;
+  height:4px;
+
+  background:gold;
+
+  border-radius:50%;
+
+  opacity:.35;
+
+  animation:float linear infinite;
+
+}
+
+.particles span:nth-child(1){
+  left:10%;
+  animation-duration:12s;
+}
+
+.particles span:nth-child(2){
+  left:25%;
+  animation-duration:18s;
+}
+
+.particles span:nth-child(3){
+  left:40%;
+  animation-duration:15s;
+}
+
+.particles span:nth-child(4){
+  left:60%;
+  animation-duration:20s;
+}
+
+.particles span:nth-child(5){
+  left:80%;
+  animation-duration:14s;
+}
+
+.particles span:nth-child(6){
+  left:95%;
+  animation-duration:17s;
+}
+
+@keyframes float{
+
+  0%{
+    transform:translateY(110vh) scale(0);
+    opacity:0;
+  }
+
+  20%{
+    opacity:.5;
+  }
+
+  100%{
+    transform:translateY(-120vh) scale(1.5);
+    opacity:0;
+  }
+
+}
+
+/* NAVBAR */
+
+.navbar{
+
+  position:sticky;
+  top:0;
+  z-index:999;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:22px 70px;
+
+  background:rgba(0,0,0,.75);
+
+  backdrop-filter:blur(15px);
+
+  border-bottom:1px solid rgba(255,215,0,.08);
+
+}
+
+.logo{
+
+  font-size:30px;
+  font-weight:800;
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+}
+
+.navbar nav{
+  display:flex;
+  gap:25px;
+}
+
+.navbar nav a{
+
+  text-decoration:none;
+  color:#d7d7d7;
+  position:relative;
+  font-weight:500;
+
+}
+
+.navbar nav a::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  bottom:-6px;
+
+  width:0%;
+  height:2px;
+
+  background:gold;
+
+  transition:.3s;
+
+}
+
+.navbar nav a:hover{
+  color:gold;
+}
+
+.navbar nav a:hover::after{
+  width:100%;
+}
+
+/* RESET */
+
+.reset-btn{
+
+  padding:12px 18px;
+
+  border-radius:14px;
+
+  border:1px solid rgba(255,77,77,.4);
+
+  background:rgba(255,77,77,.08);
+
+  color:#ff5f5f;
+
+  cursor:pointer;
+
+  font-weight:700;
+
+  transition:.3s;
+
+}
+
+.reset-btn:hover{
+
+  background:#ff4d4d;
+
+  color:white;
+
+  transform:translateY(-3px);
+
+  box-shadow:
+  0 0 25px rgba(255,77,77,.25);
+
+}
+
+/* HERO */
+
+.hero{
+
+  padding:100px 20px 70px;
+
+  text-align:center;
+
+  max-width:950px;
+
+  margin:auto;
+
+}
+
+.hero h1{
+
+  font-size:64px;
+
+  line-height:1.1;
+
+  margin-bottom:20px;
+
+}
+
+.hero h1 span{
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+}
+
+.hero p{
+
+  color:#cfcfcf;
+
+  line-height:1.8;
+
+  font-size:18px;
+
+}
+
+/* SEARCH */
+
+.search{
+  margin-top:40px;
+}
+
+.search input{
+
+  width:500px;
+  max-width:90%;
+
+  padding: min-height: 44px;18px;
+
+  border-radius:18px;
+
+  border:1px solid rgba(255,215,0,.08);
+
+  background:rgba(10,10,10,.85);
+
+  color:white;
+
+  outline:none;
+
+  font-size:16px;
+
+  transition:.3s;
+
+}
+
+.search input:focus{
+
+  border-color:gold;
+
+  box-shadow:
+  0 0 25px rgba(255,215,0,.15);
+
+}
+
+/* CONTAINER */
+
+.container{
+
+  max-width:1450px;
+
+  margin:auto;
+
+  padding:20px 60px 100px;
+
+}
+
+/* LEVEL CARD */
+
+.level-card{
+
+  background:rgba(17,17,17,.92);
+
+  border:1px solid rgba(255,215,0,.08);
+
+  border-radius:28px;
+
+  overflow:hidden;
+
+  margin-bottom:40px;
+
+  backdrop-filter:blur(12px);
+
+}
+
+/* HEADER */
+
+.level-header{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:28px 35px;
+
+  background:#0b0b0b;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+}
+
+.level-header:hover{
+  background:#101010;
+}
+
+.level-header h2{
+  color:gold;
+  font-size:28px;
+}
+
+/* GRID */
+
+.grid{
+
+  display:none;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(260px,1fr));
+
+  gap:25px;
+
+  padding:35px;
+
+}
+
+/* CARD */
+
+.card{
+
+  background:#0b0b0b;
+
+  border:1px solid rgba(255,215,0,.08);
+
+  border-radius:22px;
+
+  overflow:hidden;
+
+  transition:.35s;
+
+  position:relative;
+
+}
+
+.card:hover{
+
+  transform:translateY(-8px);
+
+  border-color:rgba(255,215,0,.25);
+
+  box-shadow:
+  0 0 35px rgba(255,215,0,.12);
+
+}
+
+/* LOCKED */
+
+.locked-card{
+  filter:grayscale(100%);
+  opacity:.45;
+}
+
+/* IMAGE */
+
+.card img{
+
+  width:100%;
+  height:180px;
+
+  object-fit:cover;
+
+}
+
+/* CONTENT */
+
+.card-content{
+  padding:22px;
+  text-align:center;
+}
+
+.card-content h4{
+
+  font-size:24px;
+  margin-bottom:12px;
+
+}
+
+.card-content p{
+
+  color:#bdbdbd;
+
+  font-size:14px;
+
+  line-height:1.7;
+
+  margin-bottom:20px;
+
+}
+
+/* BUTTON */
+
+.card button{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:14px;
+
+  font-weight:800;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+}
+
+.locked{
+
+  background:#252525;
+  color:#777;
+  cursor:not-allowed;
+
+}
+
+.unlocked{
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  color:black;
+
+}
+
+.completed{
+
+  background:
+  linear-gradient(45deg,var(--green),#8affcb);
+
+  color:black;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:950px){
+
+  .navbar{
+    flex-direction:column;
+    gap:20px;
+    padding:25px;
+  }
+
+  .navbar nav{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .hero h1{
+    font-size:48px;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+}
+
+
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- PARTICLES -->
+
+<div class="particles">
+
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+
+</div>
+
+<!-- NAVBAR -->
+
+<header class="navbar">
+
+  <div class="logo">
+    American Finance
+  </div>
+
+  <nav>
+
+    <a href="index.html">Inicio</a>
+    <a href="recursos.html">Recursos</a>
+    <a href="simulador.html">Simulador</a>
+    <a href="calculadora.html">Calculadora</a>
+    <a href="comunidad.html">Comunidad</a>
+    <a href="mercados.html">Mercados</a>
+
+  </nav>
+
+  <button class="reset-btn"
+  onclick="resetearProgreso()">
+
+    Reset
+
+  </button>
+
+</header>
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <h1>
+
+    Escuela financiera
+    <span>interactiva</span>
+
+  </h1>
+
+  <p>
+
+    Completa unidades, desbloquea niveles
+    y conviértete en un experto financiero.
+
+  </p>
+
+  <div class="search">
+
+    <input
+    id="buscador"
+    placeholder="Buscar unidad (Ej: 5)">
+
+  </div>
+
+</section>
+
+<!-- CONTENEDOR -->
+
+<div class="container"
+id="contenedor"></div>
+
+<script>
+
+/* =========================
+   RUTAS
+========================= */
+
+const rutas = {
+
+  1:"unidad1.html",
+  2:"unidad2.html",
+  3:"unidad3.html",
+  4:"unidad4.html",
+  5:"unidad5.html",
+  6:"unidad6.html",
+  7:"unidad7.html",
+  8:"unidad8.html",
+  9:"unidad9.html",
+  10:"unidad10.html",
+  11:"unidad11.html",
+  12:"unidad12.html",
+  13:"unidad13.html",
+  14:"unidad14.html",
+  15:"unidad15.html",
+  16:"unidad16.html",
+  17:"unidad17.html",
+  18:"unidad18.html"
+
+};
+
+/* =========================
+   NIVELES
+========================= */
+
+const niveles = [
+
+  {
+    nombre:"Nivel 1 — Fundamentos",
+    unidades:[1,2,3]
+  },
+
+  {
+    nombre:"Nivel 2 — Finanzas personales",
+    unidades:[4,5,6]
+  },
+
+  {
+    nombre:"Nivel 3 — Contabilidad",
+    unidades:[7,8,9]
+  },
+
+  {
+    nombre:"Nivel 4 — Negocios",
+    unidades:[10,11,12]
+  },
+
+  {
+    nombre:"Nivel 5 — Global",
+    unidades:[13,14,15]
+  },
+
+  {
+    nombre:"Nivel 6 — PRO",
+    unidades:[16,17,18]
+  }
+
+];
+
+/* =========================
+   IMAGENES
+========================= */
+
+const imagenes = [
+
+  "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80",
+
+  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80",
+
+  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+
+  "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80",
+
+  "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=900&q=80"
+
+];
+
+/* =========================
+   RENDER
+========================= */
+
+function renderCursos(){
+
+  const contenedor =
+  document.getElementById("contenedor");
+
+  contenedor.innerHTML = "";
+
+  niveles.forEach((nivel,index)=>{
+
+    let html = `
+
+    <div class="level-card">
+
+      <div class="level-header"
+      onclick="toggleNivel(${index})">
+
+        <h2>${nivel.nombre}</h2>
+
+        <span>▼</span>
+
+      </div>
+
+      <div class="grid"
+      id="nivel-${index}">
+
+    `;
+
+    nivel.unidades.forEach(u=>{
+
+      const anterior =
+      localStorage.getItem(
+        "unidad" + (u - 1)
+      );
+
+      const actual =
+      localStorage.getItem(
+        "unidad" + u
+      );
+
+      let estado = "locked";
+      let texto = "🔒 Bloqueado";
+      let disabled = "disabled";
+      let claseExtra = "locked-card";
+
+      /* UNIDAD 1 SIEMPRE DESBLOQUEADA */
+
+      if(u === 1){
+
+        estado = "unlocked";
+        texto = "Entrar";
+        disabled = "";
+        claseExtra = "";
+
+      }
+
+      /* DESBLOQUEAR SI ANTERIOR COMPLETA */
+
+      else if(anterior === "ok"){
+
+        estado = "unlocked";
+        texto = "Entrar";
+        disabled = "";
+        claseExtra = "";
+
+      }
+
+      /* COMPLETADA */
+
+      if(actual === "ok"){
+
+        estado = "completed";
+        texto = "✔ Completado";
+
+      }
+
+      const img =
+      imagenes[u % imagenes.length];
+
+      html += `
+
+      <div class="card ${claseExtra}">
+
+        <img src="${img}">
+
+        <div class="card-content">
+
+          <h4>
+            Unidad ${u}
+          </h4>
+
+          <p>
+
+            Completa esta unidad para
+            desbloquear la siguiente.
+
+          </p>
+
+          <button
+          class="${estado}"
+          ${disabled}
+          onclick="irUnidad(${u})">
+
+            ${texto}
+
+          </button>
+
+        </div>
+
+      </div>
+
+      `;
+
+    });
+
+    html += `
+      </div>
+    </div>
+    `;
+
+    contenedor.innerHTML += html;
+
+  });
+
+}
+
+/* =========================
+   TOGGLE
+========================= */
+
+function toggleNivel(i){
+
+  const grid =
+  document.getElementById(
+    "nivel-" + i
+  );
+
+  grid.style.display =
+  grid.style.display === "grid"
+  ? "none"
+  : "grid";
+
+}
+
+/* =========================
+   IR A UNIDAD
+========================= */
+
+function irUnidad(num){
+
+  console.log(
+    "Abriendo:",
+    rutas[num]
+  );
+
+  window.location.href =
+  rutas[num];
+
+}
+
+/* =========================
+   BUSCADOR
+========================= */
+
+document
+.getElementById("buscador")
+
+.addEventListener("keypress",function(e){
+
+  if(e.key === "Enter"){
+
+    const num =
+    this.value.match(/\d+/);
+
+    if(num){
+
+      let u =
+      parseInt(num[0]);
+
+      if(u >= 1 && u <= 18){
+
+        const desbloqueada =
+
+        u === 1 ||
+
+        localStorage.getItem(
+          "unidad" + (u - 1)
+        ) === "ok";
+
+        if(desbloqueada){
+
+          window.location.href =
+          rutas[u];
+
+        }
+
+        else{
+
+          alert(
+            "⚠ Debes completar la unidad anterior."
+          );
+
+        }
+
+      }
+
+    }
+
+  }
+
+});
+
+/* =========================
+   RESET
+========================= */
+
+function resetearProgreso(){
+
+  if(
+    !confirm(
+      "¿Seguro que quieres borrar todo el progreso?"
+    )
+  ) return;
+
+  for(let i = 1; i <= 18; i++){
+
+    localStorage.removeItem(
+      "unidad" + i
+    );
+
+  }
+
+  alert(
+    "✅ Progreso reiniciado"
+  );
+
+  location.reload();
+
+}
+
+/* =========================
+   INIT
+========================= */
+
+renderCursos();
+
+</script>
+
+</body>
+</html>

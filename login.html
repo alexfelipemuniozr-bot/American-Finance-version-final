@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+  <title>Iniciar sesión | American Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(18, 18, 18, 0.94);
+      --gold: #ffd700;
+      --gold-dark: #b98618;
+      --cyan: #00d9ff;
+      --text: #f7f7f7;
+      --muted: #b9b9b9;
+      --line: rgba(255, 215, 0, 0.22);
+      --danger: #ff6b6b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Inter", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 215, 0, 0.16), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(0, 217, 255, 0.13), transparent 28%),
+        var(--bg);
+    }
+
+    main {
+      width: min(100%, 920px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 26px 80px rgba(0, 0, 0, 0.46);
+    }
+
+    .brand {
+      display: grid;
+      align-content: center;
+      gap: 20px;
+      padding: clamp(28px, 5vw, 56px);
+      border-right: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .brand img {
+      width: 180px;
+      max-width: 70%;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    h1 span { color: var(--gold); }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .form-panel {
+      padding: clamp(28px, 5vw, 56px);
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      padding: min-height: 44px; 0 14px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.07);
+      font: inherit;
+    }
+
+    input:focus {
+      outline: 2px solid rgba(255, 215, 0, 0.34);
+      border-color: var(--gold);
+    }
+
+    button {
+      min-height: 50px;
+      border: 0;
+      border-radius: 6px;
+      color: #060606;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: wait;
+    }
+
+    .message {
+      min-height: 22px;
+      font-weight: 700;
+      padding: 12px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      display: none;
+    }
+
+    .message.error {
+      display: block;
+      color: var(--danger);
+      border: 1px solid rgba(255, 91, 91, 0.3);
+    }
+
+    .message.success {
+      display: block;
+      color: #00ff9d;
+      border: 1px solid rgba(0, 255, 157, 0.3);
+    }
+
+    .switch {
+      margin-top: 18px;
+      font-size: 14px;
+    }
+
+    button span {
+      display: inline-block;
+    }
+
+    .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(6, 6, 6, 0.3);
+      border-top-color: #060606;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
+    }
+
+    button:disabled .spinner {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    a {
+      color: var(--gold);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    @media (max-width: 760px) {
+      main { grid-template-columns: 1fr; }
+      .brand { border-right: 0; border-bottom: 1px solid var(--line); }
+    }
+  
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="brand">
+      <img src="logo american finance-Photoroom.png" alt="American Finance">
+      <div>
+        <h1>Bienvenido <span>otra vez</span></h1>
+        <p>Entra a tu cuenta para continuar aprendiendo y usar las herramientas de American Finance.</p>
+      </div>
+    </section>
+
+    <section class="form-panel">
+      <p>Acceso</p>
+      <h1>Iniciar sesión</h1>
+      <form id="loginForm">
+        <label>
+          Correo
+          <input id="email" name="email" type="email" autocomplete="email" required placeholder="correo@ejemplo.com">
+        </label>
+        <label>
+          Contraseña
+          <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Tu contraseña">
+        </label>
+        <button type="submit"><span class="spinner"></span><span>Entrar</span></button>
+        <div class="message" id="message" role="alert"></div>
+      </form>
+      <p class="switch">¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
+      <p class="switch"><a href="index.html">Volver al inicio</a></p>
+    </section>
+  </main>
+
+  <script src="auth.js"></script>
+  <script>
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const button = form.querySelector("button");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      
+      const email = form.elements.email.value.trim();
+      const password = form.elements.password.value;
+
+      if (!email) {
+        showMessage("Por favor ingresa tu correo", "error");
+        return;
+      }
+
+      if (!password) {
+        showMessage("Por favor ingresa tu contraseña", "error");
+        return;
+      }
+
+      message.textContent = "";
+      message.classList.remove("error", "success");
+      button.disabled = true;
+
+      try {
+        await AmericanFinanceAuth.login(email, password);
+        showMessage("¡Bienvenido! Redirigiendo...", "success");
+        setTimeout(() => window.location.href = "home.html", 800);
+      } catch (error) {
+        showMessage(error.message, "error");
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = `message ${type}`;
+    }
+  </script>
+</body>
+</html>

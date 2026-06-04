@@ -1,0 +1,639 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+
+<title>Unidad 14 | Divisas y tipo de cambio</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial;
+  background:#050505;
+  color:#e5e5e5;
+}
+
+    input, textarea, select {
+      min-height: 44px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+/* NAV */
+
+.navbar{
+  background:black;
+  padding:20px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #1f1f1f;
+}
+
+.navbar h2{
+  color:gold;
+  font-size:22px;
+}
+
+.navbar a{
+  color:gold;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* CONTENEDOR */
+
+.container{
+  padding:40px;
+  max-width:1100px;
+  margin:auto;
+}
+
+/* HERO */
+
+.hero{
+  background:linear-gradient(135deg,#111,#1a1a1a);
+  border:1px solid #222;
+  border-radius:20px;
+  padding:40px;
+  margin-bottom:30px;
+  text-align:center;
+}
+
+.hero h1{
+  color:gold;
+  font-size:42px;
+  margin-bottom:15px;
+}
+
+.hero p{
+  color:#bdbdbd;
+  line-height:1.7;
+  font-size:18px;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+  margin-bottom:30px;
+}
+
+/* CARD */
+
+.card{
+  background:#101010;
+  border:1px solid #1f1f1f;
+  border-radius:18px;
+  padding:25px;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:gold;
+}
+
+.card h3{
+  color:gold;
+  margin-bottom:12px;
+}
+
+.card p,
+.card li{
+  color:#cfcfcf;
+  line-height:1.6;
+}
+
+.card ul{
+  padding-left:20px;
+  margin-top:10px;
+}
+
+/* INPUTS */
+
+input,
+select{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  border:none;
+  border-radius:10px;
+  background:#1a1a1a;
+  color:white;
+  font-size:15px;
+}
+
+/* BUTTON */
+
+button{
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  border:none;
+  border-radius:10px;
+  background:gold;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s;
+}
+
+button:hover{
+  transform:scale(1.02);
+}
+
+/* RESULTADOS */
+
+#simulador{
+  margin-top:20px;
+  background:#0a0a0a;
+  border:1px solid #222;
+  padding:20px;
+  border-radius:12px;
+  line-height:1.7;
+}
+
+/* QUIZ */
+
+.question{
+  margin-top:25px;
+  padding-bottom:20px;
+  border-bottom:1px solid #222;
+}
+
+.question p{
+  margin-bottom:15px;
+  font-weight:bold;
+}
+
+.option{
+  background:#0d0d0d;
+  border:1px solid #333;
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.option:hover{
+  border-color:gold;
+  transform:translateX(5px);
+}
+
+/* RESULT */
+
+#result{
+  margin-top:20px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.good{
+  color:#00ff88;
+}
+
+.bad{
+  color:#ff4d4d;
+}
+
+/* BADGES */
+
+.badge{
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:999px;
+  background:#1a1a1a;
+  color:gold;
+  margin-top:12px;
+  border:1px solid #333;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+  .navbar{
+    flex-direction:column;
+    gap:10px;
+    text-align:center;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .hero h1{
+    font-size:30px;
+  }
+
+}
+
+
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+
+    input, textarea, select {
+      min-height: 44px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+  <h2>💱 Unidad 14 — Divisas y tipo de cambio</h2>
+  <a href="cursos.html">⬅ Volver</a>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+
+  <div class="hero">
+
+    <h1>🌍 Aprende sobre divisas</h1>
+
+    <p>
+      Las monedas cambian de valor todos los días.
+      Gracias al tipo de cambio podemos comprar,
+      vender y comerciar entre países.
+    </p>
+
+    <div class="badge">
+      💡 Economía global básica
+    </div>
+
+  </div>
+
+  <!-- INFO -->
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>💵 ¿Qué es una divisa?</h3>
+
+      <p>
+        Es la moneda de otro país utilizada
+        para comercio internacional.
+      </p>
+
+      <ul>
+        <li>USD → dólar</li>
+        <li>EUR → euro</li>
+        <li>COP → peso colombiano</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>📊 Tipo de cambio</h3>
+
+      <p>
+        Es el valor de una moneda frente a otra.
+      </p>
+
+      <p style="margin-top:10px;">
+        Ejemplo:
+      </p>
+
+      <div class="badge">
+        1 USD = 4000 COP
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📉 Inflación</h3>
+
+      <p>
+        Ocurre cuando el dinero pierde valor
+        y las cosas cuestan más con el tiempo.
+      </p>
+
+      <p style="margin-top:10px;">
+        ⚠️ Por eso ahorrar inteligentemente es importante.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- SIMULADOR -->
+
+  <div class="card">
+
+    <h2>💻 Simulador avanzado de cambio</h2>
+
+    <select id="moneda">
+      <option value="USD">Convertir a USD 💵</option>
+      <option value="EUR">Convertir a EUR 💶</option>
+      <option value="JPY">Convertir a JPY 💴</option>
+    </select>
+
+    <input type="number" id="pesos" placeholder="Cantidad en COP">
+
+    <input type="number" id="tasa" placeholder="Tasa de cambio">
+
+    <button onclick="convertir()">
+      Convertir moneda
+    </button>
+
+    <div id="simulador">
+
+      💡 Ejemplo:
+      <br><br>
+
+      Si 1 USD = 4000 COP:
+      <br>
+      8000 COP = 2 USD
+
+    </div>
+
+  </div>
+
+  <!-- QUIZ -->
+
+  <div class="card">
+
+    <h2>🎮 Evaluación</h2>
+
+    <!-- P1 -->
+
+    <div class="question">
+
+      <p>1. ¿Qué es una divisa?</p>
+
+      <div class="option" onclick="select(this,true,1)">
+        Moneda extranjera
+      </div>
+
+      <div class="option" onclick="select(this,false,1)">
+        Solo dinero local
+      </div>
+
+      <div class="option" onclick="select(this,false,1)">
+        Un impuesto
+      </div>
+
+    </div>
+
+    <!-- P2 -->
+
+    <div class="question">
+
+      <p>2. ¿Qué representa el tipo de cambio?</p>
+
+      <div class="option" onclick="select(this,true,2)">
+        El valor entre monedas
+      </div>
+
+      <div class="option" onclick="select(this,false,2)">
+        El precio de productos
+      </div>
+
+      <div class="option" onclick="select(this,false,2)">
+        Solo intereses bancarios
+      </div>
+
+    </div>
+
+    <!-- P3 -->
+
+    <div class="question">
+
+      <p>3. ¿Qué provoca la inflación?</p>
+
+      <div class="option" onclick="select(this,true,3)">
+        El dinero pierde valor
+      </div>
+
+      <div class="option" onclick="select(this,false,3)">
+        El dinero vale más
+      </div>
+
+      <div class="option" onclick="select(this,false,3)">
+        Los precios bajan siempre
+      </div>
+
+    </div>
+
+    <!-- P4 -->
+
+    <div class="question">
+
+      <p>4. Si el dólar sube, importar productos suele ser:</p>
+
+      <div class="option" onclick="select(this,true,4)">
+        Más costoso
+      </div>
+
+      <div class="option" onclick="select(this,false,4)">
+        Más barato
+      </div>
+
+      <div class="option" onclick="select(this,false,4)">
+        Igual siempre
+      </div>
+
+    </div>
+
+    <button onclick="finalizar()">
+      Finalizar evaluación
+    </button>
+
+    <p id="result"></p>
+
+  </div>
+
+</div>
+
+<script>
+
+/* ---------------- SIMULADOR ---------------- */
+
+function convertir(){
+
+  let pesos = parseFloat(document.getElementById("pesos").value);
+  let tasa = parseFloat(document.getElementById("tasa").value);
+  let moneda = document.getElementById("moneda").value;
+
+  let simulador = document.getElementById("simulador");
+
+  if(isNaN(pesos) || isNaN(tasa) || pesos <= 0 || tasa <= 0){
+
+    simulador.innerHTML =
+      "⚠️ Ingresa valores válidos.";
+    return;
+  }
+
+  let convertido = pesos / tasa;
+
+  let emoji = "💵";
+
+  if(moneda === "EUR"){
+    emoji = "💶";
+  }
+
+  if(moneda === "JPY"){
+    emoji = "💴";
+  }
+
+  let mensaje = "";
+
+  if(convertido >= 1000){
+    mensaje = "🔥 Gran cantidad convertida.";
+  }
+  else if(convertido >= 100){
+    mensaje = "📈 Conversión importante.";
+  }
+  else{
+    mensaje = "💡 Conversión pequeña.";
+  }
+
+  simulador.innerHTML = `
+    ${emoji} Resultado: <b>${convertido.toFixed(2)} ${moneda}</b>
+    <br><br>
+    📊 Tasa usada: ${tasa}
+    <br>
+    💰 COP ingresados: ${pesos.toLocaleString()}
+    <br><br>
+    ${mensaje}
+  `;
+}
+
+/* ---------------- QUIZ ---------------- */
+
+let score = 0;
+let answered = {};
+let intentos = 0;
+
+function resetQuiz(){
+
+  score = 0;
+  answered = {};
+
+  document.getElementById("result").innerHTML = "";
+
+  document.querySelectorAll(".option").forEach(op => {
+    op.style.border = "1px solid #333";
+    op.style.background = "#0d0d0d";
+  });
+
+}
+
+function select(el, correct, q){
+
+  if(answered[q]) return;
+
+  answered[q] = true;
+
+  if(correct){
+
+    score++;
+
+    el.style.border = "2px solid #00ff88";
+    el.style.background = "#002b1b";
+
+  }else{
+
+    el.style.border = "2px solid red";
+    el.style.background = "#2b0000";
+
+  }
+
+}
+
+function finalizar(){
+
+  let result = document.getElementById("result");
+
+  intentos++;
+
+  if(score >= 3){
+
+    result.innerHTML =
+      "🎉 ¡Excelente! Has completado la Unidad 14.";
+
+    result.className = "good";
+
+    localStorage.setItem("unidad14","ok");
+
+    setTimeout(() => {
+
+      window.location.href = "unidad15.html";
+
+    },1500);
+
+  }else{
+
+    result.innerHTML =
+      "❌ Necesitas mínimo 3 respuestas correctas. Intento #" + intentos;
+
+    result.className = "bad";
+
+    setTimeout(() => {
+
+      resetQuiz();
+
+    },2500);
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>

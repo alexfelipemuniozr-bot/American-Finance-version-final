@@ -1,0 +1,1329 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+
+<title>Unidad 6 | Tarjetas y pagos</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+  --bg:#050505;
+  --card:#101010;
+  --gold:#ffd700;
+  --gold2:#d4af37;
+  --green:#00ff88;
+  --red:#ff4d4d;
+  --cyan:#00d9ff;
+  --text:#f5f5f5;
+
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+body{
+
+  background:
+  radial-gradient(circle at top left, rgba(255,215,0,.08), transparent 25%),
+  radial-gradient(circle at bottom right, rgba(0,217,255,.06), transparent 25%),
+  linear-gradient(180deg,#050505,#071414);
+
+  color:var(--text);
+
+  overflow-x:hidden;
+
+}
+
+/* NAVBAR */
+
+.navbar{
+
+  position:sticky;
+  top:0;
+  z-index:999;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:22px 60px;
+
+  background:rgba(0,0,0,.75);
+
+  backdrop-filter:blur(15px);
+
+  border-bottom:1px solid rgba(255,215,0,.08);
+
+}
+
+.logo{
+
+  font-size:28px;
+  font-weight:800;
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+}
+
+.back-btn{
+
+  padding:12px 18px;
+
+  border:none;
+
+  border-radius:14px;
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  color:black;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+}
+
+.back-btn:hover{
+
+  transform:translateY(-3px);
+
+  box-shadow:
+  0 0 25px rgba(255,215,0,.25);
+
+}
+
+/* CONTAINER */
+
+.container{
+
+  max-width:1500px;
+
+  margin:auto;
+
+  padding:60px 25px 100px;
+
+}
+
+/* LAYOUT */
+
+.main-layout{
+
+  display:grid;
+
+  grid-template-columns:1.1fr .9fr;
+
+  gap:30px;
+
+  align-items:start;
+
+}
+
+/* CARD */
+
+.card{
+
+  background:rgba(15,15,15,.92);
+
+  border:1px solid rgba(255,215,0,.08);
+
+  border-radius:28px;
+
+  padding:35px;
+
+  margin-bottom:30px;
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+  0 0 35px rgba(0,0,0,.3);
+
+}
+
+/* TITLES */
+
+.main-title{
+
+  font-size:50px;
+
+  margin-bottom:20px;
+
+}
+
+.main-title span{
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+}
+
+.subtitle{
+
+  color:#cfcfcf;
+
+  line-height:1.8;
+
+  margin-bottom:30px;
+
+  font-size:18px;
+
+}
+
+/* INFO */
+
+.info-grid{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(240px,1fr));
+
+  gap:20px;
+
+  margin-top:35px;
+
+}
+
+.info-box{
+
+  background:#0b0b0b;
+
+  border:1px solid rgba(255,215,0,.08);
+
+  border-radius:22px;
+
+  padding:25px;
+
+  transition:.3s;
+
+}
+
+.info-box:hover{
+
+  transform:translateY(-6px);
+
+  border-color:rgba(255,215,0,.25);
+
+  box-shadow:
+  0 0 30px rgba(255,215,0,.1);
+
+}
+
+.info-box h3{
+
+  margin-bottom:15px;
+
+  color:gold;
+
+}
+
+.info-box p{
+
+  color:#cfcfcf;
+
+  line-height:1.7;
+
+}
+
+/* TIMELINE */
+
+.timeline{
+
+  margin-top:35px;
+
+}
+
+.timeline-item{
+
+  position:relative;
+
+  padding-left:30px;
+
+  margin-bottom:22px;
+
+}
+
+.timeline-item::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:7px;
+
+  width:12px;
+  height:12px;
+
+  background:gold;
+
+  border-radius:50%;
+
+  box-shadow:
+  0 0 15px gold;
+
+}
+
+.timeline-item h4{
+
+  color:white;
+
+  margin-bottom:6px;
+
+}
+
+.timeline-item p{
+
+  color:#bdbdbd;
+
+}
+
+/* PROGRESS */
+
+.progress-box{
+
+  margin-top:30px;
+
+}
+
+.progress-bar{
+
+  width:100%;
+  height:18px;
+
+  background:#111;
+
+  border-radius:30px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(255,215,0,.08);
+
+}
+
+.progress{
+
+  width:0%;
+
+  height:100%;
+
+  background:
+  linear-gradient(90deg,var(--gold2),var(--gold));
+
+  transition:.4s;
+
+}
+
+/* INPUTS */
+
+input{
+
+  width:100%;
+
+  padding: min-height: 44px;15px;
+
+  margin-top:10px;
+
+  margin-bottom:20px;
+
+  border-radius:14px;
+
+  border:1px solid #222;
+
+  background:#0b0b0b;
+
+  color:white;
+
+  outline:none;
+
+}
+
+input:focus{
+
+  border-color:gold;
+
+}
+
+/* BUTTON */
+
+.finish-btn{
+
+  width:100%;
+
+  padding:18px;
+
+  border:none;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  color:black;
+
+  font-size:18px;
+
+  font-weight:800;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+}
+
+.finish-btn:hover{
+
+  transform:translateY(-4px);
+
+  box-shadow:
+  0 0 30px rgba(255,215,0,.25);
+
+}
+
+/* QUIZ */
+
+.quiz-title{
+
+  font-size:38px;
+
+  margin-bottom:30px;
+
+}
+
+.question{
+
+  background:#0b0b0b;
+
+  border:1px solid rgba(255,215,0,.08);
+
+  border-radius:22px;
+
+  padding:25px;
+
+  margin-bottom:25px;
+
+}
+
+.question h3{
+
+  margin-bottom:20px;
+
+  line-height:1.6;
+
+}
+
+.option{
+
+  padding:15px;
+
+  margin-bottom:12px;
+
+  border-radius:14px;
+
+  background:#121212;
+
+  border:1px solid #242424;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+}
+
+.option:hover{
+
+  border-color:gold;
+
+  transform:translateX(5px);
+
+}
+
+.correct{
+
+  border:1px solid var(--green) !important;
+
+  background:rgba(0,255,136,.08);
+
+}
+
+.wrong{
+
+  border:1px solid var(--red) !important;
+
+  background:rgba(255,77,77,.08);
+
+}
+
+/* RESULT */
+
+.result{
+
+  margin-top:25px;
+
+  text-align:center;
+
+  font-size:22px;
+
+  font-weight:700;
+
+}
+
+.good{
+  color:var(--green);
+}
+
+.bad{
+  color:var(--red);
+}
+
+/* SIMULADOR */
+
+.sim-result{
+
+  margin-top:25px;
+
+  background:#0b0b0b;
+
+  border-radius:22px;
+
+  padding:25px;
+
+  border:1px solid rgba(255,215,0,.08);
+
+}
+
+.sim-grid{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(180px,1fr));
+
+  gap:15px;
+
+  margin-top:20px;
+
+}
+
+.sim-box{
+
+  background:#111;
+
+  border-radius:14px;
+
+  padding:18px;
+
+  border:1px solid #1f1f1f;
+
+}
+
+.sim-box h4{
+
+  color:gold;
+
+  margin-bottom:10px;
+
+}
+
+.estado{
+
+  margin-top:20px;
+
+  padding:15px;
+
+  border-radius:14px;
+
+  font-weight:bold;
+
+}
+
+.estado.good{
+
+  background:rgba(0,255,136,.08);
+
+  border:1px solid #00ff88;
+
+  color:#00ff88;
+
+}
+
+.estado.medium{
+
+  background:rgba(255,215,0,.08);
+
+  border:1px solid gold;
+
+  color:gold;
+
+}
+
+.estado.bad{
+
+  background:rgba(255,77,77,.08);
+
+  border:1px solid #ff4d4d;
+
+  color:#ff4d4d;
+
+}
+
+/* TABLE */
+
+table{
+
+  width:100%;
+
+  margin-top:25px;
+
+  border-collapse:collapse;
+
+}
+
+table th,
+table td{
+
+  padding:12px;
+
+  border:1px solid #222;
+
+  text-align:center;
+
+}
+
+table th{
+
+  background:#111;
+
+  color:gold;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+  .main-layout{
+
+    grid-template-columns:1fr;
+
+  }
+
+}
+
+
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+  <div class="logo">
+    American Finance
+  </div>
+
+  <button class="back-btn"
+  onclick="window.location.href='cursos.html'">
+
+    ⬅ Volver a cursos
+
+  </button>
+
+</header>
+
+<div class="container">
+
+<div class="main-layout">
+
+<!-- IZQUIERDA -->
+
+<div>
+
+<div class="card">
+
+<h1 class="main-title">
+
+Unidad 6 —
+<span>Tarjetas y pagos</span>
+
+</h1>
+
+<p class="subtitle">
+
+Aprende cómo funcionan las tarjetas,
+los pagos digitales y cómo evitar
+problemas financieros por deudas.
+
+</p>
+
+<div class="progress-box">
+
+<p style="margin-bottom:10px;">
+Progreso de la unidad
+</p>
+
+<div class="progress-bar">
+
+<div class="progress"
+id="progress"></div>
+
+</div>
+
+</div>
+
+<div class="info-grid">
+
+<div class="info-box">
+
+<h3>💳 Tarjeta débito</h3>
+
+<p>
+Usa el dinero disponible en tu cuenta bancaria.
+</p>
+
+</div>
+
+<div class="info-box">
+
+<h3>🏦 Tarjeta crédito</h3>
+
+<p>
+Permite gastar dinero prestado que luego debes pagar.
+</p>
+
+</div>
+
+<div class="info-box">
+
+<h3>⚠️ Riesgos</h3>
+
+<p>
+Las deudas e intereses pueden crecer rápidamente.
+</p>
+
+</div>
+
+</div>
+
+<div class="timeline">
+
+<div class="timeline-item">
+
+<h4>💳 Comprar</h4>
+
+<p>Usas la tarjeta para pagar.</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h4>🏦 Banco presta dinero</h4>
+
+<p>El banco cubre temporalmente el pago.</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h4>📈 Intereses</h4>
+
+<p>Si no pagas a tiempo, aumenta la deuda.</p>
+
+</div>
+
+<div class="timeline-item">
+
+<h4>⚠️ Endeudamiento</h4>
+
+<p>Las cuotas pueden crecer demasiado.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SIMULADOR -->
+
+<div class="card">
+
+<h2 style="font-size:34px; margin-bottom:20px;">
+💻 Simulador de deuda
+</h2>
+
+<p class="subtitle">
+
+Descubre cuánto puede crecer una deuda
+si no pagas a tiempo.
+
+</p>
+
+<label>💰 Deuda inicial</label>
+
+<input type="number"
+id="deuda"
+placeholder="Ej: 1000">
+
+<label>📈 Interés mensual (%)</label>
+
+<input type="number"
+id="interes"
+placeholder="Ej: 5">
+
+<label>📅 Meses</label>
+
+<input type="number"
+id="meses"
+placeholder="Ej: 6">
+
+<button class="finish-btn"
+onclick="calcular()">
+
+Simular deuda
+
+</button>
+
+<div id="simulador"></div>
+
+</div>
+
+</div>
+
+<!-- DERECHA -->
+
+<div>
+
+<div class="card">
+
+<h2 class="quiz-title">
+🎮 Evaluación interactiva
+</h2>
+
+<!-- P1 -->
+
+<div class="question">
+
+<h3>
+1. ¿Qué hace una tarjeta de crédito?
+</h3>
+
+<div class="option"
+onclick="select(this,true,1)">
+
+Permite gastar dinero prestado
+
+</div>
+
+<div class="option"
+onclick="select(this,false,1)">
+
+Solo guarda dinero
+
+</div>
+
+<div class="option"
+onclick="select(this,false,1)">
+
+Evita deudas
+
+</div>
+
+</div>
+
+<!-- P2 -->
+
+<div class="question">
+
+<h3>
+2. ¿Cuál es un riesgo?
+</h3>
+
+<div class="option"
+onclick="select(this,true,2)">
+
+Endeudarse
+
+</div>
+
+<div class="option"
+onclick="select(this,false,2)">
+
+Ahorrar más
+
+</div>
+
+<div class="option"
+onclick="select(this,false,2)">
+
+Ganar dinero
+
+</div>
+
+</div>
+
+<!-- P3 -->
+
+<div class="question">
+
+<h3>
+3. ¿Qué es un buen uso de tarjeta?
+</h3>
+
+<div class="option"
+onclick="select(this,true,3)">
+
+Pagar a tiempo
+
+</div>
+
+<div class="option"
+onclick="select(this,false,3)">
+
+No pagar
+
+</div>
+
+<div class="option"
+onclick="select(this,false,3)">
+
+Usarla sin control
+
+</div>
+
+</div>
+
+<!-- P4 -->
+
+<div class="question">
+
+<h3>
+4. ¿Qué pasa si no pagas la tarjeta?
+</h3>
+
+<div class="option"
+onclick="select(this,true,4)">
+
+La deuda aumenta con intereses
+
+</div>
+
+<div class="option"
+onclick="select(this,false,4)">
+
+La deuda desaparece
+
+</div>
+
+<div class="option"
+onclick="select(this,false,4)">
+
+No ocurre nada
+
+</div>
+
+</div>
+
+<!-- P5 -->
+
+<div class="question">
+
+<h3>
+5. ¿Cuál es una ventaja de la tarjeta débito?
+</h3>
+
+<div class="option"
+onclick="select(this,true,5)">
+
+Usas dinero que ya tienes
+
+</div>
+
+<div class="option"
+onclick="select(this,false,5)">
+
+Genera dinero automáticamente
+
+</div>
+
+<div class="option"
+onclick="select(this,false,5)">
+
+Nunca tiene límites
+
+</div>
+
+</div>
+
+<button class="finish-btn"
+onclick="finalizar()">
+
+Finalizar evaluación
+
+</button>
+
+<div class="result"
+id="result"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* QUIZ */
+
+let score = 0;
+
+let answered = {};
+
+let total = 5;
+
+/* SELECT */
+
+function select(el,isCorrect,q){
+
+  if(answered[q]) return;
+
+  answered[q] = true;
+
+  if(isCorrect){
+
+    score++;
+
+    el.classList.add("correct");
+
+  }
+
+  else{
+
+    el.classList.add("wrong");
+
+  }
+
+  actualizarBarra();
+
+}
+
+/* PROGRESS */
+
+function actualizarBarra(){
+
+  const respondidas =
+  Object.keys(answered).length;
+
+  const porcentaje =
+  (respondidas / total) * 100;
+
+  document.getElementById("progress")
+  .style.width = porcentaje + "%";
+
+}
+
+/* RESET */
+
+function resetQuiz(){
+
+  score = 0;
+
+  answered = {};
+
+  document
+  .querySelectorAll(".option")
+  .forEach(op=>{
+
+    op.classList.remove(
+      "correct",
+      "wrong"
+    );
+
+  });
+
+  document.getElementById(
+    "progress"
+  ).style.width = "0%";
+
+}
+
+/* FINALIZAR */
+
+function finalizar(){
+
+  const result =
+  document.getElementById("result");
+
+  if(
+    Object.keys(answered).length < total
+  ){
+
+    result.innerHTML =
+    "⚠ Responde todas las preguntas.";
+
+    result.className =
+    "result bad";
+
+    return;
+
+  }
+
+  if(score >= 3){
+
+    result.innerHTML =
+    "✅ Unidad completada. Nivel 2 completado.";
+
+    result.className =
+    "result good";
+
+    localStorage.setItem(
+      "unidad6",
+      "ok"
+    );
+
+    localStorage.setItem(
+      "unidad6_score",
+      score
+    );
+
+    setTimeout(()=>{
+
+      window.location.href =
+      "unidad7.html";
+
+    },1500);
+
+  }
+
+  else{
+
+    result.innerHTML =
+    "❌ No aprobaste. Puedes intentarlo nuevamente.";
+
+    result.className =
+    "result bad";
+
+    setTimeout(()=>{
+
+      resetQuiz();
+
+      result.innerHTML = "";
+
+    },1800);
+
+  }
+
+}
+
+/* SIMULADOR */
+
+function calcular(){
+
+  let deuda =
+  parseFloat(
+    document.getElementById("deuda").value
+  );
+
+  let interes =
+  parseFloat(
+    document.getElementById("interes").value
+  ) / 100;
+
+  let meses =
+  parseFloat(
+    document.getElementById("meses").value
+  );
+
+  const simulador =
+  document.getElementById("simulador");
+
+  if(
+    isNaN(deuda) ||
+    isNaN(interes) ||
+    isNaN(meses) ||
+    deuda <= 0 ||
+    interes <= 0 ||
+    meses <= 0
+  ){
+
+    simulador.innerHTML = `
+      <div class="estado bad">
+        ❌ Ingresa valores válidos.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  let total =
+  deuda * Math.pow((1+interes),meses);
+
+  let intereses =
+  total - deuda;
+
+  let estado = "";
+  let mensaje = "";
+
+  if(intereses < deuda * 0.3){
+
+    estado = "good";
+
+    mensaje =
+    "✅ La deuda todavía es controlable.";
+
+  }
+
+  else if(intereses < deuda){
+
+    estado = "medium";
+
+    mensaje =
+    "⚠️ La deuda está creciendo rápidamente.";
+
+  }
+
+  else{
+
+    estado = "bad";
+
+    mensaje =
+    "❌ Los intereses ya son demasiado altos.";
+
+  }
+
+  let rows = "";
+
+  for(let i=1;i<=meses;i++){
+
+    let crecimiento =
+    deuda * Math.pow((1+interes),i);
+
+    rows += `
+      <tr>
+        <td>${i}</td>
+        <td>$${crecimiento.toFixed(2)}</td>
+      </tr>
+    `;
+
+  }
+
+  simulador.innerHTML = `
+
+  <div class="sim-result">
+
+    <h3 style="margin-bottom:15px;">
+      📊 Resultado financiero
+    </h3>
+
+    <div class="sim-grid">
+
+      <div class="sim-box">
+        <h4>💳 Deuda inicial</h4>
+        <p>$${deuda.toFixed(2)}</p>
+      </div>
+
+      <div class="sim-box">
+        <h4>🔥 Intereses</h4>
+        <p>$${intereses.toFixed(2)}</p>
+      </div>
+
+      <div class="sim-box">
+        <h4>💰 Total final</h4>
+        <p>$${total.toFixed(2)}</p>
+      </div>
+
+      <div class="sim-box">
+        <h4>📈 Crecimiento</h4>
+        <p>${((intereses/deuda)*100).toFixed(1)}%</p>
+      </div>
+
+    </div>
+
+    <div class="estado ${estado}">
+      ${mensaje}
+    </div>
+
+    <table>
+
+      <tr>
+        <th>Mes</th>
+        <th>Deuda acumulada</th>
+      </tr>
+
+      ${rows}
+
+    </table>
+
+  </div>
+
+  `;
+
+}
+
+</script>
+
+</body>
+</html>

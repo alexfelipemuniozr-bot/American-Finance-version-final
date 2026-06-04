@@ -1,0 +1,1404 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+  <title>Calculadora Financiera | American Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #030303;
+      --panel: rgba(12, 12, 12, 0.78);
+      --panel-strong: rgba(18, 18, 18, 0.92);
+      --glass: rgba(255, 255, 255, 0.055);
+      --gold: #ffd700;
+      --gold-dark: #d4af37;
+      --cyan: #00d9ff;
+      --green: #00ff9d;
+      --red: #ff5b5b;
+      --text: #f7f7f7;
+      --muted: #bfc2c7;
+      --line: rgba(255, 215, 0, 0.12);
+      --cyan-line: rgba(0, 217, 255, 0.2);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 8%, rgba(255, 215, 0, 0.14), transparent 28%),
+        radial-gradient(circle at 90% 18%, rgba(0, 217, 255, 0.11), transparent 26%),
+        radial-gradient(circle at 70% 90%, rgba(0, 255, 157, 0.08), transparent 25%),
+        linear-gradient(180deg, #030303, #071414 58%, #020202);
+      overflow-x: hidden;
+    }
+
+    input, textarea, select {
+      min-height: 44px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particles span {
+      position: absolute;
+      bottom: -40px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 18px var(--gold);
+      opacity: 0;
+      animation: floatParticle linear infinite;
+    }
+
+    .particles span:nth-child(1) { left: 8%; animation-duration: 12s; }
+    .particles span:nth-child(2) { left: 18%; animation-duration: 17s; background: var(--cyan); box-shadow: 0 0 18px var(--cyan); }
+    .particles span:nth-child(3) { left: 32%; animation-duration: 14s; }
+    .particles span:nth-child(4) { left: 47%; animation-duration: 21s; background: var(--green); box-shadow: 0 0 18px var(--green); }
+    .particles span:nth-child(5) { left: 62%; animation-duration: 15s; }
+    .particles span:nth-child(6) { left: 78%; animation-duration: 19s; background: var(--cyan); box-shadow: 0 0 18px var(--cyan); }
+    .particles span:nth-child(7) { left: 91%; animation-duration: 13s; }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(0) scale(0.7);
+        opacity: 0;
+      }
+
+      18% {
+        opacity: 0.72;
+      }
+
+      100% {
+        transform: translateY(-120vh) scale(1.7);
+        opacity: 0;
+      }
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: 100%;
+      padding: 18px clamp(16px, 5vw, 60px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(18px);
+    }
+
+    .logo {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 900;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .back-link {
+      min-height: 44px;
+      padding: 12px 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--gold);
+      background: rgba(255, 255, 255, 0.045);
+      font-weight: 800;
+      text-decoration: none;
+      transition: 0.25s ease;
+    }
+
+    .back-link:hover {
+      color: #030303;
+      background: var(--gold);
+      box-shadow: 0 0 28px rgba(255, 215, 0, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .page {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: clamp(34px, 6vw, 72px) clamp(14px, 4vw, 26px) 90px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .glass-card {
+      position: relative;
+      min-width: 0;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(18, 18, 18, 0.86), rgba(8, 8, 8, 0.78));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.08), transparent 35%),
+        radial-gradient(circle at top right, rgba(0, 217, 255, 0.08), transparent 34%);
+      pointer-events: none;
+    }
+
+    .intro {
+      padding: clamp(26px, 5vw, 44px);
+      border-radius: 30px;
+    }
+
+    .intro > *,
+    .dashboard-card > *,
+    .workspace > *,
+    .side-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      margin-bottom: 18px;
+      padding: 8px 13px;
+      border: 1px solid rgba(255, 215, 0, 0.28);
+      border-radius: 999px;
+      color: var(--gold);
+      background: rgba(255, 215, 0, 0.07);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 820px;
+      margin-bottom: 18px;
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 1.04;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    h1 span,
+    .accent {
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .intro p {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(16px, 2.3vw, 19px);
+      line-height: 1.75;
+    }
+
+    .dashboard-card {
+      display: grid;
+      gap: 16px;
+      align-content: center;
+      padding: 28px;
+      border-radius: 30px;
+    }
+
+    .dashboard-card h2 {
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 18px;
+      background: var(--glass);
+    }
+
+    .metric span {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--gold);
+      font-size: clamp(21px, 3vw, 28px);
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 410px);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .workspace,
+    .side-panel {
+      border-radius: 30px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    .tabs {
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      padding: 22px;
+      border-right: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .tab {
+      width: 100%;
+      min-height: 58px;
+      padding: 13px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      text-align: left;
+      font-weight: 900;
+      transition: 0.22s ease;
+    }
+
+    .tab small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .tab.active,
+    .tab:hover {
+      color: #030303;
+      border-color: transparent;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      box-shadow: 0 0 28px rgba(255, 215, 0, 0.16);
+    }
+
+    .tab.active small,
+    .tab:hover small {
+      color: rgba(0, 0, 0, 0.72);
+    }
+
+    .panel-area {
+      min-width: 0;
+      padding: clamp(22px, 4vw, 36px);
+    }
+
+    .panel {
+      display: none;
+      animation: fadeUp 0.35s ease;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .panel h2 {
+      margin-bottom: 9px;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.14;
+    }
+
+    .panel-description {
+      max-width: 720px;
+      margin-bottom: 24px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 52px;
+      padding: 14px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 15px;
+      color: var(--text);
+      background: rgba(5, 5, 5, 0.82);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    select option {
+      color: #050505;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.11);
+    }
+
+    .action-btn {
+      position: relative;
+      width: 100%;
+      min-height: 58px;
+      margin-top: 24px;
+      padding: 16px 20px;
+      overflow: hidden;
+      border: 0;
+      border-radius: 17px;
+      color: #030303;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      font-size: 17px;
+      font-weight: 900;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .action-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+      transform: translateX(-120%);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 36px rgba(255, 215, 0, 0.3);
+    }
+
+    .action-btn:hover::before {
+      animation: shine 0.9s ease;
+    }
+
+    @keyframes shine {
+      to {
+        transform: translateX(120%);
+      }
+    }
+
+    .result-card {
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px solid rgba(0, 255, 157, 0.22);
+      border-radius: 22px;
+      background: rgba(0, 255, 157, 0.06);
+    }
+
+    .result-card.error {
+      border-color: rgba(255, 91, 91, 0.34);
+      background: rgba(255, 91, 91, 0.08);
+    }
+
+    .result-label {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .result-value {
+      color: var(--green);
+      font-size: clamp(30px, 5vw, 52px);
+      font-weight: 900;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .result-card.error .result-value {
+      color: #ffd0d0;
+      font-size: clamp(21px, 4vw, 30px);
+      line-height: 1.3;
+    }
+
+    .result-note {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .progress-wrap {
+      margin-top: 18px;
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--cyan));
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.26);
+      transition: width 0.55s ease;
+    }
+
+    .side-panel {
+      display: grid;
+      gap: 18px;
+      padding: 22px;
+    }
+
+    .side-card {
+      min-width: 0;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .side-card h3 {
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+
+    .chart {
+      height: 230px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 217, 255, 0.12);
+      border-radius: 18px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        rgba(0, 0, 0, 0.26);
+      background-size: 42px 42px;
+    }
+
+    .chart svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .chart polyline {
+      fill: none;
+      stroke: var(--cyan);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 12px var(--cyan));
+    }
+
+    .chart-caption {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .history {
+      display: grid;
+      gap: 10px;
+      max-height: 270px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .history-item {
+      padding: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.24);
+    }
+
+    .history-item strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--gold);
+    }
+
+    .history-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .currency-ticker {
+      display: grid;
+      gap: 10px;
+    }
+
+    .ticker-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.24);
+    }
+
+    .ticker-row strong {
+      color: var(--text);
+    }
+
+    .trend-up {
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .trend-down {
+      color: var(--red);
+      font-weight: 900;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .hero,
+      .layout,
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .tab {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .navbar {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 16px;
+      }
+
+      .logo,
+      .back-link {
+        text-align: center;
+      }
+
+      .back-link {
+        width: 100%;
+      }
+
+      .page {
+        padding-top: 34px;
+      }
+
+      .intro,
+      .dashboard-card,
+      .workspace,
+      .side-panel {
+        border-radius: 23px;
+      }
+
+      .metric-grid,
+      .form-grid,
+      .tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        padding: 14px;
+      }
+
+      .tab {
+        min-height: 54px;
+        text-align: left;
+      }
+
+      .panel-area,
+      .side-panel {
+        padding: 18px;
+      }
+
+      .chart {
+        height: 205px;
+      }
+
+      .action-btn:hover,
+      .back-link:hover {
+        transform: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+
+    input, textarea, select {
+      min-height: 44px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="particles" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <header class="navbar">
+    <div class="logo">American Finance</div>
+    <a class="back-link" href="index.html">Volver al inicio</a>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="intro glass-card">
+        <div class="eyebrow">Dashboard financiero</div>
+        <h1>Calculadora <span>premium</span></h1>
+        <p>
+          Simula inversiones, intereses, metas, deudas, ahorro y cambio de divisas
+          con resultados visuales, historial y una gráfica dinámica de crecimiento.
+        </p>
+      </div>
+
+      <aside class="dashboard-card glass-card" aria-label="Resumen financiero">
+        <h2>Resumen actual</h2>
+        <div class="metric-grid">
+          <div class="metric">
+            <span>Último resultado</span>
+            <strong id="summaryResult">US$ 0</strong>
+          </div>
+          <div class="metric">
+            <span>Progreso</span>
+            <strong id="summaryProgress">0%</strong>
+          </div>
+          <div class="metric">
+            <span>Herramientas</span>
+            <strong>6</strong>
+          </div>
+          <div class="metric">
+            <span>Historial</span>
+            <strong id="summaryHistory">0</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="layout">
+      <section class="workspace glass-card" aria-label="Herramientas financieras">
+        <div class="tabs" role="tablist" aria-label="Calculadoras">
+          <button class="tab active" type="button" data-panel="investment">
+            Inversión
+            <small>Simulador avanzado</small>
+          </button>
+          <button class="tab" type="button" data-panel="interest">
+            Interés
+            <small>Capital futuro</small>
+          </button>
+          <button class="tab" type="button" data-panel="goal">
+            Meta
+            <small>Plan mensual</small>
+          </button>
+          <button class="tab" type="button" data-panel="debt">
+            Deuda
+            <small>Tiempo de pago</small>
+          </button>
+          <button class="tab" type="button" data-panel="saving">
+            Ahorro
+            <small>Proyección</small>
+          </button>
+          <button class="tab" type="button" data-panel="currency">
+            Divisas
+            <small>USD, COP, EUR, BTC</small>
+          </button>
+        </div>
+
+        <div class="panel-area">
+          <article class="panel active" id="investment">
+            <h2>Simulador de inversiones</h2>
+            <p class="panel-description">Proyecta una inversión inicial con aportes mensuales y rendimiento anual estimado.</p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="investmentInitial">Inversión inicial</label>
+                <input id="investmentInitial" type="number" min="0" step="0.01" placeholder="Ej: 1000">
+              </div>
+              <div class="field">
+                <label for="investmentMonthly">Aporte mensual</label>
+                <input id="investmentMonthly" type="number" min="0" step="0.01" placeholder="Ej: 150">
+              </div>
+              <div class="field">
+                <label for="investmentRate">Rendimiento anual (%)</label>
+                <input id="investmentRate" type="number" min="0" step="0.01" placeholder="Ej: 9">
+              </div>
+              <div class="field">
+                <label for="investmentYears">Años</label>
+                <input id="investmentYears" type="number" min="1" step="1" placeholder="Ej: 5">
+              </div>
+            </div>
+
+            <button class="action-btn" type="button" data-action="investment">Proyectar inversión</button>
+            <div class="result-card" id="investmentResult">
+              <div class="result-label">Resultado estimado</div>
+              <div class="result-value">US$ 0</div>
+              <p class="result-note">Completa los datos para calcular tu crecimiento.</p>
+              <div class="progress-wrap">
+                <div class="progress-head"><span>Capital aportado vs resultado</span><span id="investmentProgressText">0%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="investmentProgress"></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel" id="interest">
+            <h2>Calculadora de intereses</h2>
+            <p class="panel-description">Calcula el interés compuesto de un capital durante un periodo de tiempo.</p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="capital">Capital inicial</label>
+                <input id="capital" type="number" min="0" step="0.01" placeholder="Ej: 2000">
+              </div>
+              <div class="field">
+                <label for="interestRate">Tasa anual (%)</label>
+                <input id="interestRate" type="number" min="0" step="0.01" placeholder="Ej: 8">
+              </div>
+              <div class="field">
+                <label for="interestYears">Años</label>
+                <input id="interestYears" type="number" min="1" step="1" placeholder="Ej: 4">
+              </div>
+            </div>
+
+            <button class="action-btn" type="button" data-action="interest">Calcular interés</button>
+            <div class="result-card" id="interestResult">
+              <div class="result-label">Capital futuro</div>
+              <div class="result-value">US$ 0</div>
+              <p class="result-note">El resultado aparecerá aquí.</p>
+            </div>
+          </article>
+
+          <article class="panel" id="goal">
+            <h2>Metas financieras</h2>
+            <p class="panel-description">Define cuánto tienes, cuánto quieres lograr y cuánto puedes ahorrar al mes.</p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="goalTarget">Meta total</label>
+                <input id="goalTarget" type="number" min="1" step="0.01" placeholder="Ej: 5000">
+              </div>
+              <div class="field">
+                <label for="goalCurrent">Ahorro actual</label>
+                <input id="goalCurrent" type="number" min="0" step="0.01" placeholder="Ej: 1200">
+              </div>
+              <div class="field">
+                <label for="goalMonthly">Ahorro mensual</label>
+                <input id="goalMonthly" type="number" min="1" step="0.01" placeholder="Ej: 250">
+              </div>
+            </div>
+
+            <button class="action-btn" type="button" data-action="goal">Calcular meta</button>
+            <div class="result-card" id="goalResult">
+              <div class="result-label">Tiempo estimado</div>
+              <div class="result-value">0 meses</div>
+              <p class="result-note">Tu progreso se mostrará con una barra financiera.</p>
+              <div class="progress-wrap">
+                <div class="progress-head"><span>Progreso de la meta</span><span id="goalProgressText">0%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="goalProgress"></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel" id="debt">
+            <h2>Pago de deudas</h2>
+            <p class="panel-description">Simula cuánto tardarías en pagar una deuda con pago mensual e interés mensual opcional.</p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="debtAmount">Deuda total</label>
+                <input id="debtAmount" type="number" min="0" step="0.01" placeholder="Ej: 2400">
+              </div>
+              <div class="field">
+                <label for="debtPayment">Pago mensual</label>
+                <input id="debtPayment" type="number" min="1" step="0.01" placeholder="Ej: 220">
+              </div>
+              <div class="field">
+                <label for="debtRate">Interés mensual (%)</label>
+                <input id="debtRate" type="number" min="0" step="0.01" placeholder="Ej: 1.2">
+              </div>
+            </div>
+
+            <button class="action-btn" type="button" data-action="debt">Calcular deuda</button>
+            <div class="result-card" id="debtResult">
+              <div class="result-label">Tiempo de pago</div>
+              <div class="result-value">0 meses</div>
+              <p class="result-note">Calcula con interés mensual para una proyección más realista.</p>
+              <div class="progress-wrap">
+                <div class="progress-head"><span>Reducción estimada</span><span id="debtProgressText">0%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="debtProgress"></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel" id="saving">
+            <h2>Proyección de ahorro</h2>
+            <p class="panel-description">Calcula tu ahorro acumulado con aportes mensuales y un extra opcional.</p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="savingMonthly">Ahorro mensual</label>
+                <input id="savingMonthly" type="number" min="0" step="0.01" placeholder="Ej: 180">
+              </div>
+              <div class="field">
+                <label for="savingMonths">Meses</label>
+                <input id="savingMonths" type="number" min="1" step="1" placeholder="Ej: 18">
+              </div>
+              <div class="field">
+                <label for="savingExtra">Aporte extra</label>
+                <input id="savingExtra" type="number" min="0" step="0.01" placeholder="Ej: 500">
+              </div>
+            </div>
+
+            <button class="action-btn" type="button" data-action="saving">Proyectar ahorro</button>
+            <div class="result-card" id="savingResult">
+              <div class="result-label">Ahorro acumulado</div>
+              <div class="result-value">US$ 0</div>
+              <p class="result-note">La gráfica mostrará el crecimiento mes a mes.</p>
+            </div>
+          </article>
+
+          <article class="panel" id="currency">
+            <h2>Cambio de divisas</h2>
+            <p class="panel-description">Convierte entre USD, COP, EUR y BTC con indicadores visuales de tendencia.</p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="currencyAmount">Monto</label>
+                <input id="currencyAmount" type="number" min="0" step="0.00000001" placeholder="Ej: 100">
+              </div>
+              <div class="field">
+                <label for="currencyFrom">Desde</label>
+                <select id="currencyFrom">
+                  <option value="USD">USD - Dólar</option>
+                  <option value="COP">COP - Peso colombiano</option>
+                  <option value="EUR">EUR - Euro</option>
+                  <option value="BTC">BTC - Bitcoin</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="currencyTo">Hacia</label>
+                <select id="currencyTo">
+                  <option value="COP">COP - Peso colombiano</option>
+                  <option value="USD">USD - Dólar</option>
+                  <option value="EUR">EUR - Euro</option>
+                  <option value="BTC">BTC - Bitcoin</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="action-btn" type="button" data-action="currency">Convertir divisa</button>
+            <div class="result-card" id="currencyResult">
+              <div class="result-label">Conversión</div>
+              <div class="result-value">0</div>
+              <p class="result-note">Tasas referenciales para simulación educativa.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <aside class="side-panel glass-card" aria-label="Panel de estadísticas">
+        <div class="side-card">
+          <h3>Gráfica financiera</h3>
+          <div class="chart">
+            <svg viewBox="0 0 500 260" preserveAspectRatio="none" aria-label="Gráfica de crecimiento">
+              <polyline id="chartLine" points="20,220 95,205 170,180 245,150 320,115 395,78 480,42"></polyline>
+            </svg>
+          </div>
+          <p class="chart-caption" id="chartCaption">Aquí verás el crecimiento del dinero, progreso financiero o estadísticas del cálculo activo.</p>
+        </div>
+
+        <div class="side-card">
+          <h3>Indicador de divisas</h3>
+          <div class="currency-ticker" id="currencyTicker"></div>
+        </div>
+
+        <div class="side-card">
+          <h3>Historial de cálculos</h3>
+          <div class="history" id="historyList"></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const rates = {
+      USD: 1,
+      COP: 4000,
+      EUR: 0.92,
+      BTC: 1 / 68000
+    };
+
+    const trends = {
+      USD: 0.4,
+      COP: -0.2,
+      EUR: 0.1,
+      BTC: 2.3
+    };
+
+    const currencyNames = {
+      USD: "Dólar",
+      COP: "Peso colombiano",
+      EUR: "Euro",
+      BTC: "Bitcoin"
+    };
+
+    const formatUSD = new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 2
+    });
+
+    const formatCOP = new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      maximumFractionDigits: 0
+    });
+
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".panel");
+    const historyList = document.getElementById("historyList");
+    let history = loadHistory();
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.dataset.panel;
+
+        tabs.forEach((item) => item.classList.toggle("active", item === tab));
+        panels.forEach((panel) => panel.classList.toggle("active", panel.id === target));
+      });
+    });
+
+    document.querySelectorAll("[data-action]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.dataset.action;
+        if (action === "investment") calculateInvestment();
+        if (action === "interest") calculateInterest();
+        if (action === "goal") calculateGoal();
+        if (action === "debt") calculateDebt();
+        if (action === "saving") calculateSaving();
+        if (action === "currency") convertCurrency();
+      });
+    });
+
+    function getNumber(id) {
+      return Number.parseFloat(document.getElementById(id).value);
+    }
+
+    function isInvalid(...numbers) {
+      return numbers.some((number) => Number.isNaN(number) || number < 0);
+    }
+
+    function setResult(cardId, value, note, error = false) {
+      const card = document.getElementById(cardId);
+      card.classList.toggle("error", error);
+      card.querySelector(".result-value").textContent = value;
+      card.querySelector(".result-note").textContent = note;
+    }
+
+    function setProgress(fillId, textId, percentage) {
+      const clean = Math.max(0, Math.min(100, percentage));
+      document.getElementById(fillId).style.width = `${clean}%`;
+      document.getElementById(textId).textContent = `${Math.round(clean)}%`;
+      document.getElementById("summaryProgress").textContent = `${Math.round(clean)}%`;
+    }
+
+    function updateSummary(resultText) {
+      document.getElementById("summaryResult").textContent = resultText;
+      document.getElementById("summaryHistory").textContent = String(history.length);
+    }
+
+    function calculateInvestment() {
+      const initial = getNumber("investmentInitial");
+      const monthly = getNumber("investmentMonthly");
+      const annualRate = getNumber("investmentRate") / 100;
+      const years = getNumber("investmentYears");
+
+      if (isInvalid(initial, monthly, annualRate, years) || years === 0) {
+        setResult("investmentResult", "Datos incompletos", "Completa todos los campos con valores válidos.", true);
+        return;
+      }
+
+      const monthlyRate = annualRate / 12;
+      const months = years * 12;
+      let total = initial;
+      const points = [initial];
+
+      for (let month = 1; month <= months; month++) {
+        total = total * (1 + monthlyRate) + monthly;
+        if (month % 12 === 0) points.push(total);
+      }
+
+      const contributed = initial + monthly * months;
+      const profit = total - contributed;
+      const progress = contributed > 0 ? (contributed / total) * 100 : 0;
+
+      setResult("investmentResult", formatUSD.format(total), `Capital aportado: ${formatUSD.format(contributed)}. Ganancia estimada: ${formatUSD.format(profit)}.`);
+      setProgress("investmentProgress", "investmentProgressText", progress);
+      drawChart(points, "Crecimiento proyectado de la inversión por año.");
+      addHistory("Inversión", `${formatUSD.format(total)} en ${years} años`);
+      updateSummary(formatUSD.format(total));
+    }
+
+    function calculateInterest() {
+      const capital = getNumber("capital");
+      const rate = getNumber("interestRate") / 100;
+      const years = getNumber("interestYears");
+
+      if (isInvalid(capital, rate, years) || years === 0) {
+        setResult("interestResult", "Datos incompletos", "Completa capital, tasa y años con valores válidos.", true);
+        return;
+      }
+
+      const points = [];
+      for (let year = 0; year <= years; year++) {
+        points.push(capital * Math.pow(1 + rate, year));
+      }
+
+      const total = points[points.length - 1];
+      const profit = total - capital;
+      setResult("interestResult", formatUSD.format(total), `Ganancia por interés compuesto: ${formatUSD.format(profit)}.`);
+      drawChart(points, "Crecimiento del capital por interés compuesto.");
+      addHistory("Interés", `${formatUSD.format(total)} después de ${years} años`);
+      updateSummary(formatUSD.format(total));
+      document.getElementById("summaryProgress").textContent = `${Math.round((profit / total) * 100)}%`;
+    }
+
+    function calculateGoal() {
+      const target = getNumber("goalTarget");
+      const current = getNumber("goalCurrent");
+      const monthly = getNumber("goalMonthly");
+
+      if (isInvalid(target, current, monthly) || target === 0 || monthly === 0) {
+        setResult("goalResult", "Datos incompletos", "Completa meta, ahorro actual y ahorro mensual.", true);
+        return;
+      }
+
+      const remaining = Math.max(0, target - current);
+      const months = Math.ceil(remaining / monthly);
+      const progress = (current / target) * 100;
+      const points = [current];
+
+      for (let month = 1; month <= Math.max(months, 1); month++) {
+        points.push(Math.min(target, current + monthly * month));
+      }
+
+      setResult("goalResult", `${months} meses`, `Te faltan ${formatUSD.format(remaining)} para alcanzar ${formatUSD.format(target)}.`);
+      setProgress("goalProgress", "goalProgressText", progress);
+      drawChart(points, "Progreso esperado hacia tu meta financiera.");
+      addHistory("Meta", `${months} meses para ${formatUSD.format(target)}`);
+      updateSummary(`${months} meses`);
+    }
+
+    function calculateDebt() {
+      const debt = getNumber("debtAmount");
+      const payment = getNumber("debtPayment");
+      const rate = getNumber("debtRate") / 100 || 0;
+
+      if (isInvalid(debt, payment, rate) || payment === 0) {
+        setResult("debtResult", "Datos incompletos", "Completa deuda y pago mensual con valores válidos.", true);
+        return;
+      }
+
+      let balance = debt;
+      let months = 0;
+      const points = [balance];
+
+      while (balance > 0 && months < 600) {
+        balance = balance * (1 + rate) - payment;
+        months++;
+        points.push(Math.max(balance, 0));
+      }
+
+      if (months >= 600) {
+        setResult("debtResult", "Pago insuficiente", "El pago mensual no cubre la deuda de forma razonable con ese interés.", true);
+        return;
+      }
+
+      const progress = Math.min(100, (payment / debt) * 100);
+      setResult("debtResult", `${months} meses`, `Con ese pago mensual terminarías aproximadamente en ${months} meses.`);
+      setProgress("debtProgress", "debtProgressText", progress);
+      drawChart(points, "Reducción proyectada de la deuda.");
+      addHistory("Deuda", `${months} meses para pagar ${formatUSD.format(debt)}`);
+      updateSummary(`${months} meses`);
+    }
+
+    function calculateSaving() {
+      const monthly = getNumber("savingMonthly");
+      const months = getNumber("savingMonths");
+      const extra = getNumber("savingExtra") || 0;
+
+      if (isInvalid(monthly, months, extra) || months === 0) {
+        setResult("savingResult", "Datos incompletos", "Completa ahorro mensual y meses con valores válidos.", true);
+        return;
+      }
+
+      const points = [];
+      for (let month = 0; month <= months; month++) {
+        points.push(extra + monthly * month);
+      }
+
+      const total = points[points.length - 1];
+      setResult("savingResult", formatUSD.format(total), `Ahorro mensual: ${formatUSD.format(monthly)}. Aporte extra: ${formatUSD.format(extra)}.`);
+      drawChart(points, "Proyección de ahorro acumulado mes a mes.");
+      addHistory("Ahorro", `${formatUSD.format(total)} en ${months} meses`);
+      updateSummary(formatUSD.format(total));
+      document.getElementById("summaryProgress").textContent = "100%";
+    }
+
+    function convertCurrency() {
+      const amount = getNumber("currencyAmount");
+      const from = document.getElementById("currencyFrom").value;
+      const to = document.getElementById("currencyTo").value;
+
+      if (Number.isNaN(amount) || amount < 0) {
+        setResult("currencyResult", "Monto inválido", "Ingresa un monto válido para convertir.", true);
+        return;
+      }
+
+      const usdValue = amount / rates[from];
+      const converted = usdValue * rates[to];
+      const trend = trends[to] >= 0 ? "sube" : "baja";
+      const formatted = formatCurrency(converted, to);
+
+      setResult("currencyResult", formatted, `${currencyNames[to]} ${trend} ${Math.abs(trends[to])}% según indicador referencial.`);
+      drawChart([amount, amount * 1.03, amount * 0.98, converted], `Conversión ${from} hacia ${to}.`);
+      addHistory("Divisas", `${formatCurrency(amount, from)} = ${formatted}`);
+      updateSummary(formatted);
+      document.getElementById("summaryProgress").textContent = trends[to] >= 0 ? "↑" : "↓";
+    }
+
+    function formatCurrency(value, currency) {
+      if (currency === "COP") return formatCOP.format(value);
+      if (currency === "BTC") return `${value.toFixed(8)} BTC`;
+      if (currency === "EUR") return `€${value.toLocaleString("es-CO", { maximumFractionDigits: 2 })}`;
+      return formatUSD.format(value);
+    }
+
+    function drawChart(values, caption) {
+      const cleanValues = values.filter((value) => Number.isFinite(value));
+      const max = Math.max(...cleanValues, 1);
+      const min = Math.min(...cleanValues, 0);
+      const range = Math.max(max - min, 1);
+      const width = 500;
+      const height = 260;
+      const pad = 24;
+      const points = cleanValues.map((value, index) => {
+        const x = pad + (index / Math.max(cleanValues.length - 1, 1)) * (width - pad * 2);
+        const y = height - pad - ((value - min) / range) * (height - pad * 2);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(" ");
+
+      document.getElementById("chartLine").setAttribute("points", points);
+      document.getElementById("chartCaption").textContent = caption;
+    }
+
+    function addHistory(type, detail) {
+      history.unshift({
+        type,
+        detail,
+        date: new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" })
+      });
+
+      history = history.slice(0, 8);
+      localStorage.setItem("americanFinanceCalcHistory", JSON.stringify(history));
+      renderHistory();
+    }
+
+    function loadHistory() {
+      try {
+        return JSON.parse(localStorage.getItem("americanFinanceCalcHistory")) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function renderHistory() {
+      document.getElementById("summaryHistory").textContent = String(history.length);
+
+      if (history.length === 0) {
+        historyList.innerHTML = `
+          <div class="history-item">
+            <strong>Sin cálculos aún</strong>
+            <span>Tu historial aparecerá aquí.</span>
+          </div>
+        `;
+        return;
+      }
+
+      historyList.innerHTML = history.map((item) => `
+        <div class="history-item">
+          <strong>${item.type}</strong>
+          <span>${item.detail} · ${item.date}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderTicker() {
+      const ticker = document.getElementById("currencyTicker");
+      ticker.innerHTML = Object.keys(trends).map((currency) => {
+        const trend = trends[currency];
+        const cls = trend >= 0 ? "trend-up" : "trend-down";
+        const arrow = trend >= 0 ? "↑" : "↓";
+
+        return `
+          <div class="ticker-row">
+            <strong>${currency}</strong>
+            <span class="${cls}">${arrow} ${Math.abs(trend)}%</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    renderHistory();
+    renderTicker();
+  </script>
+</body>
+</html>

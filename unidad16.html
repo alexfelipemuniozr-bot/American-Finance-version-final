@@ -1,0 +1,466 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+
+<title>Unidad 16 | Inversiones</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial;
+  background:#050505;
+  color:#e5e5e5;
+}
+
+    input, textarea, select {
+      min-height: 44px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+/* NAV */
+
+.navbar{
+  background:black;
+  padding:20px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #1f1f1f;
+}
+
+.navbar h2{
+  color:gold;
+}
+
+.navbar a{
+  color:gold;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* CONTAINER */
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:40px;
+}
+
+/* HERO */
+
+.hero{
+  background:linear-gradient(135deg,#111,#1a1a1a);
+  border:1px solid #222;
+  border-radius:20px;
+  padding:40px;
+  margin-bottom:30px;
+  text-align:center;
+}
+
+.hero h1{
+  color:gold;
+  font-size:40px;
+  margin-bottom:15px;
+}
+
+.hero p{
+  color:#cfcfcf;
+  line-height:1.7;
+  font-size:18px;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+  margin-bottom:30px;
+}
+
+/* CARD */
+
+.card{
+  background:#101010;
+  border:1px solid #1f1f1f;
+  border-radius:18px;
+  padding:25px;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-color:gold;
+}
+
+.card h3{
+  color:gold;
+  margin-bottom:12px;
+}
+
+.card p{
+  color:#d4d4d4;
+  line-height:1.6;
+}
+
+/* INPUTS */
+
+input, select{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  border-radius:10px;
+  border:none;
+  background:#1a1a1a;
+  color:white;
+}
+
+/* BUTTON */
+
+button{
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  border:none;
+  border-radius:10px;
+  background:gold;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s;
+}
+
+button:hover{
+  transform:scale(1.02);
+}
+
+/* RESULT */
+
+#simulador{
+  margin-top:20px;
+  padding:20px;
+  border-radius:12px;
+  border:1px solid #222;
+  background:#0b0b0b;
+  line-height:1.7;
+}
+
+/* QUIZ */
+
+.question{
+  margin-top:25px;
+  padding-bottom:20px;
+  border-bottom:1px solid #222;
+}
+
+.question p{
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.option{
+  background:#0d0d0d;
+  border:1px solid #333;
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.option:hover{
+  border-color:gold;
+  transform:translateX(4px);
+}
+
+/* RESULT */
+
+#result{
+  margin-top:20px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.good{ color:#00ff88; }
+.bad{ color:#ff4d4d; }
+
+/* BADGE */
+
+.badge{
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:999px;
+  background:#1a1a1a;
+  border:1px solid #333;
+  color:gold;
+  margin-top:10px;
+}
+
+
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+
+    input, textarea, select {
+      min-height: 44px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <h2>📈 Unidad 16 — Inversiones</h2>
+  <a href="cursos.html">⬅ Volver</a>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>💰 Aprende a invertir</h1>
+    <p>
+      Invertir no es solo ganar dinero rápido,
+      es entender cómo crece el dinero con el tiempo
+      y cómo manejar el riesgo.
+    </p>
+    <div class="badge">⚖️ Riesgo vs Rentabilidad</div>
+  </div>
+
+  <!-- INFO -->
+  <div class="grid">
+
+    <div class="card">
+      <h3>📊 Acciones</h3>
+      <p>Pequeñas partes de una empresa. Si la empresa crece, tú ganas.</p>
+    </div>
+
+    <div class="card">
+      <h3>💵 Bonos</h3>
+      <p>Préstamos al gobierno o empresas que te devuelven intereses.</p>
+    </div>
+
+    <div class="card">
+      <h3>⚖️ Riesgo</h3>
+      <p>Más ganancia potencial = más riesgo de perder dinero.</p>
+    </div>
+
+  </div>
+
+  <!-- SIMULADOR -->
+  <div class="card">
+
+    <h2>💻 Simulador de inversión real</h2>
+
+    <input type="number" id="monto" placeholder="Dinero a invertir">
+
+    <select id="riesgo">
+      <option value="bajo">🟢 Bajo riesgo (5%)</option>
+      <option value="medio">🟡 Medio riesgo (10%)</option>
+      <option value="alto">🔴 Alto riesgo (20%)</option>
+    </select>
+
+    <input type="number" id="tiempo" placeholder="Años de inversión">
+
+    <button onclick="simular()">Calcular inversión</button>
+
+    <div id="simulador">
+      💡 El dinero crece dependiendo del riesgo y el tiempo.
+    </div>
+
+  </div>
+
+  <!-- QUIZ -->
+  <div class="card">
+
+    <h2>🎮 Evaluación</h2>
+
+    <div class="question">
+      <p>1. ¿Qué es invertir?</p>
+      <div class="option" onclick="select(this,true,1)">Hacer crecer dinero</div>
+      <div class="option" onclick="select(this,false,1)">Gastar todo</div>
+    </div>
+
+    <div class="question">
+      <p>2. ¿Qué son acciones?</p>
+      <div class="option" onclick="select(this,true,2)">Parte de una empresa</div>
+      <div class="option" onclick="select(this,false,2)">Deuda bancaria</div>
+    </div>
+
+    <div class="question">
+      <p>3. ¿Qué pasa con el riesgo?</p>
+      <div class="option" onclick="select(this,true,3)">A mayor riesgo, mayor ganancia posible</div>
+      <div class="option" onclick="select(this,false,3)">No importa</div>
+    </div>
+
+    <div class="question">
+      <p>4. ¿Qué es un bono?</p>
+      <div class="option" onclick="select(this,true,4)">Préstamo con intereses</div>
+      <div class="option" onclick="select(this,false,4)">Regalo</div>
+    </div>
+
+    <button onclick="finalizar()">Finalizar evaluación</button>
+
+    <p id="result"></p>
+
+  </div>
+
+</div>
+
+<script>
+
+/* SIMULADOR */
+
+function simular(){
+
+  let monto = parseFloat(document.getElementById("monto").value);
+  let riesgo = document.getElementById("riesgo").value;
+  let tiempo = parseFloat(document.getElementById("tiempo").value);
+
+  let out = document.getElementById("simulador");
+
+  if(isNaN(monto) || isNaN(tiempo) || monto <= 0 || tiempo <= 0){
+    out.innerHTML = "⚠️ Ingresa valores válidos.";
+    return;
+  }
+
+  let tasa = {
+    bajo: 0.05,
+    medio: 0.10,
+    alto: 0.20
+  }[riesgo];
+
+  let resultado = monto * Math.pow((1 + tasa), tiempo);
+
+  let mensaje = "";
+
+  if(resultado > monto * 2){
+    mensaje = "🔥 Excelente inversión a largo plazo";
+  } else if(resultado > monto * 1.2){
+    mensaje = "📈 Inversión moderadamente buena";
+  } else {
+    mensaje = "⚠️ Bajo crecimiento";
+  }
+
+  out.innerHTML = `
+    💰 Resultado final: <b>$${resultado.toFixed(2)}</b><br><br>
+    📊 Tasa: ${(tasa*100)}%<br>
+    ⏳ Años: ${tiempo}<br><br>
+    ${mensaje}
+  `;
+}
+
+/* QUIZ */
+
+let score = 0;
+let answered = {};
+let intentos = 0;
+
+function select(el, correct, q){
+
+  if(answered[q]) return;
+
+  answered[q] = true;
+
+  if(correct){
+    score++;
+    el.style.border = "2px solid #00ff88";
+    el.style.background = "#002b1b";
+  } else {
+    el.style.border = "2px solid red";
+    el.style.background = "#2b0000";
+  }
+
+}
+
+function resetQuiz(){
+  score = 0;
+  answered = {};
+  document.getElementById("result").innerHTML = "";
+
+  document.querySelectorAll(".option").forEach(op=>{
+    op.style.border = "1px solid #333";
+    op.style.background = "#0d0d0d";
+  });
+}
+
+function finalizar(){
+
+  let result = document.getElementById("result");
+  intentos++;
+
+  if(score >= 3){
+
+    result.innerHTML = "🎉 ¡Unidad 16 completada!";
+    result.className = "good";
+
+    localStorage.setItem("unidad16","ok");
+
+    setTimeout(()=>{
+      window.location.href = "unidad17.html";
+    },1500);
+
+  } else {
+
+    result.innerHTML = "❌ Necesitas mínimo 3 correctas (Intento #" + intentos + ")";
+    result.className = "bad";
+
+    setTimeout(resetQuiz,2000);
+  }
+
+}
+
+</script>
+
+</body>
+</html>

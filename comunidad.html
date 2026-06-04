@@ -1,0 +1,823 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+
+<title>Comunidad | American Finance</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+    --gold: #ffd700;
+    --gold-dark: #d4af37;
+    --success: #00ff88;
+    --text: #ffffff;
+    --muted: #999999;
+    --panel-bg: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.05);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:
+    radial-gradient(circle at top left, rgba(212,175,55,0.10), transparent 25%),
+    radial-gradient(circle at bottom right, rgba(0,255,136,0.06), transparent 25%),
+    linear-gradient(180deg,#050505,#0a0a0a,#071510);
+
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+    line-height:1.5;
+}
+
+/* ✅ BARRA SUPERIOR */
+.top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background:rgba(0,0,0,0.7);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 900;
+    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.back-btn {
+    border: 0;
+    cursor: pointer;
+    font-weight: 900;
+    color: #050505;
+    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+    box-shadow: 0 12px 35px rgba(255, 215, 0, 0.16);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 42px;
+    padding: 0 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 42px rgba(255, 215, 0, 0.24);
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding: 30px 20px 20px;
+}
+
+.hero h1{
+    font-size: 28px;
+    line-height:1.2;
+    font-weight:900;
+}
+
+.hero span{
+    color:var(--gold);
+    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero p{
+    margin-top:12px;
+    color:var(--muted);
+    font-size: 15px;
+    max-width:700px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/* LAYOUT */
+.layout{
+    width:100%;
+    padding:15px;
+    display:grid;
+    grid-template-columns:1fr; /* En celular solo una columna */
+    gap:20px;
+}
+
+/* PANEL */
+.panel{
+    background:var(--panel-bg);
+    border:1px solid var(--border);
+    border-radius:20px;
+    backdrop-filter:blur(14px);
+    overflow:hidden;
+    box-shadow: 0 0 40px rgba(0,0,0,0.4), 0 0 20px rgba(212,175,55,0.04);
+    width: 100%;
+}
+
+/* CREATE POST */
+.post-box{
+    padding:18px;
+}
+
+.create-top{
+    display:flex;
+    align-items:center;
+    margin-bottom:15px;
+    gap:12px;
+}
+
+.user-profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex:1;
+}
+
+.profile-pic{
+    width: 48px;
+    height: 48px;
+    border-radius:50%;
+    background: linear-gradient(45deg, var(--gold), #ff00aa, var(--success));
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:black;
+    font-size: 18px;
+    font-weight:700;
+    flex-shrink:0;
+}
+
+.username{
+    font-size: 16px;
+    font-weight:700;
+}
+
+.status{
+    color:#888;
+    font-size: 13px;
+}
+
+textarea{
+    width:100%;
+    min-height: 110px;
+    background:#0f0f0f;
+    border:1px solid #222;
+    border-radius:16px;
+    padding:15px;
+    color:white;
+    resize:none;
+    font-size: 15px;
+    transition: border 0.3s ease;
+}
+
+textarea:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+}
+
+.post-actions{
+    display:flex;
+    flex-direction: column; /* Botones uno debajo de otro en celular */
+    gap:10px;
+    margin-top:12px;
+}
+
+.upload-btn{
+    width: 100%;
+    text-align: center;
+    background:#111;
+    border:1px solid #222;
+    padding:12px;
+    border-radius:14px;
+    cursor:pointer;
+    color:#ccc;
+    transition:0.3s;
+    font-size: 14px;
+}
+
+.upload-btn:hover{
+    border-color:var(--gold);
+    color:var(--gold);
+}
+
+.publish-btn{
+    width: 100%;
+    height: 44px;
+    border:none;
+    border-radius:14px;
+    background: linear-gradient(45deg, var(--gold), var(--gold-dark));
+    color:black;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
+    font-size: 15px;
+}
+
+.publish-btn:hover{
+    transform:translateY(-2px);
+    box-shadow: 0 0 20px rgba(255,215,0,0.3);
+}
+
+.reset-btn{
+    width: 100%;
+    height: 44px;
+    border:none;
+    border-radius:14px;
+    background: linear-gradient(45deg,#ff4d4d,#ff1f1f);
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    font-size: 15px;
+}
+
+#previewContainer{
+    margin-top:12px;
+}
+
+.preview-image{
+    width:100%;
+    max-height:350px;
+    object-fit:cover;
+    border-radius:16px;
+    border:1px solid #222;
+}
+
+/* FEED */
+.feed{
+    padding:18px;
+}
+
+.post{
+    background:#0f0f0f;
+    border:1px solid #1f1f1f;
+    border-radius:18px;
+    padding:15px;
+    margin-bottom:18px;
+}
+
+.post-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.avatar{
+    width: 40px;
+    height: 40px;
+    border-radius:50%;
+    background: linear-gradient(45deg, var(--gold), var(--success));
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:black;
+    font-weight:700;
+    font-size: 15px;
+    flex-shrink:0;
+}
+
+.post-user{
+    font-weight:700;
+    font-size: 15px;
+}
+
+.post-time{
+    font-size: 12px;
+    color:#777;
+}
+
+.post-text{
+    color:#ddd;
+    line-height:1.6;
+    margin-bottom:12px;
+    font-size: 15px;
+}
+
+.post-image{
+    width:100%;
+    max-height:400px;
+    object-fit:cover;
+    border-radius:14px;
+    border:1px solid #222;
+    margin-bottom:12px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+}
+
+.action-btn{
+    flex:1;
+    height: 40px;
+    padding: 8px 5px;
+    border-radius:12px;
+    background:#111;
+    border:1px solid #222;
+    color:#ccc;
+    cursor:pointer;
+    transition:0.3s;
+    font-size: 13px;
+}
+
+.action-btn:hover{
+    border-color:var(--gold);
+    color:var(--gold);
+}
+
+/* ✅ CHAT EN VIVO - PERFECTO PARA CELULAR */
+.chat-header{
+    padding:15px 18px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.chat-header h2{
+    color:var(--gold);
+    font-size: 17px;
+}
+
+.live{
+    color:var(--success);
+    font-size: 12px;
+    font-weight:600;
+}
+
+.chat-messages{
+    height: 500px; /* Altura perfecta para celular */
+    overflow-y:auto;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    scroll-behavior: smooth;
+}
+
+/* Scrollbar personalizada dorada */
+.chat-messages::-webkit-scrollbar {
+    width: 5px;
+}
+.chat-messages::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+    border-radius: 10px;
+}
+
+.chat-message{
+    display:flex;
+    gap:8px;
+    animation:fade 0.3s ease;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.message-avatar{
+    width: 32px;
+    height: 32px;
+    border-radius:50%;
+    background: linear-gradient(45deg, var(--gold), var(--success));
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:black;
+    font-size: 12px;
+    font-weight:700;
+    flex-shrink:0;
+}
+
+.message-content{
+    background:#0f0f0f;
+    border:1px solid #1f1f1f;
+    padding:10px 12px;
+    border-radius:14px;
+    width:100%;
+}
+
+.message-user{
+    font-size: 13px;
+    font-weight:700;
+    color:var(--gold);
+    margin-bottom:4px;
+}
+
+.message-text{
+    color:#ddd;
+    font-size: 14px;
+    line-height:1.4;
+}
+
+/* CHAT INPUT */
+.chat-input{
+    padding: min-height: 44px;15px 18px;
+    border-top:1px solid var(--border);
+    display:flex;
+    gap:10px;
+}
+
+.chat-input input{
+    flex:1;
+    height: 44px;
+    padding: min-height: 44px;0 15px;
+    border-radius:14px;
+    border:1px solid #222;
+    background:#0d0d0d;
+    color:white;
+    font-size: 15px;
+    transition: border 0.3s ease;
+}
+
+.chat-input input:focus{
+    outline:none;
+    border-color:var(--gold);
+}
+
+.send-btn{
+    height: 44px;
+    padding:0 16px;
+    border:none;
+    border-radius:14px;
+    background: linear-gradient(45deg, var(--gold), var(--gold-dark));
+    color:black;
+    font-weight:700;
+    cursor:pointer;
+    font-size: 15px;
+    transition: transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.send-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ✅ TABLET Y ESCRITORIO */
+@media(min-width:768px){
+
+    .top-bar {
+        padding: 18px 60px;
+    }
+
+    .logo {
+        font-size: 28px;
+    }
+
+    .back-btn {
+        height: 46px;
+        padding: 0 22px;
+        font-size: 15px;
+    }
+
+    .hero h1 {
+        font-size: 50px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+
+    .layout {
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 20px;
+        grid-template-columns: 1fr 420px; /* Vuelve a 2 columnas en pantallas grandes */
+        gap:25px;
+    }
+
+    .post-actions {
+        flex-direction: row; /* Botones en línea */
+        flex-wrap: wrap;
+    }
+
+    .upload-btn {
+        width: auto;
+    }
+
+    .publish-btn {
+        width: auto;
+        flex:1;
+    }
+
+    .reset-btn {
+        width: auto;
+    }
+
+    .chat-messages {
+        height: 600px;
+    }
+}
+
+
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ✅ SOLO LOGO Y BOTÓN VOLVER AL INICIO -->
+<div class="top-bar">
+    <div class="logo">American Finance</div>
+    <a href="index.html" class="back-btn">Volver al inicio</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>Comunidad <span>American Finance</span></h1>
+    <p>Aprende, comparte y conversa con otros estudiantes</p>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+    <!-- POSTS -->
+    <div class="panel">
+        <div class="post-box">
+            <div class="create-top">
+                <div class="user-profile">
+                    <div class="profile-pic">A</div>
+                    <div>
+                        <div class="username" id="currentUserName">Alex</div>
+                        <div class="status">Comparte una idea financiera...</div>
+                    </div>
+                </div>
+            </div>
+
+            <textarea id="postInput" placeholder="¿Qué quieres publicar hoy?"></textarea>
+
+            <div id="previewContainer"></div>
+
+            <div class="post-actions">
+                <label class="upload-btn">
+                    📷 Agregar imagen
+                    <input type="file" id="imageInput" accept="image/*" hidden>
+                </label>
+                <button class="publish-btn" onclick="crearPost()">Publicar</button>
+                <button class="reset-btn" onclick="resetPosts()">🗑 Reiniciar</button>
+            </div>
+        </div>
+
+        <div class="feed" id="feed"></div>
+    </div>
+
+    <!-- ✅ CHAT EN VIVO - RESPONSIVE PERFECTO -->
+    <div class="panel">
+        <div class="chat-header">
+            <h2>💬 Chat en vivo</h2>
+            <div class="live">● EN VIVO</div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages"></div>
+
+        <div class="chat-input">
+            <input id="chatInput" placeholder="Escribe un mensaje positivo...">
+            <button class="send-btn" onclick="enviarMensaje()">Enviar</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="auth.js"></script>
+<script>
+
+/* POSTS */
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+let imagenActual = "";
+const imageInput = document.getElementById("imageInput");
+
+// Obtener nombre del usuario autenticado
+function obtenerNombreUsuario() {
+  const user = AmericanFinanceAuth.getUser();
+  return user ? user.name : "Anónimo";
+}
+
+/* PREVIEW */
+imageInput.addEventListener("change",function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){
+        imagenActual = ev.target.result;
+        document.getElementById("previewContainer").innerHTML = `
+            <img src="${imagenActual}" class="preview-image">
+        `;
+    };
+    reader.readAsDataURL(file);
+});
+
+/* CREATE POST */
+function crearPost(){
+    const texto = document.getElementById("postInput").value;
+    if(!texto.trim() && !imagenActual) return;
+
+    posts.unshift({
+        usuario: obtenerNombreUsuario(),
+        texto:texto,
+        imagen:imagenActual,
+        fecha:new Date().toLocaleString(),
+        likes:0
+    });
+
+    localStorage.setItem("posts", JSON.stringify(posts));
+
+    document.getElementById("postInput").value = "";
+    document.getElementById("previewContainer").innerHTML = "";
+    imagenActual = "";
+    imageInput.value = "";
+
+    renderPosts();
+}
+
+/* RENDER */
+function renderPosts(){
+    const feed = document.getElementById("feed");
+    feed.innerHTML = "";
+
+    posts.forEach((post,index)=>{
+        feed.innerHTML += `
+        <div class="post">
+            <div class="post-header">
+                <div class="avatar">${post.usuario.charAt(0)}</div>
+                <div>
+                    <div class="post-user">${post.usuario}</div>
+                    <div class="post-time">${post.fecha}</div>
+                </div>
+            </div>
+
+            ${post.texto ? `<div class="post-text">${post.texto}</div>` : ""}
+            ${post.imagen ? `<img src="${post.imagen}" class="post-image">` : ""}
+
+            <div class="actions">
+                <button class="action-btn" onclick="likePost(${index})">❤️ ${post.likes}</button>
+                <button class="action-btn">💬 Comentar</button>
+                <button class="action-btn">📤 Compartir</button>
+            </div>
+        </div>
+        `;
+    });
+}
+
+renderPosts();
+
+/* LIKE */
+function likePost(index){
+    posts[index].likes++;
+    localStorage.setItem("posts", JSON.stringify(posts));
+    renderPosts();
+}
+
+/* RESET */
+function resetPosts(){
+    if(confirm("¿Seguro que quieres eliminar todas las publicaciones?")){
+        posts = [];
+        localStorage.removeItem("posts");
+        renderPosts();
+    }
+}
+
+/* ✅ CÓDIGO DEL CHAT */
+const mensajesAuto = [
+    "Acabo de terminar la unidad 3 🚀",
+    "Hoy aprendí a ahorrar mejor 💰",
+    "Las inversiones son interesantes 📈",
+    "Ya desbloqueé el nivel 2 🔥",
+    "El simulador financiero está genial 😎",
+    "Estoy mejorando mis hábitos financieros 💵"
+];
+
+const usuariosFake = [
+    "Carlos", "Sofía", "Mateo", "Valentina", "Daniel", "Camila"
+];
+
+const palabrasBloqueadas = ["odio", "basura", "idiota", "mierda"];
+
+function contieneNegativo(texto){
+    texto = texto.toLowerCase();
+    return palabrasBloqueadas.some(p => texto.includes(p));
+}
+
+function agregarMensaje(usuario,texto){
+    const chat = document.getElementById("chatMessages");
+    const div = document.createElement("div");
+    div.className = "chat-message";
+    div.innerHTML = `
+        <div class="message-avatar">${usuario.charAt(0)}</div>
+        <div class="message-content">
+            <div class="message-user">${usuario}</div>
+            <div class="message-text">${texto}</div>
+        </div>
+    `;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function mensajeAutomatico(){
+    const usuario = usuariosFake[Math.floor(Math.random() * usuariosFake.length)];
+    const texto = mensajesAuto[Math.floor(Math.random() * mensajesAuto.length)];
+    agregarMensaje(usuario,texto);
+}
+
+setInterval(mensajeAutomatico,3500);
+
+function enviarMensaje(){
+    const input = document.getElementById("chatInput");
+    const texto = input.value;
+    if(!texto.trim()) return;
+    if(contieneNegativo(texto)){
+        alert("Solo se permiten mensajes positivos 🚀");
+        return;
+    }
+    agregarMensaje(obtenerNombreUsuario(),texto);
+    input.value = "";
+}
+
+document.getElementById("chatInput").addEventListener("keypress",function(e){
+    if(e.key === "Enter") enviarMensaje();
+});
+
+// Mensajes iniciales
+mensajeAutomatico();
+mensajeAutomatico();
+mensajeAutomatico();
+
+</script>
+
+</body>
+</html>

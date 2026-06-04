@@ -1,0 +1,702 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+
+<title>Unidad 15 | Empresas globales</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#050505;
+  color:#e5e5e5;
+  font-family:Arial;
+}
+
+    input, textarea, select {
+      min-height: 44px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+/* NAVBAR */
+
+.navbar{
+  background:black;
+  padding:20px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #1f1f1f;
+}
+
+.navbar h2{
+  color:gold;
+}
+
+.navbar a{
+  color:gold;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* CONTENEDOR */
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:40px;
+}
+
+/* HERO */
+
+.hero{
+  background:linear-gradient(135deg,#111,#1a1a1a);
+  border:1px solid #222;
+  border-radius:20px;
+  padding:40px;
+  margin-bottom:30px;
+  text-align:center;
+}
+
+.hero h1{
+  color:gold;
+  font-size:42px;
+  margin-bottom:15px;
+}
+
+.hero p{
+  color:#cfcfcf;
+  line-height:1.7;
+  font-size:18px;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+  margin-bottom:30px;
+}
+
+/* CARDS */
+
+.card{
+  background:#101010;
+  border:1px solid #1f1f1f;
+  border-radius:18px;
+  padding:25px;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-color:gold;
+}
+
+.card h3{
+  color:gold;
+  margin-bottom:12px;
+}
+
+.card p,
+.card li{
+  color:#d4d4d4;
+  line-height:1.6;
+}
+
+.card ul{
+  padding-left:20px;
+  margin-top:10px;
+}
+
+/* FORM */
+
+input,
+select{
+  width:100%;
+  padding:14px;
+  margin-top:14px;
+  border:none;
+  border-radius:10px;
+  background:#1a1a1a;
+  color:white;
+  font-size:15px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  border:none;
+  border-radius:10px;
+  background:gold;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s;
+}
+
+button:hover{
+  transform:scale(1.02);
+}
+
+/* RESULTADOS */
+
+#simulador{
+  margin-top:20px;
+  background:#0b0b0b;
+  border:1px solid #222;
+  border-radius:12px;
+  padding:20px;
+  line-height:1.7;
+}
+
+/* QUIZ */
+
+.question{
+  margin-top:25px;
+  padding-bottom:20px;
+  border-bottom:1px solid #222;
+}
+
+.question p{
+  margin-bottom:15px;
+  font-weight:bold;
+}
+
+.option{
+  background:#0d0d0d;
+  border:1px solid #333;
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.option:hover{
+  border-color:gold;
+  transform:translateX(4px);
+}
+
+/* RESULT */
+
+#result{
+  margin-top:20px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.good{
+  color:#00ff88;
+}
+
+.bad{
+  color:#ff4d4d;
+}
+
+/* BADGES */
+
+.badge{
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:999px;
+  background:#1a1a1a;
+  border:1px solid #333;
+  color:gold;
+  margin-top:15px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+  .navbar{
+    flex-direction:column;
+    gap:10px;
+    text-align:center;
+  }
+
+  .container{
+    padding:20px;
+  }
+
+  .hero h1{
+    font-size:30px;
+  }
+
+}
+
+
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+
+    input, textarea, select {
+      min-height: 44px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+  <h2>🌍 Unidad 15 — Empresas globales</h2>
+
+  <a href="cursos.html">⬅ Volver</a>
+
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+
+  <div class="hero">
+
+    <h1>🏢 Empresas globales</h1>
+
+    <p>
+      Algunas empresas venden productos y servicios
+      en muchos países al mismo tiempo.
+      Para lograrlo necesitan logística,
+      estrategias y adaptación internacional.
+    </p>
+
+    <div class="badge">
+      🚢 Economía internacional
+    </div>
+
+  </div>
+
+  <!-- INFORMACIÓN -->
+
+  <div class="grid">
+
+    <div class="card">
+
+      <h3>🌎 Multinacionales</h3>
+
+      <p>
+        Son empresas que operan
+        en varios países.
+      </p>
+
+      <ul>
+        <li>Tiendas internacionales</li>
+        <li>Fábricas en distintos países</li>
+        <li>Ventas globales</li>
+      </ul>
+
+    </div>
+
+    <div class="card">
+
+      <h3>🚢 Logística</h3>
+
+      <p>
+        Es el transporte y organización
+        de productos entre países.
+      </p>
+
+      <p style="margin-top:10px;">
+        Incluye barcos, aviones,
+        camiones y bodegas.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <h3>📄 Tratados</h3>
+
+      <p>
+        Son acuerdos entre países
+        para facilitar el comercio.
+      </p>
+
+      <p style="margin-top:10px;">
+        Ayudan a reducir impuestos
+        y barreras comerciales.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <h3>⚠️ Retos</h3>
+
+      <ul>
+        <li>Monedas diferentes</li>
+        <li>Leyes internacionales</li>
+        <li>Competencia global</li>
+        <li>Costos de transporte</li>
+      </ul>
+
+    </div>
+
+  </div>
+
+  <!-- SIMULADOR -->
+
+  <div class="card">
+
+    <h2>💻 Simulador global</h2>
+
+    <input type="text" id="producto" placeholder="Producto">
+
+    <select id="pais">
+
+      <option value="">Selecciona un mercado</option>
+
+      <option value="alto">
+        🇺🇸 Mercado con alta demanda
+      </option>
+
+      <option value="medio">
+        🇪🇺 Mercado con demanda media
+      </option>
+
+      <option value="bajo">
+        🇧🇷 Mercado con baja demanda
+      </option>
+
+    </select>
+
+    <input type="number" id="costo" placeholder="Costo de exportación">
+
+    <button onclick="simular()">
+      Evaluar expansión internacional
+    </button>
+
+    <div id="simulador">
+
+      🌍 Simula si tu producto
+      tendría éxito internacional.
+
+    </div>
+
+  </div>
+
+  <!-- QUIZ -->
+
+  <div class="card">
+
+    <h2>🎮 Evaluación</h2>
+
+    <!-- P1 -->
+
+    <div class="question">
+
+      <p>1. ¿Qué es una multinacional?</p>
+
+      <div class="option" onclick="select(this,true,1)">
+        Empresa que opera en varios países
+      </div>
+
+      <div class="option" onclick="select(this,false,1)">
+        Empresa local pequeña
+      </div>
+
+      <div class="option" onclick="select(this,false,1)">
+        Solo una tienda online
+      </div>
+
+    </div>
+
+    <!-- P2 -->
+
+    <div class="question">
+
+      <p>2. ¿Qué es logística?</p>
+
+      <div class="option" onclick="select(this,true,2)">
+        Transporte y organización
+      </div>
+
+      <div class="option" onclick="select(this,false,2)">
+        Solo marketing
+      </div>
+
+      <div class="option" onclick="select(this,false,2)">
+        Publicidad en redes
+      </div>
+
+    </div>
+
+    <!-- P3 -->
+
+    <div class="question">
+
+      <p>3. ¿Qué hacen los tratados?</p>
+
+      <div class="option" onclick="select(this,true,3)">
+        Facilitan comercio entre países
+      </div>
+
+      <div class="option" onclick="select(this,false,3)">
+        Bloquean productos
+      </div>
+
+      <div class="option" onclick="select(this,false,3)">
+        Eliminan empresas
+      </div>
+
+    </div>
+
+    <!-- P4 -->
+
+    <div class="question">
+
+      <p>4. ¿Cuál es un reto global?</p>
+
+      <div class="option" onclick="select(this,true,4)">
+        Diferentes monedas y leyes
+      </div>
+
+      <div class="option" onclick="select(this,false,4)">
+        No tener clientes
+      </div>
+
+      <div class="option" onclick="select(this,false,4)">
+        No usar internet
+      </div>
+
+    </div>
+
+    <button onclick="finalizar()">
+      Finalizar evaluación
+    </button>
+
+    <p id="result"></p>
+
+  </div>
+
+</div>
+
+<script>
+
+/* ---------------- SIMULADOR ---------------- */
+
+function simular(){
+
+  let producto =
+    document.getElementById("producto").value;
+
+  let pais =
+    document.getElementById("pais").value;
+
+  let costo =
+    parseFloat(document.getElementById("costo").value);
+
+  let simulador =
+    document.getElementById("simulador");
+
+  if(!producto || !pais || isNaN(costo) || costo <= 0){
+
+    simulador.innerHTML =
+      "⚠️ Completa todos los campos correctamente.";
+
+    return;
+  }
+
+  let mensaje = "";
+  let ganancia = 0;
+  let riesgo = "";
+
+  if(pais === "alto"){
+
+    ganancia = costo * 2.2;
+
+    mensaje = "🔥 Gran oportunidad internacional";
+
+    riesgo = "📈 Mercado competitivo pero rentable";
+
+  }
+
+  else if(pais === "medio"){
+
+    ganancia = costo * 1.5;
+
+    mensaje = "⚖️ Mercado estable";
+
+    riesgo = "🚢 Crecimiento moderado";
+
+  }
+
+  else{
+
+    ganancia = costo * 0.9;
+
+    mensaje = "⚠️ Riesgo comercial alto";
+
+    riesgo = "📉 Baja demanda internacional";
+
+  }
+
+  simulador.innerHTML = `
+  
+    🌍 Producto: <b>${producto}</b>
+
+    <br><br>
+
+    💰 Posible ingreso:
+    <b>$${ganancia.toFixed(2)}</b>
+
+    <br><br>
+
+    ${mensaje}
+
+    <br>
+
+    ${riesgo}
+
+    <br><br>
+
+    🚢 Recuerda:
+    exportar también implica costos,
+    impuestos y logística internacional.
+  
+  `;
+
+}
+
+/* ---------------- QUIZ ---------------- */
+
+let score = 0;
+let answered = {};
+let intentos = 0;
+
+function resetQuiz(){
+
+  score = 0;
+  answered = {};
+
+  document.getElementById("result").innerHTML = "";
+
+  document.querySelectorAll(".option").forEach(op => {
+
+    op.style.border = "1px solid #333";
+    op.style.background = "#0d0d0d";
+
+  });
+
+}
+
+function select(el, correct, q){
+
+  if(answered[q]) return;
+
+  answered[q] = true;
+
+  if(correct){
+
+    score++;
+
+    el.style.border = "2px solid #00ff88";
+    el.style.background = "#002b1b";
+
+  }else{
+
+    el.style.border = "2px solid red";
+    el.style.background = "#2b0000";
+
+  }
+
+}
+
+function finalizar(){
+
+  let result =
+    document.getElementById("result");
+
+  intentos++;
+
+  if(score >= 3){
+
+    result.innerHTML =
+      "🎉 ¡Unidad 15 completada!";
+
+    result.className = "good";
+
+    localStorage.setItem("unidad15","ok");
+
+    setTimeout(() => {
+
+      window.location.href = "unidad16.html";
+
+    },1500);
+
+  }else{
+
+    result.innerHTML =
+      "❌ Necesitas mínimo 3 respuestas correctas. Intento #" + intentos;
+
+    result.className = "bad";
+
+    setTimeout(() => {
+
+      resetQuiz();
+
+    },2500);
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>

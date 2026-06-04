@@ -1,0 +1,404 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Unidad 18 | Análisis financiero</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background: radial-gradient(circle at top, #0f0f0f, #000);
+  color:#e5e5e5;
+}
+
+/* NAV */
+.navbar{
+  padding:20px 40px;
+  background:rgba(0,0,0,0.85);
+  border-bottom:1px solid #222;
+  display:flex;
+  justify-content:space-between;
+  color:gold;
+}
+
+.navbar a{
+  color:gold;
+  text-decoration:none;
+}
+
+/* LAYOUT */
+.container{
+  display:flex;
+  gap:20px;
+  padding:40px;
+}
+
+/* CARDS */
+.card{
+  background:rgba(20,20,20,0.6);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,215,0,0.2);
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+/* COLUMNAS */
+.left{ flex:1.3; }
+.right{ flex:1; position:sticky; top:20px; height:fit-content; }
+
+/* INPUTS */
+input{
+  width:100%;
+  padding: min-height: 44px;12px;
+  margin-top:10px;
+  border-radius:10px;
+  border:none;
+  background:#111;
+  color:white;
+}
+
+/* BOTÓN */
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:gold;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{
+  transform:scale(1.02);
+}
+
+/* OPCIONES */
+.option{
+  display:block;
+  padding:10px;
+  margin:8px 0;
+  border-radius:10px;
+  background:#111;
+  border:1px solid #333;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.option:hover{
+  border-color:gold;
+}
+
+/* RESULTADOS */
+#result{
+  margin-top:10px;
+  font-weight:bold;
+}
+
+.good{ color:#00ff88; }
+.bad{ color:#ff4d4d; }
+
+h1,h2,h3{ color:gold; }
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .container{
+    flex-direction:column;
+  }
+  .right{
+    position:relative;
+  }
+}
+
+/* ===== CERTIFICADO ===== */
+.certificado{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.95);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.hidden{
+  display:none;
+}
+
+.cert-card{
+  background:linear-gradient(145deg,#111,#000);
+  border:2px solid gold;
+  padding:40px;
+  text-align:center;
+  border-radius:20px;
+  width:80%;
+  max-width:600px;
+  box-shadow:0 0 40px rgba(255,215,0,0.3);
+}
+
+.cert-card h1{
+  color:gold;
+  margin-bottom:20px;
+}
+
+.titulo{
+  font-size:22px;
+  color:#00ff88;
+  margin-bottom:10px;
+}
+
+.msg{
+  margin-top:20px;
+  font-size:14px;
+  color:#ccc;
+  line-height:1.5;
+}
+
+.cert-card button{
+  margin-top:20px;
+  background:gold;
+  border:none;
+  padding:10px;
+  width:100%;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <div>🎓 Unidad 18 — Análisis financiero</div>
+  <div><a href="cursos.html">⬅ Volver</a></div>
+</div>
+
+<div class="container">
+
+<!-- IZQUIERDA -->
+<div class="left">
+
+  <div class="card">
+    <h1>📊 Análisis financiero</h1>
+    <p>Evalúa la salud económica de una empresa antes de invertir.</p>
+
+    <h3>📈 Indicadores</h3>
+    <ul>
+      <li>Rentabilidad</li>
+      <li>Liquidez</li>
+      <li>Endeudamiento</li>
+    </ul>
+
+    <h3>💡 Clave</h3>
+    <p>No se invierte por emoción, sino por datos.</p>
+  </div>
+
+  <div class="card">
+    <h2>💻 Simulador financiero</h2>
+
+    <input type="number" id="ganancia" placeholder="Ganancia anual">
+    <input type="number" id="deuda" placeholder="Deuda total">
+
+    <button onclick="analizar()">Analizar empresa</button>
+
+    <p id="simulador"></p>
+  </div>
+
+</div>
+
+<!-- DERECHA -->
+<div class="right">
+
+  <div class="card">
+    <h2>🎮 Evaluación final</h2>
+
+    <div class="question">
+      <p>1. ¿Qué evalúa el análisis financiero?</p>
+      <div class="option" onclick="select(this,true,1)">Salud de la empresa</div>
+      <div class="option" onclick="select(this,false,1)">Suerte</div>
+    </div>
+
+    <div class="question">
+      <p>2. ¿Qué indica la rentabilidad?</p>
+      <div class="option" onclick="select(this,true,2)">Ganancias</div>
+      <div class="option" onclick="select(this,false,2)">Deudas</div>
+    </div>
+
+    <div class="question">
+      <p>3. Mucha deuda significa:</p>
+      <div class="option" onclick="select(this,true,3)">Riesgo</div>
+      <div class="option" onclick="select(this,false,3)">Nada</div>
+    </div>
+
+    <button onclick="finalizar()">Finalizar unidad</button>
+
+    <p id="result"></p>
+  </div>
+
+</div>
+
+</div>
+
+<!-- 🎓 CERTIFICADO -->
+<div id="certificado" class="certificado hidden">
+
+  <div class="cert-card">
+
+    <h1>🎓 CERTIFICADO DE FINALIZACIÓN</h1>
+
+    <p class="titulo">🏆 Analista Financiero Senior</p>
+
+    <p>Curso: Finanzas Complejas</p>
+
+    <p id="fecha"></p>
+
+    <p class="msg">
+      Se certifica que el estudiante ha completado exitosamente el curso,
+      demostrando habilidades en análisis financiero, inversiones y economía básica.
+    </p>
+
+    <button onclick="cerrarCert()">Cerrar</button>
+
+  </div>
+
+</div>
+
+<script>
+
+// SIMULADOR
+function analizar(){
+
+  let g = parseFloat(document.getElementById("ganancia").value);
+  let d = parseFloat(document.getElementById("deuda").value);
+
+  if(!g || !d){
+    document.getElementById("simulador").innerText = "Completa los datos";
+    return;
+  }
+
+  let ratio = g / d;
+
+  document.getElementById("simulador").innerText =
+    ratio > 1 ? "🔥 Empresa sólida" : "⚠️ Empresa riesgosa";
+}
+
+// QUIZ
+let score = 0;
+let answered = {};
+let intentos = 0;
+
+function select(el, correct, q){
+
+  if(answered[q]) return;
+  answered[q] = true;
+
+  if(correct){
+    score++;
+    el.style.border="2px solid #00ff88";
+  } else {
+    el.style.border="2px solid red";
+  }
+}
+
+// FINALIZAR
+function finalizar(){
+
+  let result = document.getElementById("result");
+  intentos++;
+
+  if(score >= 2){
+
+    result.innerHTML = "🎓 Unidad completada";
+    result.className = "good";
+
+    localStorage.setItem("unidad18","ok");
+
+    setTimeout(()=>{
+      mostrarCertificado();
+    },1200);
+
+  } else {
+
+    result.innerHTML = "❌ Intenta nuevamente (Intento #" + intentos + ")";
+    result.className = "bad";
+
+    setTimeout(()=>{
+      score = 0;
+      answered = {};
+      document.querySelectorAll(".option").forEach(op=>{
+        op.style.border="1px solid #333";
+      });
+      result.innerHTML="";
+    },2000);
+  }
+}
+
+// CERTIFICADO
+function mostrarCertificado(){
+
+  document.getElementById("fecha").innerText =
+    "📅 Fecha: " + new Date().toLocaleDateString();
+
+  document.getElementById("certificado").classList.remove("hidden");
+}
+
+function cerrarCert(){
+  document.getElementById("certificado").classList.add("hidden");
+}
+
+</script>
+
+</body>
+</html>

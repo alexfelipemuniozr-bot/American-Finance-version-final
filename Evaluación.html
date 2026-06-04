@@ -1,0 +1,980 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+  <title>Evaluación Financiera | American Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
+  <!-- Librería para las gráficas -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #030303;
+      --panel: rgba(12, 12, 12, 0.88);
+      --panel-strong: #111111;
+      --gold: #ffd700;
+      --gold-dark: #d4af37;
+      --text: #ffffff;
+      --muted: #c9c9c9;
+      --line: rgba(255, 215, 0, 0.1);
+      --line-strong: rgba(255, 215, 0, 0.26);
+      --success: #00ff9d;
+      --danger: #ff6b6b;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 215, 0, 0.12), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(0, 255, 157, 0.06), transparent 24%),
+        linear-gradient(180deg, #020202, #070707 60%, #030303);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    button {
+      font: inherit;
+      border: none;
+      cursor: pointer;
+    }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background-image:
+        linear-gradient(rgba(255, 215, 0, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 215, 0, 0.035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      pointer-events: none;
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particles span {
+      position: absolute;
+      bottom: -24px;
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatParticle linear infinite;
+    }
+
+    .particles span:nth-child(1) { left: 9%; animation-duration: 11s; }
+    .particles span:nth-child(2) { left: 23%; animation-duration: 16s; }
+    .particles span:nth-child(3) { left: 38%; animation-duration: 19s; }
+    .particles span:nth-child(4) { left: 55%; animation-duration: 13s; }
+    .particles span:nth-child(5) { left: 72%; animation-duration: 21s; }
+    .particles span:nth-child(6) { left: 88%; animation-duration: 15s; }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(0) scale(0.7);
+        opacity: 0;
+      }
+
+      18% {
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: translateY(-120vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* === MENÚ TAL CUAL LO TENÍAS === */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: 100%;
+      padding: 18px clamp(16px, 5vw, 64px);
+      background: rgba(0, 0, 0, 0.78);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+
+    .logo {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .back-btn,
+    .finish-btn,
+    .restart-btn {
+      border: 0;
+      cursor: pointer;
+      font-weight: 900;
+      color: #050505;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      box-shadow: 0 12px 35px rgba(255, 215, 0, 0.16);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-btn {
+      min-height: 46px;
+      padding: 12px 20px;
+      border-radius: 14px;
+      white-space: nowrap;
+    }
+
+    .back-btn:hover,
+    .finish-btn:hover,
+    .restart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 42px rgba(255, 215, 0, 0.24);
+    }
+
+    .hero {
+      position: relative;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: clamp(58px, 9vw, 105px) 18px 34px;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+      width: min(520px, 90vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.12), transparent 70%);
+      transform: translate(-50%, -50%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      color: var(--gold);
+      background: rgba(255, 215, 0, 0.06);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin-bottom: 22px;
+      font-size: clamp(42px, 9vw, 82px);
+      line-height: 1.04;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .hero h1 span {
+      display: block;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      max-width: 850px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(16px, 2.4vw, 20px);
+      line-height: 1.75;
+    }
+
+    .container {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 36px clamp(14px, 4vw, 26px) 90px;
+    }
+
+    .quiz-box {
+      width: 100%;
+      padding: clamp(20px, 4vw, 40px);
+      border: 1px solid var(--line);
+      border-radius: clamp(22px, 4vw, 34px);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+    }
+
+    .quiz-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .quiz-top h2 {
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.15;
+    }
+
+    .question-counter {
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .question-list {
+      display: grid;
+      gap: 22px;
+    }
+
+    .question-box {
+      padding: clamp(18px, 3vw, 30px);
+      border: 1px solid rgba(255, 215, 0, 0.07);
+      border-radius: 22px;
+      background: linear-gradient(180deg, var(--panel-strong), #080808);
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .question-box:hover {
+      border-color: rgba(255, 215, 0, 0.18);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.22);
+      transform: translateY(-2px);
+    }
+
+    .question {
+      margin-bottom: 18px;
+      font-size: clamp(18px, 2.8vw, 23px);
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer {
+      position: relative;
+      width: 100%;
+      min-height: 52px;
+      padding: 15px 16px;
+      border: 1px solid #2c2c2c;
+      border-radius: 16px;
+      color: var(--text);
+      background: #151515;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .answer:hover {
+      border-color: var(--gold);
+      background: rgba(255, 215, 0, 0.07);
+      transform: translateX(4px);
+    }
+
+    .answer.selected {
+      border-color: var(--gold);
+      background: rgba(255, 215, 0, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.18);
+    }
+
+    .finish-btn,
+    .restart-btn {
+      width: 100%;
+      min-height: 56px;
+      margin-top: 28px;
+      padding: 16px 20px;
+      border-radius: 18px;
+      font-size: clamp(16px, 2.5vw, 20px);
+    }
+
+    .alert {
+      display: none;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 107, 107, 0.35);
+      border-radius: 14px;
+      color: #ffd6d6;
+      background: rgba(255, 107, 107, 0.08);
+      line-height: 1.5;
+    }
+
+    .result {
+      display: none;
+      text-align: center;
+      animation: fadeUp 0.55s ease;
+    }
+
+    .result h2 {
+      margin-bottom: 20px;
+      font-size: clamp(30px, 6vw, 60px);
+      line-height: 1.15;
+    }
+
+    .result h2 span {
+      display: block;
+      color: var(--gold);
+      overflow-wrap: anywhere;
+    }
+
+    .percent {
+      margin: 24px 0;
+      font-size: clamp(64px, 16vw, 126px);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      margin: 28px 0 32px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #1b1b1b;
+    }
+
+    .progress {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--success));
+      transition: width 1.2s ease;
+    }
+
+    /* === ESTILOS SOLO PARA LAS GRÁFICAS AL FINAL === */
+    .charts-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    .chart-box {
+      background: #0a0a0a;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .chart-title {
+      color: var(--gold);
+      margin-bottom: 15px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .chart-wrapper {
+      position: relative;
+      height: 220px;
+      width: 100%;
+    }
+    .level-card {
+      margin-top: 28px;
+      padding: clamp(20px, 4vw, 36px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(180deg, #111111, #080808);
+      text-align: left;
+    }
+
+    .level-card h3 {
+      margin-bottom: 14px;
+      color: var(--gold);
+      font-size: clamp(24px, 4vw, 38px);
+      line-height: 1.15;
+    }
+
+    .level-card p {
+      color: var(--muted);
+      font-size: clamp(16px, 2.5vw, 18px);
+      line-height: 1.75;
+    }
+
+    footer {
+      padding: 32px 18px;
+      border-top: 1px solid var(--line);
+      background: #000000;
+      text-align: center;
+    }
+
+    footer p {
+      color: var(--gold-dark);
+      line-height: 1.5;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .navbar {
+        align-items: stretch;
+        padding: 16px;
+      }
+
+      .logo {
+        text-align: center;
+      }
+
+      .back-btn {
+        width: 100%;
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      .quiz-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .answer:hover,
+      .question-box:hover,
+      .back-btn:hover,
+      .finish-btn:hover,
+      .restart-btn:hover {
+        transform: none;
+      }
+
+      .charts-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <div class="particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <header class="navbar">
+    <div class="logo">American Finance</div>
+    <button class="back-btn" type="button" id="backButton">Volver al inicio</button>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="eyebrow">Evaluación inicial</div>
+      <h1 id="pageTitle">
+        Financial
+        <span>Intelligence Quiz</span>
+      </h1>
+      <p>
+        Responde esta evaluación para medir tu conocimiento financiero en ahorro,
+        inversión, contabilidad, economía y negocios. Al finalizar recibirás un
+        nivel recomendado para continuar tu formación.
+      </p>
+    </section>
+
+    <section class="container" aria-label="Cuestionario financiero">
+      <div class="quiz-box" id="quizBox">
+        <div class="quiz-top">
+          <h2>Preguntas de diagnóstico</h2>
+          <div class="question-counter" id="answeredCounter">0 de 12 respondidas</div>
+        </div>
+
+        <div class="question-list" id="quiz"></div>
+
+        <button class="finish-btn" type="button" id="finishButton">Finalizar evaluación</button>
+        <p class="alert" id="alertMessage">Responde todas las preguntas antes de finalizar.</p>
+      </div>
+
+      <div class="quiz-box result" id="resultBox" aria-live="polite">
+        <h2>
+          Tu nivel es:
+          <span id="levelName"></span>
+        </h2>
+
+        <div class="percent" id="percentage">0%</div>
+
+        <div class="progress-bar" aria-hidden="true">
+          <div class="progress" id="progress"></div>
+        </div>
+
+        <!-- ✅ GRÁFICAS AGREGADAS AQUÍ, TAL CUAL PEDISTE -->
+        <div class="charts-container">
+          <div class="chart-box">
+            <h4 class="chart-title">Conocimiento General</h4>
+            <div class="chart-wrapper">
+              <canvas id="chartGeneral"></canvas>
+            </div>
+          </div>
+          <div class="chart-box">
+            <h4 class="chart-title">Fortalezas y Oportunidades</h4>
+            <div class="chart-wrapper">
+              <canvas id="chartTopics"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-card">
+          <h3 id="unitName"></h3>
+          <p id="description"></p>
+        </div>
+
+        <button class="restart-btn" type="button" id="restartButton">Repetir evaluación</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 American Finance · AI Financial System</p>
+  </footer>
+
+  <script>
+    const levels = [
+      {
+        name: "Nivel 1 - Fundamentos",
+        units: [1, 2, 3],
+        description: "Necesitas reforzar las bases: ingresos, gastos, ahorro, presupuesto y conceptos financieros esenciales."
+      },
+      {
+        name: "Nivel 2 - Finanzas personales",
+        units: [4, 5, 6],
+        description: "Ya manejas conceptos básicos y puedes avanzar hacia ahorro planificado, metas financieras y control de deudas."
+      },
+      {
+        name: "Nivel 3 - Contabilidad",
+        units: [7, 8, 9],
+        description: "Tienes una comprensión intermedia y puedes profundizar en activos, pasivos, patrimonio y flujo de caja."
+      },
+      {
+        name: "Nivel 4 - Negocios",
+        units: [10, 11, 12],
+        description: "Cuentas con bases sólidas para estudiar emprendimiento, modelos de negocio y toma de decisiones financieras."
+      },
+      {
+        name: "Nivel 5 - Global",
+        units: [13, 14, 15],
+        description: "Dominas temas avanzados y puedes enfocarte en inversión, mercados, economía global y estrategia."
+      },
+      {
+        name: "Nivel 6 - PRO",
+        units: [16, 17, 18],
+        description: "Tu nivel financiero es avanzado. Estás listo para contenidos profesionales y análisis de mayor profundidad."
+      }
+    ];
+
+    const questions = [
+      {
+        topic: "Economía General",
+        question: "¿Qué ocurre normalmente cuando un banco central aumenta las tasas de interés?",
+        answers: [
+          "Aumenta de inmediato el consumo de los hogares",
+          "Disminuye el costo ofreciendo todos los créditos",
+          "Se encarece el crédito y puede reducirse la inflación"
+        ],
+        correct: 2
+      },
+      {
+        topic: "Inversiones",
+        question: "¿Qué significa diversificar una inversión?",
+        answers: [
+          "Invertir todo el dinero en una sola empresa",
+          "Distribuir el dinero entre diferentes activos",
+          "Mantener todo el capital en efectivo"
+        ],
+        correct: 1
+      },
+      {
+        topic: "Finanzas Básicas",
+        question: "¿Qué es el interés compuesto?",
+        answers: [
+          "Ganancia generada sobre capital e intereses acumulados",
+          "Un impuesto cobrado por los bancos",
+          "Una deuda empresarial de corto plazo"
+        ],
+        correct: 0
+      },
+      {
+        topic: "Contabilidad",
+        question: "¿Qué representa un activo?",
+        answers: [
+          "Algo que puede generar valor económico",
+          "Un gasto mensual sin retorno",
+          "Una obligación financiera"
+        ],
+        correct: 0
+      },
+      {
+        topic: "Flujo de Caja",
+        question: "¿Qué indica un flujo de caja negativo?",
+        answers: [
+          "Que los ingresos superan los gastos",
+          "Que sale más dinero del que entra",
+          "Que la empresa no tiene deudas"
+        ],
+        correct: 1
+      },
+      {
+        topic: "Economía",
+        question: "¿Qué efecto tiene la inflación sobre el dinero?",
+        answers: [
+          "Aumenta su poder adquisitivo",
+          "Reduce su poder de compra",
+          "Elimina los impuestos"
+        ],
+        correct: 1
+      },
+      {
+        topic: "Mercados",
+        question: "¿Qué es un ETF?",
+        answers: [
+          "Un fondo cotizado que agrupa activos",
+          "Un préstamo bancario garantizado",
+          "Una criptomoneda respaldada por oro"
+        ],
+        correct: 0
+      },
+      {
+        topic: "Liquidez",
+        question: "¿Qué significa liquidez financiera?",
+        answers: [
+          "Capacidad de convertir activos en efectivo",
+          "Cantidad total de deudas acumuladas",
+          "Nivel general de inflación"
+        ],
+        correct: 0
+      },
+      {
+        topic: "Ciclos Económicos",
+        question: "¿Qué suele pasar durante una recesión?",
+        answers: [
+          "Aumenta fuertemente el crecimiento económico",
+          "Disminuye la actividad económica",
+          "Todas las empresas venden más"
+        ],
+        correct: 1
+      },
+      {
+        topic: "Patrimonio",
+        question: "¿Qué es el patrimonio neto?",
+        answers: [
+          "Activos menos pasivos",
+          "Solo el dinero disponible en efectivo",
+          "La suma total de las deudas"
+        ],
+        correct: 0
+      },
+      {
+        topic: "Inversión Largo Plazo",
+        question: "¿Qué ventaja tiene el interés compuesto a largo plazo?",
+        answers: [
+          "Puede generar crecimiento exponencial",
+          "Reduce automáticamente todas las ganancias",
+          "Evita que una inversión tenga riesgo"
+        ],
+        correct: 0
+      },
+      {
+        topic: "Riesgo",
+        question: "¿Qué es la volatilidad en los mercados financieros?",
+        answers: [
+          "Ausencia total de cambios en los precios",
+          "Variación frecuente o intensa de precios",
+          "Un impuesto aplicado a las acciones"
+        ],
+        correct: 1
+      }
+    ];
+
+    const selectedAnswers = Array(questions.length).fill(null);
+    const quiz = document.getElementById("quiz");
+    const quizBox = document.getElementById("quizBox");
+    const resultBox = document.getElementById("resultBox");
+    const alertMessage = document.getElementById("alertMessage");
+    const answeredCounter = document.getElementById("answeredCounter");
+
+    let chartGeneral, chartTopics;
+
+    function renderQuiz() {
+      quiz.innerHTML = "";
+
+      questions.forEach((item, questionIndex) => {
+        const article = document.createElement("article");
+        article.className = "question-box";
+
+        const title = document.createElement("h3");
+        title.className = "question";
+        title.textContent = `${questionIndex + 1}. ${item.question}`;
+
+        const answers = document.createElement("div");
+        answers.className = "answers";
+
+        item.answers.forEach((answer, answerIndex) => {
+          const button = document.createElement("button");
+          button.className = "answer";
+          button.type = "button";
+          button.textContent = answer;
+          button.setAttribute("aria-pressed", "false");
+          button.addEventListener("click", () => selectAnswer(questionIndex, answerIndex, button));
+          answers.appendChild(button);
+        });
+
+        article.appendChild(title);
+        article.appendChild(answers);
+        quiz.appendChild(article);
+      });
+    }
+
+    function selectAnswer(questionIndex, answerIndex, selectedButton) {
+      selectedAnswers[questionIndex] = answerIndex;
+
+      selectedButton.parentElement.querySelectorAll(".answer").forEach((button) => {
+        button.classList.remove("selected");
+        button.setAttribute("aria-pressed", "false");
+      });
+
+      selectedButton.classList.add("selected");
+      selectedButton.setAttribute("aria-pressed", "true");
+      alertMessage.style.display = "none";
+      updateCounter();
+    }
+
+    function updateCounter() {
+      const answered = selectedAnswers.filter((answer) => answer !== null).length;
+      answeredCounter.textContent = `${answered} de ${questions.length} respondidas`;
+    }
+
+    function getLevelIndex(percentage) {
+      if (percentage >= 95) return 5;
+      if (percentage >= 80) return 4;
+      if (percentage >= 65) return 3;
+      if (percentage >= 50) return 2;
+      if (percentage >= 30) return 1;
+      return 0;
+    }
+
+    function finishQuiz() {
+      const unanswered = selectedAnswers.some((answer) => answer === null);
+
+      if (unanswered) {
+        alertMessage.style.display = "block";
+        alertMessage.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+
+      // Calcular resultados por tema
+      const temas = {};
+      let totalCorrect = 0;
+
+      questions.forEach((q, i) => {
+        if (!temas[q.topic]) temas[q.topic] = { total: 0, correct: 0 };
+        temas[q.topic].total++;
+        if (selectedAnswers[i] === q.correct) {
+          temas[q.topic].correct++;
+          totalCorrect++;
+        }
+      });
+
+      const percentage = Math.round((totalCorrect / questions.length) * 100);
+      const level = levels[getLevelIndex(percentage)];
+
+      document.getElementById("percentage").textContent = `${percentage}%`;
+      document.getElementById("levelName").textContent = level.name;
+      document.getElementById("unitName").textContent = `Unidades recomendadas: ${level.units.join(", ")}`;
+      document.getElementById("description").textContent = level.description;
+
+      // Dibujar gráficas
+      generarGraficas(percentage, temas);
+
+      quizBox.style.display = "none";
+      resultBox.style.display = "block";
+
+      window.setTimeout(() => {
+        document.getElementById("progress").style.width = `${percentage}%`;
+      }, 120);
+
+      resultBox.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function generarGraficas(porcentajeGeneral, datosTemas) {
+      const etiquetas = Object.keys(datosTemas);
+      const valores = etiquetas.map(tema => Math.round((datosTemas[tema].correct / datosTemas[tema].total) * 100));
+
+      if (chartGeneral) chartGeneral.destroy();
+      if (chartTopics) chartTopics.destroy();
+
+      // Gráfico 1: Porcentaje General
+      const ctx1 = document.getElementById('chartGeneral').getContext('2d');
+      chartGeneral = new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [porcentajeGeneral, 100 - porcentajeGeneral],
+            backgroundColor: ['#ffd700', '#1e1e1e'],
+            borderWidth: 0,
+            cutout: '70%'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { enabled: false } },
+          animation: { duration: 1000 }
+        },
+        plugins: [{
+          id: 'textoCentral',
+          afterDatasetsDraw(chart) {
+            const { ctx, chartArea: { width, height } } = chart;
+            ctx.font = 'bold 24px Inter';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${porcentajeGeneral}%`, width / 2, height / 2);
+          }
+        }]
+      });
+
+      // Gráfico 2: Temas
+      const ctx2 = document.getElementById('chartTopics').getContext('2d');
+      chartTopics = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: etiquetas,
+          datasets: [{
+            label: 'Nivel (%)',
+            data: valores,
+            backgroundColor: valores.map(v => v > 60 ? '#00ff9d' : v > 30 ? '#ffd700' : '#ff4444'),
+            borderRadius: 4,
+            barThickness: 12
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { max: 100, grid: { color: '#333' }, ticks: { color: '#aaa' } },
+            y: { grid: { display: false }, ticks: { color: '#fff' } }
+          },
+          animation: { duration: 1200 }
+        }
+      });
+    }
+
+    function restartQuiz() {
+      selectedAnswers.fill(null);
+      resultBox.style.display = "none";
+      quizBox.style.display = "block";
+      alertMessage.style.display = "none";
+      document.getElementById("progress").style.width = "0";
+      renderQuiz();
+      updateCounter();
+      quizBox.scrollIntoView({ behavior: "smooth" });
+    }
+
+    document.getElementById("backButton").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    document.getElementById("finishButton").addEventListener("click", finishQuiz);
+    document.getElementById("restartButton").addEventListener("click", restartQuiz);
+
+    renderQuiz();
+    updateCounter();
+  </script>
+</body>
+</html>

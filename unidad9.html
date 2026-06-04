@@ -1,0 +1,1295 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+
+<title>Unidad 9 | Estados financieros</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+  --bg:#050505;
+  --card:#101010;
+  --gold:#ffd700;
+  --gold2:#d4af37;
+  --green:#00ff88;
+  --red:#ff4d4d;
+  --cyan:#00d9ff;
+  --text:#f5f5f5;
+
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+body{
+
+  background:
+  radial-gradient(circle at top left, rgba(255,215,0,.08), transparent 25%),
+  radial-gradient(circle at bottom right, rgba(0,217,255,.06), transparent 25%),
+  linear-gradient(180deg,#050505,#071414);
+
+  color:var(--text);
+
+  overflow-x:hidden;
+
+}
+
+/* SCROLL */
+
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#080808;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--gold2),var(--gold));
+  border-radius:20px;
+}
+
+/* NAVBAR */
+
+.navbar{
+
+  position:sticky;
+  top:0;
+  z-index:999;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:22px 60px;
+
+  background:rgba(0,0,0,.75);
+
+  backdrop-filter:blur(15px);
+
+  border-bottom:1px solid rgba(255,215,0,.08);
+
+}
+
+.logo{
+
+  font-size:28px;
+  font-weight:800;
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+}
+
+.back-btn{
+
+  padding:12px 18px;
+
+  border:none;
+
+  border-radius:14px;
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  color:black;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+}
+
+.back-btn:hover{
+
+  transform:translateY(-3px);
+
+  box-shadow:
+  0 0 25px rgba(255,215,0,.25);
+
+}
+
+/* CONTAINER */
+
+.container{
+
+  max-width:1500px;
+
+  margin:auto;
+
+  padding:60px 25px 100px;
+
+}
+
+/* LAYOUT */
+
+.main-layout{
+
+  display:grid;
+
+  grid-template-columns:1.1fr .9fr;
+
+  gap:30px;
+
+  align-items:start;
+
+}
+
+/* CARD */
+
+.card{
+
+  background:rgba(15,15,15,.92);
+
+  border:1px solid rgba(255,215,0,.08);
+
+  border-radius:28px;
+
+  padding:35px;
+
+  margin-bottom:30px;
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+  0 0 35px rgba(0,0,0,.3);
+
+}
+
+/* TITLES */
+
+.main-title{
+
+  font-size:50px;
+
+  margin-bottom:20px;
+
+}
+
+.main-title span{
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+}
+
+.subtitle{
+
+  color:#cfcfcf;
+
+  line-height:1.8;
+
+  margin-bottom:30px;
+
+  font-size:18px;
+
+}
+
+/* INFO BOXES */
+
+.info-grid{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(240px,1fr));
+
+  gap:20px;
+
+  margin-top:35px;
+
+}
+
+.info-box{
+
+  background:#0b0b0b;
+
+  border:1px solid rgba(255,215,0,.08);
+
+  border-radius:22px;
+
+  padding:25px;
+
+  transition:.3s;
+
+}
+
+.info-box:hover{
+
+  transform:translateY(-6px);
+
+  border-color:rgba(255,215,0,.25);
+
+  box-shadow:
+  0 0 30px rgba(255,215,0,.1);
+
+}
+
+.info-box h3{
+
+  margin-bottom:15px;
+
+  color:gold;
+
+}
+
+.info-box p{
+
+  color:#cfcfcf;
+
+  line-height:1.7;
+
+}
+
+/* TIMELINE */
+
+.timeline{
+
+  margin-top:35px;
+
+}
+
+.timeline-item{
+
+  position:relative;
+
+  padding-left:30px;
+
+  margin-bottom:22px;
+
+}
+
+.timeline-item::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:7px;
+
+  width:12px;
+  height:12px;
+
+  background:gold;
+
+  border-radius:50%;
+
+  box-shadow:
+  0 0 15px gold;
+
+}
+
+.timeline-item h4{
+
+  color:white;
+
+  margin-bottom:6px;
+
+}
+
+.timeline-item p{
+
+  color:#bdbdbd;
+
+}
+
+/* QUIZ */
+
+.quiz-title{
+
+  font-size:38px;
+
+  margin-bottom:30px;
+
+}
+
+.question{
+
+  background:#0b0b0b;
+
+  border:1px solid rgba(255,215,0,.08);
+
+  border-radius:22px;
+
+  padding:25px;
+
+  margin-bottom:25px;
+
+}
+
+.question h3{
+
+  margin-bottom:20px;
+
+  line-height:1.6;
+
+}
+
+.option{
+
+  padding:15px;
+
+  margin-bottom:12px;
+
+  border-radius:14px;
+
+  background:#121212;
+
+  border:1px solid #242424;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+}
+
+.option:hover{
+
+  border-color:gold;
+
+  transform:translateX(5px);
+
+}
+
+.correct{
+
+  border:1px solid var(--green) !important;
+
+  background:rgba(0,255,136,.08);
+
+}
+
+.wrong{
+
+  border:1px solid var(--red) !important;
+
+  background:rgba(255,77,77,.08);
+
+}
+
+/* BUTTON */
+
+.finish-btn{
+
+  width:100%;
+
+  padding:18px;
+
+  border:none;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(45deg,var(--gold2),var(--gold));
+
+  color:black;
+
+  font-size:18px;
+
+  font-weight:800;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+}
+
+.finish-btn:hover{
+
+  transform:translateY(-4px);
+
+  box-shadow:
+  0 0 30px rgba(255,215,0,.25);
+
+}
+
+/* RESULT */
+
+.result{
+
+  margin-top:25px;
+
+  text-align:center;
+
+  font-size:22px;
+
+  font-weight:700;
+
+}
+
+.good{
+  color:var(--green);
+}
+
+.bad{
+  color:var(--red);
+}
+
+/* PROGRESS */
+
+.progress-box{
+
+  margin-top:30px;
+
+}
+
+.progress-bar{
+
+  width:100%;
+  height:18px;
+
+  background:#111;
+
+  border-radius:30px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(255,215,0,.08);
+
+}
+
+.progress{
+
+  width:0%;
+
+  height:100%;
+
+  background:
+  linear-gradient(90deg,var(--gold2),var(--gold));
+
+  transition:.4s;
+
+}
+
+/* INPUTS */
+
+input{
+
+  width:100%;
+
+  padding: min-height: 44px;15px;
+
+  margin-top:10px;
+
+  margin-bottom:20px;
+
+  border-radius:14px;
+
+  border:1px solid #222;
+
+  background:#0b0b0b;
+
+  color:white;
+
+  outline:none;
+
+}
+
+input:focus{
+
+  border-color:gold;
+
+}
+
+/* SIMULADOR */
+
+.sim-result{
+
+  margin-top:20px;
+
+  background:#0b0b0b;
+
+  border:1px solid rgba(255,215,0,.08);
+
+  border-radius:18px;
+
+  padding:20px;
+
+  animation:fade .4s ease;
+
+}
+
+.sim-grid{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(180px,1fr));
+
+  gap:15px;
+
+  margin-top:20px;
+
+}
+
+.sim-box{
+
+  background:#111;
+
+  border-radius:14px;
+
+  padding:18px;
+
+  border:1px solid #1f1f1f;
+
+}
+
+.sim-box h4{
+
+  color:gold;
+
+  margin-bottom:10px;
+
+}
+
+.estado{
+
+  margin-top:20px;
+
+  padding:15px;
+
+  border-radius:14px;
+
+  font-weight:bold;
+
+}
+
+.estado.good{
+
+  background:rgba(0,255,136,.08);
+
+  border:1px solid #00ff88;
+
+  color:#00ff88;
+
+}
+
+.estado.medium{
+
+  background:rgba(255,215,0,.08);
+
+  border:1px solid gold;
+
+  color:gold;
+
+}
+
+.estado.bad{
+
+  background:rgba(255,77,77,.08);
+
+  border:1px solid #ff4d4d;
+
+  color:#ff4d4d;
+
+}
+
+@keyframes fade{
+
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+  .main-layout{
+
+    grid-template-columns:1fr;
+
+  }
+
+}
+
+@media(max-width:800px){
+
+  .navbar{
+
+    flex-direction:column;
+
+    gap:20px;
+
+    padding:25px;
+
+  }
+
+  .main-title{
+
+    font-size:38px;
+
+  }
+
+}
+
+
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+  <div class="logo">
+    American Finance
+  </div>
+
+  <button class="back-btn"
+  onclick="window.location.href='cursos.html'">
+
+    ⬅ Volver a cursos
+
+  </button>
+
+</header>
+
+<div class="container">
+
+  <div class="main-layout">
+
+    <!-- IZQUIERDA -->
+
+    <div>
+
+      <!-- CONTENIDO -->
+
+      <div class="card">
+
+        <h1 class="main-title">
+
+          Unidad 9 —
+          <span>Estados financieros</span>
+
+        </h1>
+
+        <p class="subtitle">
+
+          Aprende cómo las empresas analizan
+          sus ingresos, gastos y ganancias usando
+          reportes financieros importantes.
+
+        </p>
+
+        <!-- PROGRESS -->
+
+        <div class="progress-box">
+
+          <p style="margin-bottom:10px;">
+            Progreso de la unidad
+          </p>
+
+          <div class="progress-bar">
+
+            <div class="progress"
+            id="progress"></div>
+
+          </div>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="info-grid">
+
+          <div class="info-box">
+
+            <h3>
+              📊 Balance general
+            </h3>
+
+            <p>
+              Muestra activos, pasivos y patrimonio.
+            </p>
+
+          </div>
+
+          <div class="info-box">
+
+            <h3>
+              📈 Estado de resultados
+            </h3>
+
+            <p>
+              Permite conocer ganancias o pérdidas.
+            </p>
+
+          </div>
+
+          <div class="info-box">
+
+            <h3>
+              💰 Flujo de caja
+            </h3>
+
+            <p>
+              Analiza entradas y salidas de dinero.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- TIMELINE -->
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+
+            <h4>📥 Registrar ingresos</h4>
+
+            <p>
+              Identifica cuánto dinero entra.
+            </p>
+
+          </div>
+
+          <div class="timeline-item">
+
+            <h4>📤 Controlar gastos</h4>
+
+            <p>
+              Organiza cuánto dinero sale.
+            </p>
+
+          </div>
+
+          <div class="timeline-item">
+
+            <h4>📈 Analizar utilidad</h4>
+
+            <p>
+              Descubre si existe ganancia o pérdida.
+            </p>
+
+          </div>
+
+          <div class="timeline-item">
+
+            <h4>🏦 Evaluar estabilidad</h4>
+
+            <p>
+              Comprende la salud financiera.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- SIMULADOR -->
+
+      <div class="card">
+
+        <h2 style="font-size:34px; margin-bottom:20px;">
+          💻 Simulador financiero
+        </h2>
+
+        <p class="subtitle">
+
+          Analiza si una empresa tiene ganancias
+          o pérdidas según sus ingresos y gastos.
+
+        </p>
+
+        <label>💰 Ingresos</label>
+
+        <input type="number"
+        id="ingresos"
+        placeholder="Ej: 5000">
+
+        <label>🧾 Gastos</label>
+
+        <input type="number"
+        id="gastos"
+        placeholder="Ej: 3200">
+
+        <button class="finish-btn"
+        onclick="calcular()">
+
+          Analizar estado financiero
+
+        </button>
+
+        <div id="simulador"></div>
+
+      </div>
+
+    </div>
+
+    <!-- DERECHA -->
+
+    <div>
+
+      <!-- QUIZ -->
+
+      <div class="card">
+
+        <h2 class="quiz-title">
+          🎮 Evaluación interactiva
+        </h2>
+
+        <!-- P1 -->
+
+        <div class="question">
+
+          <h3>
+            1. ¿Qué muestra el balance general?
+          </h3>
+
+          <div class="option"
+          onclick="select(this,true,1)">
+
+            Activos, pasivos y patrimonio
+
+          </div>
+
+          <div class="option"
+          onclick="select(this,false,1)">
+
+            Solo ingresos
+
+          </div>
+
+        </div>
+
+        <!-- P2 -->
+
+        <div class="question">
+
+          <h3>
+            2. ¿Qué muestra el estado de resultados?
+          </h3>
+
+          <div class="option"
+          onclick="select(this,true,2)">
+
+            Ganancias o pérdidas
+
+          </div>
+
+          <div class="option"
+          onclick="select(this,false,2)">
+
+            Solo activos
+
+          </div>
+
+        </div>
+
+        <!-- P3 -->
+
+        <div class="question">
+
+          <h3>
+            3. ¿Qué analiza el flujo de caja?
+          </h3>
+
+          <div class="option"
+          onclick="select(this,true,3)">
+
+            Entrada y salida de dinero
+
+          </div>
+
+          <div class="option"
+          onclick="select(this,false,3)">
+
+            Solo deudas
+
+          </div>
+
+        </div>
+
+        <!-- P4 -->
+
+        <div class="question">
+
+          <h3>
+            4. Si los gastos son mayores que los ingresos:
+          </h3>
+
+          <div class="option"
+          onclick="select(this,true,4)">
+
+            Existe pérdida financiera
+
+          </div>
+
+          <div class="option"
+          onclick="select(this,false,4)">
+
+            Existe ganancia
+
+          </div>
+
+        </div>
+
+        <!-- P5 -->
+
+        <div class="question">
+
+          <h3>
+            5. ¿Para qué sirven los estados financieros?
+          </h3>
+
+          <div class="option"
+          onclick="select(this,true,5)">
+
+            Para analizar la situación económica
+
+          </div>
+
+          <div class="option"
+          onclick="select(this,false,5)">
+
+            Para gastar más dinero
+
+          </div>
+
+        </div>
+
+        <button class="finish-btn"
+        onclick="finalizar()">
+
+          Finalizar evaluación
+
+        </button>
+
+        <div class="result"
+        id="result"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* QUIZ */
+
+let score = 0;
+
+let answered = {};
+
+let total = 5;
+
+/* SELECT */
+
+function select(el,isCorrect,q){
+
+  if(answered[q]) return;
+
+  answered[q] = true;
+
+  if(isCorrect){
+
+    score++;
+
+    el.classList.add("correct");
+
+  }
+
+  else{
+
+    el.classList.add("wrong");
+
+  }
+
+  actualizarBarra();
+
+}
+
+/* PROGRESS */
+
+function actualizarBarra(){
+
+  const respondidas =
+  Object.keys(answered).length;
+
+  const porcentaje =
+  (respondidas / total) * 100;
+
+  document.getElementById("progress")
+  .style.width = porcentaje + "%";
+
+}
+
+/* RESET */
+
+function resetQuiz(){
+
+  score = 0;
+
+  answered = {};
+
+  document
+  .querySelectorAll(".option")
+  .forEach(op=>{
+
+    op.classList.remove(
+      "correct",
+      "wrong"
+    );
+
+  });
+
+  document.getElementById(
+    "progress"
+  ).style.width = "0%";
+
+}
+
+/* FINALIZAR */
+
+function finalizar(){
+
+  const result =
+  document.getElementById("result");
+
+  if(
+    Object.keys(answered).length < total
+  ){
+
+    result.innerHTML =
+    "⚠ Responde todas las preguntas.";
+
+    result.className =
+    "result bad";
+
+    return;
+
+  }
+
+  if(score >= 3){
+
+    result.innerHTML =
+    "✅ Unidad completada. Desbloqueando siguiente unidad...";
+
+    result.className =
+    "result good";
+
+    localStorage.setItem(
+      "unidad9",
+      "ok"
+    );
+
+    localStorage.setItem(
+      "unidad9_score",
+      score
+    );
+
+    setTimeout(()=>{
+
+      window.location.href =
+      "unidad10.html";
+
+    },1500);
+
+  }
+
+  else{
+
+    result.innerHTML =
+    "❌ No aprobaste. Puedes intentarlo nuevamente.";
+
+    result.className =
+    "result bad";
+
+    setTimeout(()=>{
+
+      resetQuiz();
+
+      result.innerHTML = "";
+
+    },1800);
+
+  }
+
+}
+
+/* SIMULADOR */
+
+function calcular() {
+
+  let ingresos =
+  parseFloat(
+    document.getElementById("ingresos").value
+  );
+
+  let gastos =
+  parseFloat(
+    document.getElementById("gastos").value
+  );
+
+  const simulador =
+  document.getElementById("simulador");
+
+  if (
+    isNaN(ingresos) ||
+    isNaN(gastos) ||
+    ingresos <= 0 ||
+    gastos < 0
+  ) {
+
+    simulador.innerHTML = `
+      <div class="estado bad">
+        ❌ Ingresa valores válidos.
+      </div>
+    `;
+
+    return;
+  }
+
+  let utilidad = ingresos - gastos;
+
+  let margen =
+  ((utilidad / ingresos) * 100).toFixed(1);
+
+  let estado = "";
+  let mensaje = "";
+
+  if (utilidad > ingresos * 0.2) {
+
+    estado = "good";
+
+    mensaje =
+    "✅ Excelente situación financiera.";
+
+  }
+
+  else if (utilidad > 0) {
+
+    estado = "medium";
+
+    mensaje =
+    "⚠️ Hay ganancias, pero podrían mejorar.";
+
+  }
+
+  else {
+
+    estado = "bad";
+
+    mensaje =
+    "❌ Existe pérdida financiera.";
+
+  }
+
+  simulador.innerHTML = `
+
+    <div class="sim-result">
+
+      <h3 style="margin-bottom:10px;">
+        📊 Resultado financiero
+      </h3>
+
+      <div class="sim-grid">
+
+        <div class="sim-box">
+          <h4>💰 Ingresos</h4>
+          <p>$${ingresos.toFixed(2)}</p>
+        </div>
+
+        <div class="sim-box">
+          <h4>🧾 Gastos</h4>
+          <p>$${gastos.toFixed(2)}</p>
+        </div>
+
+        <div class="sim-box">
+          <h4>📈 Utilidad</h4>
+          <p>$${utilidad.toFixed(2)}</p>
+        </div>
+
+        <div class="sim-box">
+          <h4>📊 Margen</h4>
+          <p>${margen}%</p>
+        </div>
+
+      </div>
+
+      <div class="estado ${estado}">
+        ${mensaje}
+      </div>
+
+    </div>
+
+  `;
+}
+
+</script>
+
+</body>
+</html>

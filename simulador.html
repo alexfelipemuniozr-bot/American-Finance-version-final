@@ -1,0 +1,759 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable=yes>
+
+<title>Simulador Financiero | American Finance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+body{
+  background:
+    radial-gradient(circle at top left, rgba(212,175,55,0.08), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(0,255,136,0.05), transparent 25%),
+    linear-gradient(180deg,#050505,#071510,#0b1f18);
+  color:white;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+  width:100%;
+  padding:20px 60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,215,0,0.15);
+  position:sticky;
+  top:0;
+  z-index:999;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:800;
+  color:gold;
+  letter-spacing:1px;
+}
+
+.navbar a{
+  text-decoration:none;
+  color:#d4af37;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.navbar a:hover{
+  color:white;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  width:100%;
+  padding:70px 40px 40px;
+  text-align:center;
+}
+
+.hero h1{
+  font-size:58px;
+  font-weight:800;
+  line-height:1.1;
+  margin-bottom:20px;
+}
+
+.hero h1 span{
+  color:gold;
+  text-shadow:0 0 20px rgba(255,215,0,0.3);
+}
+
+.hero p{
+  color:#b8b8b8;
+  max-width:700px;
+  margin:auto;
+  font-size:18px;
+  line-height:1.7;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.container{
+  width:100%;
+  max-width:1450px;
+  margin:auto;
+  padding:30px 50px 80px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: 350px 1fr;
+  gap:30px;
+}
+
+/* =========================
+   CARD GENERAL
+========================= */
+
+.card{
+  background:rgba(17,17,17,0.8);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:22px;
+  padding:25px;
+  backdrop-filter:blur(10px);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+/* =========================
+   PANEL ESTADO
+========================= */
+
+.status-panel{
+  display:flex;
+  flex-direction:column;
+  gap:25px;
+}
+
+.money-box{
+  background:
+    linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.02));
+  border:1px solid rgba(255,215,0,0.15);
+  border-radius:20px;
+  padding:25px;
+}
+
+.money-box h2{
+  color:gold;
+  margin-bottom:10px;
+}
+
+.money{
+  font-size:50px;
+  font-weight:800;
+  margin-top:10px;
+}
+
+.month{
+  margin-top:15px;
+  color:#b8b8b8;
+  font-size:15px;
+}
+
+/* BARRA */
+
+.progress-area{
+  margin-top:15px;
+}
+
+.progress-label{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+  color:#ccc;
+  font-size:14px;
+}
+
+.progress-bar{
+  width:100%;
+  height:12px;
+  background:#222;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  width:25%;
+  background:linear-gradient(90deg,gold,#00ff88);
+  border-radius:20px;
+  transition:0.5s;
+}
+
+/* =========================
+   DECISIONES
+========================= */
+
+.actions h2{
+  margin-bottom:25px;
+  color:gold;
+}
+
+.buttons-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+}
+
+.action-btn{
+  position:relative;
+  overflow:hidden;
+  background:#0d0d0d;
+  border:1px solid rgba(255,215,0,0.12);
+  border-radius:20px;
+  padding:25px;
+  cursor:pointer;
+  transition:0.3s;
+  text-align:left;
+  min-height:180px;
+}
+
+.action-btn:hover{
+  transform:translateY(-8px);
+  border-color:gold;
+  box-shadow:0 0 25px rgba(255,215,0,0.15);
+}
+
+.action-icon{
+  font-size:50px;
+  margin-bottom:20px;
+}
+
+.action-btn h3{
+  font-size:24px;
+  margin-bottom:10px;
+}
+
+.action-btn p{
+  color:#aaa;
+  line-height:1.5;
+  font-size:15px;
+}
+
+.work{
+  background:
+    linear-gradient(135deg, rgba(255,215,0,0.12), rgba(0,0,0,0.2));
+}
+
+.save{
+  background:
+    linear-gradient(135deg, rgba(0,255,136,0.10), rgba(0,0,0,0.2));
+}
+
+.invest{
+  background:
+    linear-gradient(135deg, rgba(0,162,255,0.10), rgba(0,0,0,0.2));
+}
+
+.spend{
+  background:
+    linear-gradient(135deg, rgba(255,0,80,0.10), rgba(0,0,0,0.2));
+}
+
+/* =========================
+   HISTORIAL
+========================= */
+
+.history{
+  margin-top:30px;
+}
+
+.history h2{
+  color:gold;
+  margin-bottom:20px;
+}
+
+.log{
+  max-height:350px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.log-item{
+  padding:15px;
+  border-radius:12px;
+  background:#0a0a0a;
+  border-left:4px solid #333;
+  color:#ddd;
+  animation:fade 0.4s ease;
+}
+
+.good{
+  border-left-color:#00ff88;
+}
+
+.bad{
+  border-left-color:#ff4d6d;
+}
+
+@keyframes fade{
+  from{
+    opacity:0;
+    transform:translateY(15px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* =========================
+   EFECTOS FLOTANTES
+========================= */
+
+.glow{
+  position:fixed;
+  width:500px;
+  height:500px;
+  background:radial-gradient(circle, rgba(255,215,0,0.08), transparent 70%);
+  filter:blur(50px);
+  top:-100px;
+  right:-100px;
+  pointer-events:none;
+}
+
+.glow2{
+  position:fixed;
+  width:400px;
+  height:400px;
+  background:radial-gradient(circle, rgba(0,255,136,0.05), transparent 70%);
+  bottom:-100px;
+  left:-100px;
+  pointer-events:none;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .buttons-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:42px;
+  }
+
+  .container{
+    padding:30px 20px 70px;
+  }
+
+  .navbar{
+    padding:20px;
+  }
+
+}
+
+
+    @media (max-width: 768px) {
+      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
+      
+      /* Navbar/Header responsive */
+      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
+      
+      /* Main layout */
+      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
+      
+      /* Container & sections */
+      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
+      
+      /* Grid items */
+      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
+      
+      /* Typography */
+      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
+      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
+      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
+      
+      /* Forms & Inputs */
+      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
+      
+      /* Flex wrapping */
+      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
+      
+      /* Cards & boxes */
+      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
+      
+      /* Images */
+      img { max-width: 100%; height: auto; }
+      
+      /* Buttons */
+      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
+      
+      /* Logo sizing */
+      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
+      
+      /* Text alignment */
+      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+<div class="glow2"></div>
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+  <div class="logo">
+    💰 American Finance
+  </div>
+
+  <a href="index.html">⬅ Volver al inicio</a>
+
+</header>
+
+<!-- HERO -->
+<section class="hero">
+
+  <h1>
+    Toma decisiones como un
+    <span>inversionista</span>
+  </h1>
+
+  <p>
+    Administra tu dinero, invierte, ahorra y sobrevive a eventos inesperados.
+    Cada decisión puede hacerte rico… o llevarte a la quiebra.
+  </p>
+
+</section>
+
+<!-- CONTENIDO -->
+<div class="container">
+
+  <div class="grid">
+
+    <!-- PANEL IZQUIERDO -->
+    <div class="status-panel">
+
+      <div class="card money-box">
+
+        <h2>💰 Estado financiero</h2>
+
+        <div class="money">
+          $<span id="dinero">1000</span>
+        </div>
+
+        <div class="month">
+          📅 Mes actual:
+          <span id="mes">1</span>
+        </div>
+
+        <div class="progress-area">
+
+          <div class="progress-label">
+            <span>Progreso financiero</span>
+            <span id="nivelText">25%</span>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <h2 style="color:gold; margin-bottom:15px;">
+          🧠 Consejos
+        </h2>
+
+        <p style="color:#bbb; line-height:1.7;">
+          • Ahorrar te da estabilidad.<br><br>
+          • Invertir puede multiplicar tu dinero.<br><br>
+          • Gastar demasiado puede llevarte a déficit.<br><br>
+          • Las emergencias financieras aparecen inesperadamente.
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- PANEL DERECHO -->
+    <div>
+
+      <!-- ACCIONES -->
+      <div class="card actions">
+
+        <h2>⚡ Elige una acción</h2>
+
+        <div class="buttons-grid">
+
+          <button class="action-btn work" onclick="trabajar()">
+
+            <div class="action-icon">💼</div>
+
+            <h3 style="color:#ffffff">Trabajar</h3>
+
+            <p>
+              Consigue ingresos seguros y aumenta tu capital.
+            </p>
+
+          </button>
+
+          <button class="action-btn save" onclick="ahorrar()">
+
+            <div class="action-icon">💰</div>
+
+            <h3 style="color:#ffffff">Ahorrar</h3>
+
+            <p>
+              Genera estabilidad financiera y ganancias pasivas.
+            </p>
+
+          </button>
+
+          <button class="action-btn invest" onclick="invertir()">
+
+            <div class="action-icon">📈</div>
+
+            <h3 style="color:#ffffff">Invertir</h3>
+
+            <p>
+              Riesgo alto, recompensa alta. Puedes ganar o perder.
+            </p>
+
+          </button>
+
+          <button class="action-btn spend" onclick="gastar()">
+
+            <div class="action-icon">🛒</div>
+
+            <h3 style="color:#ffffff">Gastar</h3>
+
+            <p>
+              Compra cosas y reduce tu capital disponible.
+            </p>
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- HISTORIAL -->
+      <div class="card history">
+
+        <h2>📜 Historial financiero</h2>
+
+        <div id="log" class="log"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+let dinero = 1000;
+let mes = 1;
+
+// ==========================
+// ACTUALIZAR UI
+// ==========================
+
+function actualizar(){
+
+  document.getElementById("dinero").innerText =
+    dinero.toFixed(2);
+
+  document.getElementById("mes").innerText =
+    mes;
+
+  // progreso
+  let porcentaje = Math.min(
+    Math.max((dinero / 4000) * 100, 5),
+    100
+  );
+
+  document.getElementById("progressFill").style.width =
+    porcentaje + "%";
+
+  document.getElementById("nivelText").innerText =
+    Math.floor(porcentaje) + "%";
+
+}
+
+// ==========================
+// LOG
+// ==========================
+
+function agregarLog(texto, tipo=""){
+
+  const log = document.getElementById("log");
+
+  log.innerHTML =
+    `<div class="log-item ${tipo}">
+      ${texto}
+    </div>` + log.innerHTML;
+
+}
+
+// ==========================
+// ACCIONES
+// ==========================
+
+function trabajar(){
+
+  dinero += 200;
+
+  avanzarMes();
+
+  agregarLog(
+    "💼 Trabajaste y ganaste $200",
+    "good"
+  );
+
+}
+
+function ahorrar(){
+
+  let ganancia = dinero * 0.05;
+
+  dinero += ganancia;
+
+  avanzarMes();
+
+  agregarLog(
+    "💰 Ahorraste y obtuviste $" +
+    ganancia.toFixed(2),
+    "good"
+  );
+
+}
+
+function invertir(){
+
+  let random = Math.random();
+
+  if(random > 0.5){
+
+    let ganancia = dinero * 0.2;
+
+    dinero += ganancia;
+
+    agregarLog(
+      "📈 Inversión exitosa: +$" +
+      ganancia.toFixed(2),
+      "good"
+    );
+
+  } else {
+
+    let perdida = dinero * 0.15;
+
+    dinero -= perdida;
+
+    agregarLog(
+      "📉 Inversión fallida: -$" +
+      perdida.toFixed(2),
+      "bad"
+    );
+
+  }
+
+  avanzarMes();
+
+}
+
+function gastar(){
+
+  dinero -= 150;
+
+  avanzarMes();
+
+  agregarLog(
+    "🛒 Gastaste $150",
+    "bad"
+  );
+
+}
+
+// ==========================
+// EVENTOS
+// ==========================
+
+function avanzarMes(){
+
+  mes++;
+
+  let evento = Math.random();
+
+  if(evento < 0.25){
+
+    dinero -= 100;
+
+    agregarLog(
+      "⚠️ Emergencia financiera: -$100",
+      "bad"
+    );
+
+  }
+
+  if(evento > 0.82){
+
+    dinero += 180;
+
+    agregarLog(
+      "🎉 Bonus inesperado: +$180",
+      "good"
+    );
+
+  }
+
+  if(dinero <= 0){
+
+    dinero = 0;
+
+    agregarLog(
+      "💀 Has quedado en bancarrota",
+      "bad"
+    );
+
+  }
+
+  actualizar();
+
+}
+
+// ==========================
+// INIT
+// ==========================
+
+actualizar();
+
+agregarLog(
+  "🚀 Bienvenido al simulador financiero",
+  "good"
+);
+
+</script>
+
+</body>
+</html>

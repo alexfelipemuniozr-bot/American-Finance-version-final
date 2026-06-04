@@ -1,0 +1,1230 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>American Finance | Educación Financiera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(17, 17, 17, 0.92);
+      --glass: rgba(255, 255, 255, 0.055);
+      --gold: #ffd700;
+      --gold-dark: #d4af37;
+      --cyan: #00d9ff;
+      --green: #00ff9d;
+      --red: #ff5b5b;
+      --text: #f5f5f5;
+      --muted: #c9c9c9;
+      --line: rgba(255, 215, 0, 0.11);
+      --line-strong: rgba(255, 215, 0, 0.28);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body { font-size: clamp(14px, 3vw, 16px);
+      min-height: 100vh;
+      font-family: "Inter", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 215, 0, 0.08), transparent 26%),
+        radial-gradient(circle at bottom right, rgba(0, 217, 255, 0.06), transparent 24%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      object-fit: cover;
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particles span {
+      position: absolute;
+      bottom: -32px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 16px var(--gold);
+      opacity: 0;
+      animation: floatParticle linear infinite;
+    }
+
+    .particles span:nth-child(1) { left: 9%; animation-duration: 12s; }
+    .particles span:nth-child(2) { left: 22%; animation-duration: 17s; background: var(--cyan); box-shadow: 0 0 16px var(--cyan); }
+    .particles span:nth-child(3) { left: 37%; animation-duration: 14s; }
+    .particles span:nth-child(4) { left: 54%; animation-duration: 20s; background: var(--green); box-shadow: 0 0 16px var(--green); }
+    .particles span:nth-child(5) { left: 71%; animation-duration: 13s; }
+    .particles span:nth-child(6) { left: 86%; animation-duration: 18s; background: var(--cyan); box-shadow: 0 0 16px var(--cyan); }
+    .particles span:nth-child(7) { left: 95%; animation-duration: 11s; }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(0) scale(0.6);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.58;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* === NAVBAR - VERSIÓN ESCRITORIO === */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 26px;
+      width: 100%;
+      padding: 17px clamp(18px, 5vw, 60px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(16px);
+    }
+
+    /* === LOGO: IMAGEN + TEXTO === */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Espacio entre imagen y texto */
+      font-size: clamp(20px, 3vw, 26px); /* Tamaño de letra adaptable */
+      font-weight: 900;
+      white-space: nowrap;
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-img {
+      height: 36px; /* Tamaño de la imagen en escritorio */
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      align-items: center;
+      justify-content: center;
+      justify-self: end;
+      flex-direction: column;
+      gap: 5px;
+      border: 1px solid var(--line-strong);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.045);
+      transition: all 0.3s ease;
+    }
+
+    .nav-toggle span {
+      width: 21px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--gold);
+      transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+    }
+
+    .navbar.open .nav-toggle span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .navbar.open .nav-toggle span:nth-child(2) {
+      opacity: 0;
+      width: 0;
+    }
+
+    .navbar.open .nav-toggle span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .nav-menu {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(14px, 2vw, 25px);
+      min-width: 0;
+    }
+
+    .nav-links a {
+      position: relative;
+      color: #d7d7d7;
+      font-size: 15px;
+      font-weight: 650;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--gold);
+      transition: width 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* === BOTÓN DE AJUSTES - ESCRITORIO === */
+    .settings-container {
+      position: relative;
+    }
+
+    .settings-button {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--gold);
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .settings-button:hover {
+      background: rgba(255, 215, 0, 0.12);
+      transform: rotate(45deg);
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 52px;
+      right: 0;
+      min-width: 160px;
+      padding: 8px 0;
+      border: 1px solid var(--line-strong);
+      border-radius: 14px;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .settings-container:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 12px 18px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .dropdown-menu a:first-child {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .dropdown-menu .login-option:hover {
+      background: rgba(255, 215, 0, 0.08);
+      color: var(--gold);
+      padding-left: 22px;
+    }
+
+    .dropdown-menu .register-option:hover {
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      color: #000;
+      padding-left: 22px;
+    }
+
+    .cta-button,
+    .course-button {
+      min-height: 44px;
+      border: 0;
+      border-radius: 13px;
+      font-weight: 850;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    /* === HERO === */
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 430px);
+      align-items: center;
+      gap: clamp(34px, 5vw, 56px);
+      min-height: calc(100vh - 80px);
+      padding: clamp(70px, 8vw, 105px) clamp(18px, 5vw, 60px);
+      overflow: hidden;
+      background-attachment: fixed;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.75)),
+        url("https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&w=1800&q=80");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-text {
+      max-width: 720px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      margin-bottom: 20px;
+      padding: 8px 13px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      color: var(--gold);
+      background: rgba(255, 215, 0, 0.06);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin-bottom: 24px;
+      font-size: clamp(46px, 6vw, 76px);
+      font-weight: 900;
+      line-height: 1.04;
+      overflow-wrap: anywhere;
+    }
+
+    .hero h1 span,
+    .section-title span {
+      background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      max-width: 690px;
+      margin-bottom: 32px;
+      color: #d5d5d5;
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.72;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 22px;
+      color: var(--gold);
+      border: 1px solid var(--line-strong);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px);
+    }
+
+    .cta-button:hover {
+      color: #050505;
+      background: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .ai {
+      color: #050505;
+      background: linear-gradient(45deg, var(--cyan), var(--green));
+      box-shadow: 0 12px 34px rgba(0, 255, 157, 0.16);
+    }
+
+    .hero-panel {
+      width: 100%;
+      min-width: 0;
+      padding: clamp(22px, 4vw, 30px);
+      border: 1px solid var(--line);
+      border-radius: 25px;
+      background: rgba(15, 15, 15, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      animation: fadeUp 1s ease both;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .panel-header h3 {
+      font-size: clamp(16px, 4vw, 28px);
+      line-height: 1.2;
+    }
+
+    .live {
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .graph {
+      position: relative;
+      height: 238px;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #0c0c0c;
+    }
+
+    .graph::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(255, 215, 0, 0.15), transparent);
+    }
+
+    .graph svg {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .graph path {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 12px var(--gold));
+      stroke-dasharray: 1200;
+      stroke-dashoffset: 1200;
+      animation: lineAnim 5s linear infinite alternate;
+    }
+
+    .panel-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .metric span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .metric strong {
+      color: var(--gold);
+      font-size: 21px;
+    }
+
+    .section {
+      padding: clamp(72px, 9vw, 105px) clamp(18px, 5vw, 60px);
+    }
+
+    .section-title {
+      margin-bottom: 42px;
+      text-align: center;
+      font-size: clamp(34px, 5vw, 46px);
+      font-weight: 900;
+      line-height: 1.12;
+    }
+
+    .market-cards,
+    .benefit-grid,
+    .course-grid,
+    .stats {
+      display: grid;
+      gap: 24px;
+    }
+
+    .market-cards,
+    .course-grid,
+    .stats {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .benefit-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .market-card,
+    .benefit-card,
+    .course-card,
+    .stat {
+      min-width: 0;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .market-card,
+    .stat {
+      padding: 28px;
+      border-radius: 22px;
+    }
+
+    .market-card:hover,
+    .benefit-card:hover,
+    .course-card:hover,
+    .stat:hover {
+      border-color: var(--line-strong);
+      box-shadow: 0 22px 54px rgba(255, 215, 0, 0.12);
+      transform: translateY(-6px);
+    }
+
+    .market-card h2 {
+      margin-bottom: 10px;
+      font-size: clamp(25px, 3vw, 32px);
+    }
+
+    .market-card p {
+      font-size: 18px;
+      font-weight: 850;
+    }
+
+    .up {
+      color: var(--green);
+    }
+
+    .down {
+      color: var(--red);
+    }
+
+    .benefit-card,
+    .course-card {
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .benefit-card img,
+    .course-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+
+    .card-content,
+    .course-info {
+      padding: 24px;
+    }
+
+    .card-content h3,
+    .course-info h3 {
+      margin-bottom: 11px;
+      font-size: clamp(16px, 4vw, 28px);
+      line-height: 1.25;
+    }
+
+    .card-content p,
+    .course-info p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .course-info p {
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .course-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 13px;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat h2 {
+      margin-bottom: 12px;
+      color: var(--gold);
+      font-size: clamp(38px, 5vw, 50px);
+    }
+
+    .stat p {
+      color: #d0d0d0;
+      line-height: 1.45;
+    }
+
+    footer {
+      padding: 34px 18px;
+      border-top: 1px solid var(--line);
+      background: #000;
+      text-align: center;
+    }
+
+    footer p {
+      color: var(--gold-dark);
+      line-height: 1.5;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(42px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes lineAnim {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* ==== ✨ MENÚ MÓVIL ARREGLADO ✨ ==== */
+    @media (max-width: 768px) {
+      .navbar {
+        grid-template-columns: 1fr auto;
+        padding: 12px 16px;
+        gap: 10px;
+        position: sticky;
+        top: 0;
+      }
+
+      /* Tamaño del logo en celular */
+      .logo-img {
+        height: 28px; /* Más pequeño para que quepa bien */
+      }
+      .logo {
+        font-size: 18px;
+      }
+
+      .nav-toggle {
+        display: flex;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: rgba(255, 215, 0, 0.04);
+      }
+      
+      .nav-toggle:active {
+        background: rgba(255, 215, 0, 0.1);
+      }
+
+      .nav-menu {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 12px;
+        right: 12px;
+        margin-top: 8px;
+        border-radius: 20px;
+        background: rgba(8, 8, 8, 0.94);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--line-strong);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07);
+        
+        max-height: 75vh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        
+        opacity: 0;
+        transform: translateY(-10px) scale(0.98);
+        pointer-events: none;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        
+        scrollbar-width: thin;
+        scrollbar-color: var(--gold-dark) rgba(0,0,0,0.2);
+      }
+
+      .nav-menu::-webkit-scrollbar {
+        width: 4px;
+      }
+      .nav-menu::-webkit-scrollbar-thumb {
+        background-color: var(--gold-dark);
+        border-radius: 4px;
+      }
+
+      .navbar.open .nav-menu {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 6px;
+        padding: 18px 18px 12px;
+        width: 100%;
+      }
+
+      .nav-links a {
+        width: 100%;
+        padding: 15px 18px;
+        border-radius: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid transparent;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-links a:nth-child(1)::before { content: "🏠"; font-size: 18px; }
+      .nav-links a:nth-child(2)::before { content: "📚"; font-size: 18px; }
+      .nav-links a:nth-child(3)::before { content: "📎"; font-size: 18px; }
+      .nav-links a:nth-child(4)::before { content: "🧮"; font-size: 18px; }
+      .nav-links a:nth-child(5)::before { content: "💹"; font-size: 18px; }
+      .nav-links a:nth-child(6)::before { content: "👥"; font-size: 18px; }
+      .nav-links a:nth-child(7)::before { content: "📈"; font-size: 18px; }
+
+      .nav-links a::after { display: none; }
+
+      .nav-links a:active,
+      .nav-links a:hover {
+        background: rgba(255, 215, 0, 0.08);
+        color: var(--gold);
+        border-color: var(--line);
+        transform: translateX(4px);
+      }
+
+      /* ✅ SECCIÓN DE CUENTA Y AJUSTES FUNCIONANDO */
+      .settings-container {
+        width: 100%;
+        margin: 6px 18px 22px;
+        padding: 16px 0 0;
+        border-top: 1px solid var(--line);
+        position: relative;
+      }
+
+      .settings-button {
+        width: 100%;
+        height: 48px;
+        border-radius: 14px;
+        font-size: 17px;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--line);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        color: var(--gold);
+      }
+      
+      .settings-button::after {
+        content: "Cuenta y ajustes";
+        font-size: 15px;
+      }
+      
+      .settings-button:active {
+        transform: none;
+        background: rgba(255, 215, 0, 0.08);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: all 0.3s ease;
+        
+        background: rgba(12, 12, 12, 0.97);
+        border: 1px solid var(--line-strong);
+        border-radius: 14px;
+        padding: 10px;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      }
+
+      .settings-container:active .dropdown-menu,
+      .settings-container:focus-within .dropdown-menu,
+      .settings-container:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-menu a {
+        padding: 15px 18px;
+        text-align: center;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        font-size: 16px;
+        font-weight: 600;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+        display: block;
+      }
+
+      .dropdown-menu a:first-child { border-bottom: none; }
+
+      .dropdown-menu .login-option {
+        color: var(--muted);
+      }
+      
+      .dropdown-menu .login-option:active,
+      .dropdown-menu .login-option:hover {
+        background: rgba(255, 215, 0, 0.08);
+        color: var(--gold);
+        border-color: var(--line);
+        transform: translateX(4px);
+      }
+
+      .dropdown-menu .register-option {
+        background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+        color: #000;
+        font-weight: 700;
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+        margin-bottom: 0;
+      }
+      
+      .dropdown-menu .register-option:active,
+      .dropdown-menu .register-option:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(212, 175, 55, 0.25);
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 40px 16px 50px;
+        min-height: auto;
+        background-attachment: scroll;
+      }
+
+      .hero-text {
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+        line-height: 1.2;
+        margin-bottom: 16px;
+        word-break: normal;
+      }
+
+      .hero p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 24px;
+        text-align: center;
+        padding: 0 5px;
+      }
+
+      .eyebrow {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 16px;
+      }
+
+      .buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .cta-button {
+        width: 100%;
+        padding: 15px;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .hero-panel {
+        padding: 20px;
+        border-radius: 18px;
+      }
+
+      .panel-header {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .graph {
+        height: 180px;
+      }
+
+      .market-cards,
+      .benefit-grid,
+      .course-grid,
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .section {
+        padding: 40px 16px;
+      }
+
+      .section-title {
+        font-size: 26px;
+        margin-bottom: 24px;
+      }
+
+      .market-card, .stat {
+        padding: 20px;
+      }
+
+      .benefit-card img,
+      .course-card img {
+        height: 200px;
+      }
+
+      .card-content, .course-info {
+        padding: 20px;
+      }
+
+      .market-card:hover,
+      .benefit-card:hover,
+      .course-card:hover,
+      .stat:hover {
+        transform: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="particles" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <header class="navbar">
+    <!-- ✅ AQUÍ ESTÁ: IMAGEN + TEXTO -->
+    <div class="logo">
+      <!-- 👇 COLOCA AQUÍ EL ENLACE DE TU IMAGEN ENTRE LAS COMILLAS -->
+      <img src="logo american finance-Photoroom.png" alt="Logo American Finance" class="logo-img">
+      American Finance
+    </div>
+
+    <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="nav-menu">
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="cursos.html">Cursos</a>
+        <a href="recursos.html">Recursos</a>
+        <a href="simulador.html">Simulador</a>
+        <a href="calculadora.html">Calculadora</a>
+        <a href="comunidad.html">Comunidad</a>
+        <a href="Mercados.html">Mercados</a>
+      </nav>
+
+      <div class="settings-container">
+        <div class="settings-button" aria-label="Ajustes y cuenta">
+          ⚙️
+        </div>
+        <div class="dropdown-menu">
+          <a href="login.html" class="login-option">Iniciar sesión</a>
+          <a href="register.html" class="register-option">Registrarse</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-text">
+        <div class="eyebrow">Educación financiera moderna</div>
+        <h1>El futuro de tus <span>finanzas</span> comienza hoy</h1>
+        <p>Aprende inversiones, ahorro y educación financiera con una experiencia moderna, interactiva y diseñada para tomar mejores decisiones con tu dinero.</p>
+        <div class="buttons">
+          <a class="cta-button primary" href="cursos.html">Explorar cursos</a>
+          <a class="cta-button" href="Mercados.html">Ver mercados</a>
+          <a class="cta-button" href="Evaluación.html">Evaluación</a>
+          <a class="cta-button ai" href="IA.html">Asistente IA</a>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-label="Panel de mercado">
+        <div class="panel-header">
+          <h3>Mercado en vivo</h3>
+          <span class="live">● Activo</span>
+        </div>
+        <div class="graph">
+          <svg viewBox="0 0 500 260" role="img" aria-label="Gráfica de crecimiento">
+            <path d="M25 210 C80 170, 115 190, 160 142 S240 110, 285 126 S360 74, 405 92 S465 48, 486 35"></path>
+          </svg>
+        </div>
+        <div class="panel-metrics">
+          <div class="metric">
+            <span>Portafolio</span>
+            <strong>+18.4%</strong>
+          </div>
+          <div class="metric">
+            <span>Riesgo</span>
+            <strong>Medio</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section market-section" id="mercados">
+      <h2 class="section-title">Mercados <span>Principales</span></h2>
+      <div class="market-cards">
+        <article class="market-card">
+          <h2>BTC</h2>
+          <p class="up">+4.12%</p>
+        </article>
+        <article class="market-card">
+          <h2>ETH</h2>
+          <p class="up">+2.74%</p>
+        </article>
+        <article class="market-card">
+          <h2>S&P 500</h2>
+          <p class="down">-0.36%</p>
+        </article>
+        <article class="market-card">
+          <h2>NASDAQ</h2>
+          <p class="up">+1.18%</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section benefits">
+      <h2 class="section-title">Aprende con <span>ventajas reales</span></h2>
+      <div class="benefit-grid">
+        <article class="benefit-card">
+          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80" alt="Finanzas personales">
+          <div class="card-content">
+            <h3>Finanzas personales</h3>
+            <p>Organiza ingresos, gastos, deudas y metas para construir una base financiera sólida.</p>
+          </div>
+        </article>
+        <article class="benefit-card">
+          <img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80" alt="Inversiones">
+          <div class="card-content">
+            <h3>Inversiones</h3>
+            <p>Comprende riesgo, diversificación, activos y estrategias antes de invertir.</p>
+          </div>
+        </article>
+        <article class="benefit-card">
+          <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80" alt="Negocios">
+          <div class="card-content">
+            <h3>Negocios</h3>
+            <p>Desarrolla criterio para emprender, validar ideas y tomar decisiones basadas en datos.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section courses" id="cursos">
+      <h2 class="section-title">Cursos <span>Destacados</span></h2>
+      <div class="course-grid">
+        <article class="course-card">
+          <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80" alt="Introducción a inversiones">
+          <div class="course-info">
+            <h3>Introducción a Inversiones</h3>
+            <p>Aprende los fundamentos del mercado financiero moderno.</p>
+            <a class="course-button cta-button" href="cursos.html">Entrar</a>
+          </div>
+        </article>
+        <article class="course-card">
+          <img src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=900&q=80" alt="Criptomonedas">
+          <div class="course-info">
+            <h3>Criptomonedas</h3>
+            <p>Descubre el funcionamiento de la tecnología blockchain y activos digitales.</p>
+            <a class="course-button cta-button" href="cursos.html">Entrar</a>
+          </div>
+        </article>
+        <article class="course-card">
+          <img src="https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=900&q=80" alt="Finanzas personales">
+          <div class="course-info">
+            <h3>Finanzas Personales</h3>
+            <p>Organiza tu dinero y mejora tus hábitos financieros desde hoy.</p>
+            <a class="course-button cta-button" href="cursos.html">Entrar</a>
+          </div>
+        </article>
+        <article class="course-card">
+          <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=900&q=80" alt="Trading inteligente">
+          <div class="course-info">
+            <h3>Trading Inteligente</h3>
+            <p>Aprende estrategias modernas para analizar mercados y operar con criterio.</p>
+            <a class="course-button cta-button" href="cursos.html">Entrar</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section stats" aria-label="Indicadores">
+      <article class="stat">
+        <h2 data-final="+12K">+12K</h2>
+        <p>Usuarios activos</p>
+      </article>
+      <article class="stat">
+        <h2 data-final="95%">95%</h2>
+        <p>Satisfacción</p>
+      </article>
+      <article class="stat">
+        <h2 data-final="+320">+320</h2>
+        <p>Lecciones</p>
+      </article>
+      <article class="stat">
+        <h2 data-final="24/7">24/7</h2>
+        <p>Acceso online</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 American Finance · Educación financiera interactiva</p>
+  </footer>
+
+  <script src="auth.js"></script>
+  <script>
+    const navbar = document.querySelector('.navbar');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelectorAll('.nav-menu a');
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navbar.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+      navToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+    });
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navbar.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Abrir menú');
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        navbar.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Abrir menú');
+      }
+    });
+
+    const stats = document.querySelectorAll('.stat h2');
+    stats.forEach(stat => {
+      const finalText = stat.dataset.final || stat.textContent;
+      if (!finalText) return;
+      
+      if(finalText.includes('K') || finalText.includes('+') || finalText.includes('%')) return;
+
+      let current = 0;
+      const target = parseInt(finalText);
+      const step = Math.max(1, Math.floor(target / 45));
+      
+      const interval = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          stat.textContent = finalText;
+          clearInterval(interval);
+        } else {
+          stat.textContent = current;
+        }
+      }, 28);
+    });
+  </script>
+</body>
+</html>
