@@ -1,823 +1,171 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-
-<title>Comunidad | American Finance</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-:root {
-    --gold: #ffd700;
-    --gold-dark: #d4af37;
-    --success: #00ff88;
-    --text: #ffffff;
-    --muted: #999999;
-    --panel-bg: rgba(255,255,255,0.03);
-    --border: rgba(255,255,255,0.05);
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter',sans-serif;
-}
-
-body{
-    background:
-    radial-gradient(circle at top left, rgba(212,175,55,0.10), transparent 25%),
-    radial-gradient(circle at bottom right, rgba(0,255,136,0.06), transparent 25%),
-    linear-gradient(180deg,#050505,#0a0a0a,#071510);
-
-    color:var(--text);
-    min-height:100vh;
-    overflow-x:hidden;
-    line-height:1.5;
-}
-
-/* ✅ BARRA SUPERIOR */
-.top-bar {
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    width: 100%;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background:rgba(0,0,0,0.7);
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: 900;
-    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.back-btn {
-    border: 0;
-    cursor: pointer;
-    font-weight: 900;
-    color: #050505;
-    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
-    box-shadow: 0 12px 35px rgba(255, 215, 0, 0.16);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    height: 42px;
-    padding: 0 18px;
-    border-radius: 12px;
-    font-size: 14px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.back-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 42px rgba(255, 215, 0, 0.24);
-}
-
-/* HERO */
-.hero{
-    text-align:center;
-    padding: 30px 20px 20px;
-}
-
-.hero h1{
-    font-size: 28px;
-    line-height:1.2;
-    font-weight:900;
-}
-
-.hero span{
-    color:var(--gold);
-    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.hero p{
-    margin-top:12px;
-    color:var(--muted);
-    font-size: 15px;
-    max-width:700px;
-    margin-left:auto;
-    margin-right:auto;
-}
-
-/* LAYOUT */
-.layout{
-    width:100%;
-    padding:15px;
-    display:grid;
-    grid-template-columns:1fr; /* En celular solo una columna */
-    gap:20px;
-}
-
-/* PANEL */
-.panel{
-    background:var(--panel-bg);
-    border:1px solid var(--border);
-    border-radius:20px;
-    backdrop-filter:blur(14px);
-    overflow:hidden;
-    box-shadow: 0 0 40px rgba(0,0,0,0.4), 0 0 20px rgba(212,175,55,0.04);
-    width: 100%;
-}
-
-/* CREATE POST */
-.post-box{
-    padding:18px;
-}
-
-.create-top{
-    display:flex;
-    align-items:center;
-    margin-bottom:15px;
-    gap:12px;
-}
-
-.user-profile{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    flex:1;
-}
-
-.profile-pic{
-    width: 48px;
-    height: 48px;
-    border-radius:50%;
-    background: linear-gradient(45deg, var(--gold), #ff00aa, var(--success));
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:black;
-    font-size: 18px;
-    font-weight:700;
-    flex-shrink:0;
-}
-
-.username{
-    font-size: 16px;
-    font-weight:700;
-}
-
-.status{
-    color:#888;
-    font-size: 13px;
-}
-
-textarea{
-    width:100%;
-    min-height: 110px;
-    background:#0f0f0f;
-    border:1px solid #222;
-    border-radius:16px;
-    padding:15px;
-    color:white;
-    resize:none;
-    font-size: 15px;
-    transition: border 0.3s ease;
-}
-
-textarea:focus{
-    outline:none;
-    border-color:var(--gold);
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
-}
-
-.post-actions{
-    display:flex;
-    flex-direction: column; /* Botones uno debajo de otro en celular */
-    gap:10px;
-    margin-top:12px;
-}
-
-.upload-btn{
-    width: 100%;
-    text-align: center;
-    background:#111;
-    border:1px solid #222;
-    padding:12px;
-    border-radius:14px;
-    cursor:pointer;
-    color:#ccc;
-    transition:0.3s;
-    font-size: 14px;
-}
-
-.upload-btn:hover{
-    border-color:var(--gold);
-    color:var(--gold);
-}
-
-.publish-btn{
-    width: 100%;
-    height: 44px;
-    border:none;
-    border-radius:14px;
-    background: linear-gradient(45deg, var(--gold), var(--gold-dark));
-    color:black;
-    font-weight:700;
-    cursor:pointer;
-    transition:0.3s;
-    font-size: 15px;
-}
-
-.publish-btn:hover{
-    transform:translateY(-2px);
-    box-shadow: 0 0 20px rgba(255,215,0,0.3);
-}
-
-.reset-btn{
-    width: 100%;
-    height: 44px;
-    border:none;
-    border-radius:14px;
-    background: linear-gradient(45deg,#ff4d4d,#ff1f1f);
-    color:white;
-    font-weight:700;
-    cursor:pointer;
-    font-size: 15px;
-}
-
-#previewContainer{
-    margin-top:12px;
-}
-
-.preview-image{
-    width:100%;
-    max-height:350px;
-    object-fit:cover;
-    border-radius:16px;
-    border:1px solid #222;
-}
-
-/* FEED */
-.feed{
-    padding:18px;
-}
-
-.post{
-    background:#0f0f0f;
-    border:1px solid #1f1f1f;
-    border-radius:18px;
-    padding:15px;
-    margin-bottom:18px;
-}
-
-.post-header{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:12px;
-}
-
-.avatar{
-    width: 40px;
-    height: 40px;
-    border-radius:50%;
-    background: linear-gradient(45deg, var(--gold), var(--success));
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:black;
-    font-weight:700;
-    font-size: 15px;
-    flex-shrink:0;
-}
-
-.post-user{
-    font-weight:700;
-    font-size: 15px;
-}
-
-.post-time{
-    font-size: 12px;
-    color:#777;
-}
-
-.post-text{
-    color:#ddd;
-    line-height:1.6;
-    margin-bottom:12px;
-    font-size: 15px;
-}
-
-.post-image{
-    width:100%;
-    max-height:400px;
-    object-fit:cover;
-    border-radius:14px;
-    border:1px solid #222;
-    margin-bottom:12px;
-}
-
-.actions{
-    display:flex;
-    gap:8px;
-}
-
-.action-btn{
-    flex:1;
-    height: 40px;
-    padding: 8px 5px;
-    border-radius:12px;
-    background:#111;
-    border:1px solid #222;
-    color:#ccc;
-    cursor:pointer;
-    transition:0.3s;
-    font-size: 13px;
-}
-
-.action-btn:hover{
-    border-color:var(--gold);
-    color:var(--gold);
-}
-
-/* ✅ CHAT EN VIVO - PERFECTO PARA CELULAR */
-.chat-header{
-    padding:15px 18px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.chat-header h2{
-    color:var(--gold);
-    font-size: 17px;
-}
-
-.live{
-    color:var(--success);
-    font-size: 12px;
-    font-weight:600;
-}
-
-.chat-messages{
-    height: 500px; /* Altura perfecta para celular */
-    overflow-y:auto;
-    padding:15px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    scroll-behavior: smooth;
-}
-
-/* Scrollbar personalizada dorada */
-.chat-messages::-webkit-scrollbar {
-    width: 5px;
-}
-.chat-messages::-webkit-scrollbar-track {
-    background: #1a1a1a;
-    border-radius: 10px;
-}
-.chat-messages::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
-    border-radius: 10px;
-}
-
-.chat-message{
-    display:flex;
-    gap:8px;
-    animation:fade 0.3s ease;
-}
-
-@keyframes fade{
-    from{
-        opacity:0;
-        transform:translateY(10px);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Comunidad | American Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050505; --panel: rgba(16, 16, 16, 0.88); --panel-strong: rgba(8, 8, 8, 0.94);
+      --line: rgba(255, 215, 0, 0.16); --line-soft: rgba(255, 255, 255, 0.08);
+      --gold: #ffd700; --gold-dark: #b98618; --cyan: #00d9ff; --green: #00ff9d;
+      --red: #ff6b6b; --text: #f7f7f7; --muted: #b8b8b8; --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
     }
-    to{
-        opacity:1;
-        transform:translateY(0);
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh; margin: 0; font-family: "Inter", Arial, sans-serif; color: var(--text);
+      background: radial-gradient(circle at 8% 4%, rgba(255, 215, 0, 0.16), transparent 30%), radial-gradient(circle at 88% 10%, rgba(0, 217, 255, 0.12), transparent 28%), radial-gradient(circle at 76% 92%, rgba(0, 255, 157, 0.08), transparent 28%), linear-gradient(180deg, #050505, #071111 62%, #030303);
+      overflow-x: hidden;
     }
-}
-
-.message-avatar{
-    width: 32px;
-    height: 32px;
-    border-radius:50%;
-    background: linear-gradient(45deg, var(--gold), var(--success));
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:black;
-    font-size: 12px;
-    font-weight:700;
-    flex-shrink:0;
-}
-
-.message-content{
-    background:#0f0f0f;
-    border:1px solid #1f1f1f;
-    padding:10px 12px;
-    border-radius:14px;
-    width:100%;
-}
-
-.message-user{
-    font-size: 13px;
-    font-weight:700;
-    color:var(--gold);
-    margin-bottom:4px;
-}
-
-.message-text{
-    color:#ddd;
-    font-size: 14px;
-    line-height:1.4;
-}
-
-/* CHAT INPUT */
-.chat-input{
-    padding: min-height: 44px;15px 18px;
-    border-top:1px solid var(--border);
-    display:flex;
-    gap:10px;
-}
-
-.chat-input input{
-    flex:1;
-    height: 44px;
-    padding: min-height: 44px;0 15px;
-    border-radius:14px;
-    border:1px solid #222;
-    background:#0d0d0d;
-    color:white;
-    font-size: 15px;
-    transition: border 0.3s ease;
-}
-
-.chat-input input:focus{
-    outline:none;
-    border-color:var(--gold);
-}
-
-.send-btn{
-    height: 44px;
-    padding:0 16px;
-    border:none;
-    border-radius:14px;
-    background: linear-gradient(45deg, var(--gold), var(--gold-dark));
-    color:black;
-    font-weight:700;
-    cursor:pointer;
-    font-size: 15px;
-    transition: transform 0.2s ease;
-    white-space: nowrap;
-}
-
-.send-btn:hover {
-    transform: translateY(-2px);
-}
-
-/* ✅ TABLET Y ESCRITORIO */
-@media(min-width:768px){
-
-    .top-bar {
-        padding: 18px 60px;
-    }
-
-    .logo {
-        font-size: 28px;
-    }
-
-    .back-btn {
-        height: 46px;
-        padding: 0 22px;
-        font-size: 15px;
-    }
-
-    .hero h1 {
-        font-size: 50px;
-    }
-
-    .hero p {
-        font-size: 18px;
-    }
-
-    .layout {
-        max-width: 1500px;
-        margin: 0 auto;
-        padding: 20px;
-        grid-template-columns: 1fr 420px; /* Vuelve a 2 columnas en pantallas grandes */
-        gap:25px;
-    }
-
-    .post-actions {
-        flex-direction: row; /* Botones en línea */
-        flex-wrap: wrap;
-    }
-
-    .upload-btn {
-        width: auto;
-    }
-
-    .publish-btn {
-        width: auto;
-        flex:1;
-    }
-
-    .reset-btn {
-        width: auto;
-    }
-
-    .chat-messages {
-        height: 600px;
-    }
-}
-
-
-    @media (max-width: 768px) {
-      body { font-size: clamp(14px, 3.5vw, 16px); padding: clamp(12px, 3vw, 16px); }
-      
-      /* Navbar/Header responsive */
-      header, .navbar { flex-direction: column; gap: clamp(12px, 3vw, 16px); padding: clamp(12px, 3vw, 16px) !important; }
-      
-      /* Main layout */
-      main { width: 100% !important; padding: clamp(12px, 3vw, 20px) !important; margin: auto; }
-      
-      /* Container & sections */
-      .container, .layout, .panel, .form-panel, section { grid-template-columns: 1fr !important; padding: clamp(16px, 3vw, 28px) !important; gap: clamp(12px, 3vw, 20px) !important; }
-      
-      /* Grid items */
-      .grid, .info-grid, .actions, .courses, .cards { grid-template-columns: 1fr !important; }
-      
-      /* Typography */
-      h1 { font-size: clamp(24px, 6vw, 32px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
-      h2 { font-size: clamp(20px, 5vw, 28px) !important; margin-bottom: clamp(10px, 2.5vw, 14px); }
-      h3 { font-size: clamp(16px, 4vw, 24px) !important; margin-bottom: clamp(8px, 2vw, 12px); }
-      p { font-size: clamp(13px, 3vw, 15px); line-height: 1.5; }
-      
-      /* Forms & Inputs */
-      input, textarea, select, button, .button { min-height: 44px !important; padding: clamp(10px, 2vw, 14px) !important; font-size: clamp(14px, 3vw, 16px); width: 100% !important; }
-      
-      /* Flex wrapping */
-      .flex, [display="flex"] { flex-direction: column !important; flex-wrap: wrap; }
-      
-      /* Cards & boxes */
-      .card, .box, .question, .option, .info-box { padding: clamp(12px, 3vw, 20px) !important; margin-bottom: clamp(12px, 3vw, 16px); }
-      
-      /* Images */
-      img { max-width: 100%; height: auto; }
-      
-      /* Buttons */
-      .finish-btn, .back-btn, .btn, [type="submit"], [type="button"] { min-height: 44px; padding: clamp(10px, 2vw, 14px) !important; }
-      
-      /* Logo sizing */
-      .logo img, .brand img { max-width: 80%; width: clamp(120px, 40vw, 180px); }
-      
-      /* Text alignment */
-      .hero, .brand { text-align: center; align-items: center; justify-items: center; }
+    button, textarea, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    .top-bar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px clamp(16px, 5vw, 64px); border-bottom: 1px solid var(--line); background: rgba(0,0,0,.78); backdrop-filter: blur(18px); }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; font-weight: 900; }
+    .brand img { width: 44px; height: 44px; object-fit: contain; }
+    .brand span { background: linear-gradient(45deg, var(--gold-dark), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: clamp(20px, 3vw, 28px); white-space: nowrap; }
+    .account-bar { display: flex; align-items: center; justify-content: flex-end; gap: 10px; min-width: 0; }
+    .account-chip { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 8px 12px; border: 1px solid var(--line-soft); border-radius: 999px; background: rgba(255,255,255,.045); }
+    .mini-avatar, .avatar, .message-avatar { display: inline-grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: #050505; background: linear-gradient(135deg, var(--gold), var(--cyan)); font-weight: 900; }
+    .mini-avatar { width: 32px; height: 32px; font-size: 13px; }
+    .account-name { max-width: 180px; overflow: hidden; color: var(--text); font-size: 14px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+    .nav-button, .logout-button, .publish-btn, .send-btn { min-height: 44px; border: 0; border-radius: 8px; color: #050505; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); font-weight: 900; transition: transform .2s ease, box-shadow .2s ease; }
+    .nav-button, .logout-button { display: inline-grid; place-items: center; padding: 0 16px; white-space: nowrap; }
+    .logout-button { border: 1px solid rgba(255,255,255,.1); color: var(--text); background: rgba(255,255,255,.06); }
+    .nav-button:hover, .logout-button:hover, .publish-btn:hover, .send-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(255,215,0,.2); }
+    main { width: min(1440px, 100%); margin: 0 auto; padding: clamp(24px, 5vw, 58px) clamp(14px, 4vw, 28px) 64px; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 360px); gap: 18px; margin-bottom: 20px; }
+    .hero-main, .session-card, .panel { border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(180deg, rgba(18,18,18,.9), rgba(8,8,8,.82)); box-shadow: var(--shadow); backdrop-filter: blur(18px); }
+    .hero-main, .session-card { padding: clamp(22px, 4vw, 38px); }
+    .eyebrow { display: inline-flex; align-items: center; min-height: 32px; margin-bottom: 14px; padding: 7px 12px; border: 1px solid rgba(255,215,0,.24); border-radius: 999px; color: var(--gold); background: rgba(255,215,0,.07); font-size: 12px; font-weight: 900; text-transform: uppercase; }
+    h1, h2, p { margin: 0; }
+    h1 { max-width: 820px; font-size: clamp(34px, 6vw, 68px); line-height: 1; letter-spacing: 0; }
+    h1 span, h2 span { color: var(--gold); }
+    .hero-main p { max-width: 780px; margin-top: 16px; color: var(--muted); font-size: clamp(15px, 2vw, 18px); line-height: 1.7; }
+    .session-card { display: grid; align-content: center; gap: 16px; }
+    .session-card h2 { font-size: 24px; line-height: 1.2; }
+    .session-card p { color: var(--muted); line-height: 1.6; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .stat { min-height: 92px; padding: 16px; border: 1px solid var(--line-soft); border-radius: 8px; background: rgba(255,255,255,.04); }
+    .stat strong { display: block; color: var(--gold); font-size: 28px; line-height: 1; }
+    .stat span { display: block; margin-top: 8px; color: var(--muted); font-size: 13px; font-weight: 700; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 430px); gap: 20px; align-items: start; }
+    .panel { overflow: hidden; }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 20px; border-bottom: 1px solid var(--line); background: rgba(0,0,0,.22); }
+    .panel-header h2 { font-size: 20px; }
+    .panel-header p { margin-top: 4px; color: var(--muted); font-size: 13px; }
+    .live-pill { flex: 0 0 auto; padding: 8px 10px; border: 1px solid rgba(0,255,157,.22); border-radius: 999px; color: var(--green); background: rgba(0,255,157,.07); font-size: 12px; font-weight: 900; white-space: nowrap; }
+    .composer { padding: 20px; border-bottom: 1px solid var(--line); }
+    .composer-user, .post-header, .chat-message { display: flex; align-items: flex-start; gap: 12px; }
+    .avatar { width: 46px; height: 46px; font-size: 17px; }
+    .composer-user { align-items: center; margin-bottom: 14px; }
+    .composer-name, .post-user, .message-user { color: var(--text); font-weight: 900; }
+    .composer-status, .post-time { color: var(--muted); font-size: 13px; }
+    textarea { width: 100%; min-height: 128px; resize: vertical; padding: 16px; border: 1px solid var(--line-soft); border-radius: 8px; color: var(--text); background: rgba(0,0,0,.36); outline: none; line-height: 1.6; transition: border-color .2s ease, box-shadow .2s ease; }
+    textarea:focus, .chat-input input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,215,0,.11); }
+    .preview-image, .post-image { width: 100%; border: 1px solid var(--line-soft); border-radius: 8px; object-fit: cover; }
+    .preview-image { max-height: 360px; margin-top: 14px; }
+    .post-image { max-height: 440px; margin-top: 14px; }
+    .composer-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+    .upload-btn, .reset-btn, .ghost-btn { min-height: 44px; display: inline-grid; place-items: center; border: 1px solid var(--line-soft); border-radius: 8px; padding: 0 14px; color: var(--muted); background: rgba(255,255,255,.05); font-weight: 800; cursor: pointer; }
+    .reset-btn { color: #ffd6d6; border-color: rgba(255,107,107,.22); background: rgba(255,107,107,.08); }
+    .publish-btn { padding: 0 22px; }
+    .feed { display: grid; gap: 14px; padding: 20px; }
+    .empty-feed { padding: 26px; border: 1px dashed rgba(255,215,0,.24); border-radius: 8px; color: var(--muted); background: rgba(255,215,0,.04); text-align: center; line-height: 1.6; }
+    .post { padding: 18px; border: 1px solid var(--line-soft); border-radius: 8px; background: rgba(255,255,255,.04); }
+    .post-header { align-items: center; margin-bottom: 12px; }
+    .post-text { color: #e7e7e7; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .post-actions { display: flex; gap: 10px; margin-top: 14px; }
+    .action-btn { min-height: 40px; flex: 1; border: 1px solid var(--line-soft); border-radius: 8px; color: var(--muted); background: rgba(0,0,0,.2); font-weight: 800; }
+    .action-btn:hover, .upload-btn:hover, .ghost-btn:hover { color: var(--gold); border-color: rgba(255,215,0,.34); }
+    .chat-messages { height: 520px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 18px; scroll-behavior: smooth; }
+    .message-avatar { width: 36px; height: 36px; font-size: 13px; }
+    .message-content { min-width: 0; flex: 1; padding: 12px 14px; border: 1px solid var(--line-soft); border-radius: 8px; background: rgba(255,255,255,.045); }
+    .message-user { margin-bottom: 4px; color: var(--gold); font-size: 13px; }
+    .message-text { color: #e4e4e4; font-size: 14px; line-height: 1.55; overflow-wrap: anywhere; }
+    .chat-input { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 18px; border-top: 1px solid var(--line); background: rgba(0,0,0,.18); }
+    .chat-input input { width: 100%; min-height: 46px; border: 1px solid var(--line-soft); border-radius: 8px; padding: 0 14px; color: var(--text); background: rgba(0,0,0,.36); outline: none; }
+    .send-btn { padding: 0 18px; }
+    .toast { position: fixed; right: 18px; bottom: 18px; z-index: 30; max-width: min(420px, calc(100vw - 36px)); padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: var(--panel-strong); box-shadow: var(--shadow); transform: translateY(24px); opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    @media (max-width: 980px) { .hero, .layout { grid-template-columns: 1fr; } .stats { grid-template-columns: 1fr 1fr 1fr; } }
+    @media (max-width: 680px) {
+      .top-bar, .account-bar, .composer-actions, .post-actions, .chat-input { align-items: stretch; grid-template-columns: 1fr; flex-direction: column; }
+      .top-bar { position: static; } .brand, .account-bar, .account-chip, .nav-button, .logout-button, .publish-btn, .send-btn, .upload-btn, .reset-btn, .ghost-btn { width: 100%; }
+      .brand { justify-content: center; } .account-chip { justify-content: center; } .stats { grid-template-columns: 1fr; } .panel-header { align-items: flex-start; flex-direction: column; } .chat-messages { height: 420px; }
     }
   </style>
 </head>
-
 <body>
-
-<!-- ✅ SOLO LOGO Y BOTÓN VOLVER AL INICIO -->
-<div class="top-bar">
-    <div class="logo">American Finance</div>
-    <a href="index.html" class="back-btn">Volver al inicio</a>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-    <h1>Comunidad <span>American Finance</span></h1>
-    <p>Aprende, comparte y conversa con otros estudiantes</p>
-</div>
-
-<!-- LAYOUT -->
-<div class="layout">
-
-    <!-- POSTS -->
-    <div class="panel">
-        <div class="post-box">
-            <div class="create-top">
-                <div class="user-profile">
-                    <div class="profile-pic">A</div>
-                    <div>
-                        <div class="username" id="currentUserName">Alex</div>
-                        <div class="status">Comparte una idea financiera...</div>
-                    </div>
-                </div>
-            </div>
-
-            <textarea id="postInput" placeholder="¿Qué quieres publicar hoy?"></textarea>
-
-            <div id="previewContainer"></div>
-
-            <div class="post-actions">
-                <label class="upload-btn">
-                    📷 Agregar imagen
-                    <input type="file" id="imageInput" accept="image/*" hidden>
-                </label>
-                <button class="publish-btn" onclick="crearPost()">Publicar</button>
-                <button class="reset-btn" onclick="resetPosts()">🗑 Reiniciar</button>
-            </div>
-        </div>
-
+  <header class="top-bar">
+    <a class="brand" href="index.html" aria-label="Ir al inicio"><img src="logo american finance-Photoroom.png" alt="American Finance"><span>American Finance</span></a>
+    <div class="account-bar">
+      <div class="account-chip" aria-label="Usuario en sesión"><div class="mini-avatar user-initial">U</div><div class="account-name user-name">Cargando...</div></div>
+      <a class="nav-button" href="home.html">Mi cuenta</a>
+      <button class="logout-button" type="button" id="logoutButton">Cerrar sesión</button>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-main"><div class="eyebrow">Comunidad privada</div><h1>Comparte avances con la comunidad <span>American Finance</span></h1><p>Publica ideas, celebra logros y conversa con otros estudiantes desde tu sesión. Tu nombre aparece automáticamente en publicaciones y mensajes.</p></div>
+      <aside class="session-card"><h2>Hola, <span class="user-name">usuario</span></h2><p id="sessionEmail">Validando tu sesión...</p><a class="ghost-btn" href="cursos.html">Continuar aprendiendo</a></aside>
+    </section>
+    <section class="stats" aria-label="Resumen de comunidad"><div class="stat"><strong id="postCount">0</strong><span>Publicaciones</span></div><div class="stat"><strong id="likeCount">0</strong><span>Reacciones</span></div><div class="stat"><strong id="chatCount">0</strong><span>Mensajes del chat</span></div></section>
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-header"><div><h2>Muro de estudiantes</h2><p>Comparte preguntas, hábitos, avances y recursos útiles.</p></div><button class="reset-btn" type="button" id="resetPostsButton">Limpiar muro</button></div>
+        <div class="composer"><div class="composer-user"><div class="avatar user-initial">U</div><div><div class="composer-name user-name">Usuario</div><div class="composer-status">Publicando con tu cuenta activa</div></div></div><textarea id="postInput" maxlength="600" placeholder="¿Qué aprendiste hoy? Comparte una idea, una meta o una duda financiera..."></textarea><div id="previewContainer"></div><div class="composer-actions"><label class="upload-btn">Agregar imagen<input type="file" id="imageInput" accept="image/*" hidden></label><button class="publish-btn" type="button" id="publishButton">Publicar</button></div></div>
         <div class="feed" id="feed"></div>
-    </div>
-
-    <!-- ✅ CHAT EN VIVO - RESPONSIVE PERFECTO -->
-    <div class="panel">
-        <div class="chat-header">
-            <h2>💬 Chat en vivo</h2>
-            <div class="live">● EN VIVO</div>
-        </div>
-
-        <div class="chat-messages" id="chatMessages"></div>
-
-        <div class="chat-input">
-            <input id="chatInput" placeholder="Escribe un mensaje positivo...">
-            <button class="send-btn" onclick="enviarMensaje()">Enviar</button>
-        </div>
-    </div>
-
-</div>
-
-<script src="auth.js"></script>
-<script>
-
-/* POSTS */
-let posts = JSON.parse(localStorage.getItem("posts")) || [];
-let imagenActual = "";
-const imageInput = document.getElementById("imageInput");
-
-// Obtener nombre del usuario autenticado
-function obtenerNombreUsuario() {
-  const user = AmericanFinanceAuth.getUser();
-  return user ? user.name : "Anónimo";
-}
-
-/* PREVIEW */
-imageInput.addEventListener("change",function(e){
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = function(ev){
-        imagenActual = ev.target.result;
-        document.getElementById("previewContainer").innerHTML = `
-            <img src="${imagenActual}" class="preview-image">
-        `;
-    };
-    reader.readAsDataURL(file);
-});
-
-/* CREATE POST */
-function crearPost(){
-    const texto = document.getElementById("postInput").value;
-    if(!texto.trim() && !imagenActual) return;
-
-    posts.unshift({
-        usuario: obtenerNombreUsuario(),
-        texto:texto,
-        imagen:imagenActual,
-        fecha:new Date().toLocaleString(),
-        likes:0
-    });
-
-    localStorage.setItem("posts", JSON.stringify(posts));
-
-    document.getElementById("postInput").value = "";
-    document.getElementById("previewContainer").innerHTML = "";
-    imagenActual = "";
-    imageInput.value = "";
-
-    renderPosts();
-}
-
-/* RENDER */
-function renderPosts(){
+      </div>
+      <aside class="panel"><div class="panel-header"><div><h2>Chat en vivo</h2><p>Un espacio rápido para motivarse y resolver dudas simples.</p></div><div class="live-pill">En línea</div></div><div class="chat-messages" id="chatMessages"></div><div class="chat-input"><input id="chatInput" maxlength="220" placeholder="Escribe un mensaje para la comunidad..."><button class="send-btn" type="button" id="sendMessageButton">Enviar</button></div></aside>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="auth.js"></script>
+  <script>
+    const POSTS_KEY = "af_community_posts";
+    const CHAT_KEY = "af_community_chat";
+    const bannedWords = ["odio", "basura", "idiota", "mierda"];
+    const seedMessages = [
+      { user: "Sofía", text: "Hoy organicé mi primer presupuesto mensual." },
+      { user: "Mateo", text: "La unidad de ahorro me ayudó a separar metas por prioridad." },
+      { user: "Camila", text: "Recordatorio amable: anoten sus gastos pequeños, ahí se escapa mucho dinero." }
+    ];
+    let currentUser = null;
+    let posts = readList(POSTS_KEY);
+    let chatMessages = readList(CHAT_KEY);
+    let currentImage = "";
     const feed = document.getElementById("feed");
-    feed.innerHTML = "";
-
-    posts.forEach((post,index)=>{
-        feed.innerHTML += `
-        <div class="post">
-            <div class="post-header">
-                <div class="avatar">${post.usuario.charAt(0)}</div>
-                <div>
-                    <div class="post-user">${post.usuario}</div>
-                    <div class="post-time">${post.fecha}</div>
-                </div>
-            </div>
-
-            ${post.texto ? `<div class="post-text">${post.texto}</div>` : ""}
-            ${post.imagen ? `<img src="${post.imagen}" class="post-image">` : ""}
-
-            <div class="actions">
-                <button class="action-btn" onclick="likePost(${index})">❤️ ${post.likes}</button>
-                <button class="action-btn">💬 Comentar</button>
-                <button class="action-btn">📤 Compartir</button>
-            </div>
-        </div>
-        `;
-    });
-}
-
-renderPosts();
-
-/* LIKE */
-function likePost(index){
-    posts[index].likes++;
-    localStorage.setItem("posts", JSON.stringify(posts));
-    renderPosts();
-}
-
-/* RESET */
-function resetPosts(){
-    if(confirm("¿Seguro que quieres eliminar todas las publicaciones?")){
-        posts = [];
-        localStorage.removeItem("posts");
-        renderPosts();
-    }
-}
-
-/* ✅ CÓDIGO DEL CHAT */
-const mensajesAuto = [
-    "Acabo de terminar la unidad 3 🚀",
-    "Hoy aprendí a ahorrar mejor 💰",
-    "Las inversiones son interesantes 📈",
-    "Ya desbloqueé el nivel 2 🔥",
-    "El simulador financiero está genial 😎",
-    "Estoy mejorando mis hábitos financieros 💵"
-];
-
-const usuariosFake = [
-    "Carlos", "Sofía", "Mateo", "Valentina", "Daniel", "Camila"
-];
-
-const palabrasBloqueadas = ["odio", "basura", "idiota", "mierda"];
-
-function contieneNegativo(texto){
-    texto = texto.toLowerCase();
-    return palabrasBloqueadas.some(p => texto.includes(p));
-}
-
-function agregarMensaje(usuario,texto){
-    const chat = document.getElementById("chatMessages");
-    const div = document.createElement("div");
-    div.className = "chat-message";
-    div.innerHTML = `
-        <div class="message-avatar">${usuario.charAt(0)}</div>
-        <div class="message-content">
-            <div class="message-user">${usuario}</div>
-            <div class="message-text">${texto}</div>
-        </div>
-    `;
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
-}
-
-function mensajeAutomatico(){
-    const usuario = usuariosFake[Math.floor(Math.random() * usuariosFake.length)];
-    const texto = mensajesAuto[Math.floor(Math.random() * mensajesAuto.length)];
-    agregarMensaje(usuario,texto);
-}
-
-setInterval(mensajeAutomatico,3500);
-
-function enviarMensaje(){
-    const input = document.getElementById("chatInput");
-    const texto = input.value;
-    if(!texto.trim()) return;
-    if(contieneNegativo(texto)){
-        alert("Solo se permiten mensajes positivos 🚀");
-        return;
-    }
-    agregarMensaje(obtenerNombreUsuario(),texto);
-    input.value = "";
-}
-
-document.getElementById("chatInput").addEventListener("keypress",function(e){
-    if(e.key === "Enter") enviarMensaje();
-});
-
-// Mensajes iniciales
-mensajeAutomatico();
-mensajeAutomatico();
-mensajeAutomatico();
-
-</script>
-
+    const postInput = document.getElementById("postInput");
+    const imageInput = document.getElementById("imageInput");
+    const previewContainer = document.getElementById("previewContainer");
+    const chatMessagesEl = document.getElementById("chatMessages");
+    const chatInput = document.getElementById("chatInput");
+    const toast = document.getElementById("toast");
+    function readList(key) { try { const value = JSON.parse(localStorage.getItem(key) || "[]"); return Array.isArray(value) ? value : []; } catch { return []; } }
+    function saveList(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+    function initials(name) { return String(name || "U").trim().split(/\s+/).slice(0, 2).map((part) => part.charAt(0).toUpperCase()).join("") || "U"; }
+    function showToast(message) { toast.textContent = message; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2600); }
+    function containsBlockedText(text) { const normalized = String(text || "").toLowerCase(); return bannedWords.some((word) => normalized.includes(word)); }
+    function setUser(user) { currentUser = user; document.querySelectorAll(".user-name").forEach((el) => { el.textContent = user.name; }); document.querySelectorAll(".user-initial").forEach((el) => { el.textContent = initials(user.name); }); document.getElementById("sessionEmail").textContent = user.email; }
+    function updateStats() { document.getElementById("postCount").textContent = posts.length; document.getElementById("likeCount").textContent = posts.reduce((total, post) => total + Number(post.likes || 0), 0); document.getElementById("chatCount").textContent = chatMessages.length; }
+    function createAvatar(name, className = "avatar") { const avatar = document.createElement("div"); avatar.className = className; avatar.textContent = initials(name); return avatar; }
+    function renderPosts() { feed.innerHTML = ""; if (!posts.length) { const empty = document.createElement("div"); empty.className = "empty-feed"; empty.textContent = "Todavía no hay publicaciones. Sé la primera persona en compartir un avance financiero."; feed.appendChild(empty); updateStats(); return; } posts.forEach((post, index) => { const article = document.createElement("article"); article.className = "post"; const header = document.createElement("div"); header.className = "post-header"; header.appendChild(createAvatar(post.user)); const meta = document.createElement("div"); const user = document.createElement("div"); user.className = "post-user"; user.textContent = post.user; const time = document.createElement("div"); time.className = "post-time"; time.textContent = post.date; meta.append(user, time); header.appendChild(meta); article.appendChild(header); if (post.text) { const text = document.createElement("div"); text.className = "post-text"; text.textContent = post.text; article.appendChild(text); } if (post.image) { const image = document.createElement("img"); image.className = "post-image"; image.src = post.image; image.alt = "Imagen publicada por " + post.user; article.appendChild(image); } const actions = document.createElement("div"); actions.className = "post-actions"; const like = document.createElement("button"); like.className = "action-btn"; like.type = "button"; like.textContent = `Me gusta (${post.likes || 0})`; like.addEventListener("click", () => likePost(index)); const comment = document.createElement("button"); comment.className = "action-btn"; comment.type = "button"; comment.textContent = "Comentar"; comment.addEventListener("click", () => { chatInput.focus(); showToast("Escribe tu comentario en el chat en vivo."); }); actions.append(like, comment); article.appendChild(actions); feed.appendChild(article); }); updateStats(); }
+    function renderChat() { chatMessagesEl.innerHTML = ""; const messages = chatMessages.length ? chatMessages : seedMessages; messages.forEach((message) => { const row = document.createElement("div"); row.className = "chat-message"; row.appendChild(createAvatar(message.user, "message-avatar")); const content = document.createElement("div"); content.className = "message-content"; const user = document.createElement("div"); user.className = "message-user"; user.textContent = message.user; const text = document.createElement("div"); text.className = "message-text"; text.textContent = message.text; content.append(user, text); row.appendChild(content); chatMessagesEl.appendChild(row); }); chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight; updateStats(); }
+    function publishPost() { const text = postInput.value.trim(); if (!text && !currentImage) { showToast("Escribe algo o agrega una imagen antes de publicar."); return; } if (containsBlockedText(text)) { showToast("Mantengamos la comunidad respetuosa y positiva."); return; } posts.unshift({ user: currentUser.name, userId: currentUser.id, text, image: currentImage, date: new Date().toLocaleString("es-CO", { dateStyle: "medium", timeStyle: "short" }), likes: 0 }); saveList(POSTS_KEY, posts); postInput.value = ""; imageInput.value = ""; currentImage = ""; previewContainer.innerHTML = ""; renderPosts(); showToast("Publicación creada."); }
+    function likePost(index) { posts[index].likes = Number(posts[index].likes || 0) + 1; saveList(POSTS_KEY, posts); renderPosts(); }
+    function resetPosts() { if (!confirm("¿Seguro que quieres limpiar el muro de esta comunidad en este navegador?")) return; posts = []; saveList(POSTS_KEY, posts); renderPosts(); showToast("Muro limpiado."); }
+    function sendMessage() { const text = chatInput.value.trim(); if (!text) return; if (containsBlockedText(text)) { showToast("Solo se permiten mensajes respetuosos."); return; } chatMessages.push({ user: currentUser.name, text, date: new Date().toISOString() }); if (chatMessages.length > 60) chatMessages = chatMessages.slice(-60); saveList(CHAT_KEY, chatMessages); chatInput.value = ""; renderChat(); }
+    imageInput.addEventListener("change", (event) => { const file = event.target.files[0]; if (!file) return; if (!file.type.startsWith("image/")) { showToast("Selecciona una imagen válida."); imageInput.value = ""; return; } const reader = new FileReader(); reader.onload = (readerEvent) => { currentImage = readerEvent.target.result; previewContainer.innerHTML = ""; const image = document.createElement("img"); image.className = "preview-image"; image.src = currentImage; image.alt = "Vista previa de la imagen"; previewContainer.appendChild(image); }; reader.readAsDataURL(file); });
+    document.getElementById("publishButton").addEventListener("click", publishPost);
+    document.getElementById("resetPostsButton").addEventListener("click", resetPosts);
+    document.getElementById("sendMessageButton").addEventListener("click", sendMessage);
+    document.getElementById("logoutButton").addEventListener("click", () => { AmericanFinanceAuth.clearSession(); window.location.href = "index.html"; });
+    chatInput.addEventListener("keydown", (event) => { if (event.key === "Enter") sendMessage(); });
+    AmericanFinanceAuth.requireAuth().then((user) => { if (!user) return; setUser(user); renderPosts(); renderChat(); });
+  </script>
 </body>
 </html>

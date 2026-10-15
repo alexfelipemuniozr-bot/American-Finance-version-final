@@ -358,7 +358,7 @@
     .input-area input {
       width: 100%;
       min-height: 54px;
-      padding: min-height: 44px; 14px 16px;
+      padding: 14px 16px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       color: var(--text);
@@ -609,6 +609,17 @@ Pregunta lo que quieras sobre finanzas, ahorro, inversiones o deudas.
     const input = document.getElementById("userInput");
     const sendButton = document.getElementById("sendButton");
 
+    function getApiBase() {
+      const { protocol, hostname, port } = window.location;
+
+      if (protocol === "file:") return "http://localhost:3000";
+      if ((hostname === "localhost" || hostname === "127.0.0.1") && port !== "3000") {
+        return "http://localhost:3000";
+      }
+
+      return "";
+    }
+
     function addMessage(text, type = "ai") {
       const message = document.createElement("div");
       message.className = `message ${type}`;
@@ -629,7 +640,7 @@ Pregunta lo que quieras sobre finanzas, ahorro, inversiones o deudas.
       const loading = addMessage("Pensando...", "ai");
 
       try {
-        const res = await fetch("http://localhost:3000/chat", {
+        const res = await fetch(`${getApiBase()}/chat`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -639,7 +650,7 @@ Pregunta lo que quieras sobre finanzas, ahorro, inversiones o deudas.
           })
         });
 
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         loading.remove();
 
         if (!res.ok || data.error) {
@@ -650,7 +661,7 @@ Pregunta lo que quieras sobre finanzas, ahorro, inversiones o deudas.
         addMessage(data.reply || "No recibí respuesta del asistente.", "ai");
       } catch (error) {
         loading.remove();
-        addMessage("Error conectando con el backend.", "ai error");
+        addMessage(`Error conectando con el backend en ${getApiBase() || window.location.origin}. Verifica que el servidor esté iniciado con npm start.`, "ai error");
       }
     }
 

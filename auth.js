@@ -27,14 +27,21 @@
   }
 
   async function request(path, body) {
-    const response = await fetch(`${API_BASE}${path}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || "No se pudo completar la acción.");
-    return data;
+    try {
+      const response = await fetch(`${API_BASE}${path}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "No se pudo completar la acción.");
+      return data;
+    } catch (error) {
+      if (error instanceof TypeError) {
+        throw new Error("No se pudo conectar con el servidor.");
+      }
+      throw error;
+    }
   }
 
   async function requireAuth() {

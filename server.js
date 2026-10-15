@@ -14,9 +14,10 @@ const DATA_DIR = path.join(__dirname, "data");
 const USERS_FILE = path.join(DATA_DIR, "users.json");
 const TOKEN_SECRET = process.env.TOKEN_SECRET || "american-finance-dev-secret";
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 24 * 7;
+const MAX_MESSAGE_CHARS = 4000;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "100kb" }));
 
 function ensureStore() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -25,7 +26,13 @@ function ensureStore() {
 
 function readUsers() {
   ensureStore();
-  return JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+  try {
+    const users = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+    return Array.isArray(users) ? users : [];
+  } catch (error) {
+    console.error("No se pudo leer data/users.json:", error.message);
+    return [];
+  }
 }
 
 function saveUsers(users) {
@@ -43,8 +50,11 @@ function hashPassword(password, salt = crypto.randomBytes(16).toString("hex")) {
 }
 
 function verifyPassword(password, user) {
+  if (!user?.salt || !user?.passwordHash) return false;
   const { hash } = hashPassword(password, user.salt);
-  return crypto.timingSafeEqual(Buffer.from(hash, "hex"), Buffer.from(user.passwordHash, "hex"));
+  const current = Buffer.from(hash, "hex");
+  const expected = Buffer.from(user.passwordHash, "hex");
+  return current.length === expected.length && crypto.timingSafeEqual(current, expected);
 }
 
 function base64url(value) {
@@ -63,14 +73,20 @@ function readToken(req) {
 }
 
 function verifyToken(token) {
-  const [body, signature] = String(token || "").split(".");
-  if (!body || !signature) return null;
+  try {
+    const [body, signature] = String(token || "").split(".");
+    if (!body || !signature) return null;
 
-  const expected = crypto.createHmac("sha256", TOKEN_SECRET).update(body).digest("base64url");
-  if (!crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))) return null;
+    const expected = crypto.createHmac("sha256", TOKEN_SECRET).update(body).digest("base64url");
+    const current = Buffer.from(signature);
+    const expectedBuffer = Buffer.from(expected);
+    if (current.length !== expectedBuffer.length || !crypto.timingSafeEqual(current, expectedBuffer)) return null;
 
-  const payload = JSON.parse(Buffer.from(body, "base64url").toString("utf8"));
-  return payload.exp > Date.now() ? payload : null;
+    const payload = JSON.parse(Buffer.from(body, "base64url").toString("utf8"));
+    return payload.exp > Date.now() ? payload : null;
+  } catch {
+    return null;
+  }
 }
 
 function authRequired(req, res, next) {
@@ -137,30 +153,87 @@ app.post("/api/auth/logout", (_req, res) => {
 const groq = process.env.GROQ_API_KEY
   ? new Groq({ apiKey: process.env.GROQ_API_KEY })
   : null;
+const aiProvider = String(process.env.AI_PROVIDER || (groq ? "groq" : "none")).toLowerCase();
+
+function aiConfiguration() {
+  return {
+    provider: aiProvider,
+    configured: aiProvider === "groq" && Boolean(groq),
+  };
+}
+
+function isNetworkError(error, seen = new Set()) {
+  if (!error || seen.has(error)) return false;
+  seen.add(error);
+
+  if (["EACCES", "ENOTFOUND", "ECONNREFUSED", "ETIMEDOUT"].includes(error.code)) return true;
+  if (Array.isArray(error.errors) && error.errors.some((item) => isNetworkError(item, seen))) return true;
+  return isNetworkError(error.cause, seen);
+}
+
+function aiErrorResponse(error, res) {
+  const status = Number(error?.status);
+  console.error("Error del proveedor de IA:", error?.message || error);
+
+  if (status === 401 || status === 403) {
+    return res.status(502).json({ error: "La clave de la IA fue rechazada por el proveedor. Revisa GROQ_API_KEY en .env." });
+  }
+  if (status === 429) {
+    return res.status(429).json({ error: "La IA alcanzó su límite de uso. Intenta de nuevo en unos minutos." });
+  }
+  if (isNetworkError(error)) {
+    return res.status(503).json({ error: "No se pudo conectar con el proveedor de IA. Revisa la conexión de red, proxy o firewall del servidor." });
+  }
+  return res.status(502).json({ error: "El proveedor de IA no pudo completar la consulta. Intenta de nuevo." });
+}
+
+app.get("/api/health", (_req, res) => {
+  res.json({ ok: true, ai: aiConfiguration() });
+});
 
 app.post("/chat", async (req, res) => {
   try {
-    if (!groq) return res.status(500).json({ error: "Falta configurar GROQ_API_KEY." });
+    if (aiProvider !== "groq" || !groq) {
+      return res.status(503).json({ error: "La IA no está configurada. Define GROQ_API_KEY y AI_PROVIDER=groq en el archivo .env." });
+    }
 
-    const { message } = req.body;
+    const message = String(req.body?.message || "").trim();
+    if (!message) return res.status(400).json({ error: "Escribe un mensaje para el asistente." });
+    if (message.length > MAX_MESSAGE_CHARS) return res.status(400).json({ error: `El mensaje no puede superar ${MAX_MESSAGE_CHARS} caracteres.` });
+
     const response = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
-      messages: [{ role: "user", content: message }],
+      messages: [
+        {
+          role: "system",
+          content: "Eres AF-01, un asistente educativo de finanzas personales. Responde en español, con claridad, sin inventar datos actuales y sin presentar tu respuesta como asesoría financiera personalizada.",
+        },
+        { role: "user", content: message },
+      ],
     });
 
-    res.json({ reply: response.choices[0].message.content });
+    const reply = response.choices?.[0]?.message?.content?.trim();
+    if (!reply) return res.status(502).json({ error: "La IA no devolvió una respuesta válida." });
+    res.json({ reply });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error al consultar Groq" });
+    return aiErrorResponse(error, res);
   }
 });
 
 app.use(express.static(__dirname));
 
+app.use((error, _req, res, _next) => {
+  if (error instanceof SyntaxError && "body" in error) {
+    return res.status(400).json({ error: "El cuerpo de la solicitud debe ser JSON válido." });
+  }
+  console.error("Error no controlado:", error);
+  res.status(500).json({ error: "Error interno del servidor." });
+});
+
 app.listen(PORT, "0.0.0.0", () => {
   ensureStore();
-  const ip = require("os").networkInterfaces();
+  const ip = os.networkInterfaces();
   const ipAddress = Object.values(ip).flat().find(i => i.family === "IPv4" && !i.internal)?.address || "localhost";
-  console.log(`✅ Servidor iniciado en http://${ipAddress}:${PORT}`);
-  console.log(`📱 Accesible desde otros dispositivos en: http://${ipAddress}:${PORT}`);
+  console.log(`Servidor iniciado en http://${ipAddress}:${PORT}`);
+  console.log(`Accesible desde otros dispositivos en: http://${ipAddress}:${PORT}`);
 });
